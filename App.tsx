@@ -503,7 +503,7 @@ const AboutSection: React.FC = () => {
           <div className="md:w-1/3">
             {/* Profile Image */}
             <div className="aspect-square rounded-2xl overflow-hidden relative shadow-lg">
-              <img src="/profile.png" alt="Ingithor - AI Ráðgjafi" className="w-full h-full object-cover object-top" />
+              <img src="/family.jpg" alt="LioraTech fjölskyldan" className="w-full h-full object-cover object-center" />
             </div>
             <div className="mt-4 text-center">
               <p className="text-lg font-bold text-brand-dark">Ingi Þór Gunnarsson</p>
