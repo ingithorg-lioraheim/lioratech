@@ -373,7 +373,7 @@ info@lioratech.is
 - ❌ ROI útreikninga
 - ❌ Tímasetningar og milestones
 
-*(Þetta er allt innifalið í 30-daga roadmap-inu)*
+*👉 [Þetta er allt innifalið í 30-daga roadmap-inu](/30roadmap)*
 
 ---
 
@@ -410,20 +410,23 @@ ${formatOpportunities(opportunities)}
 
 Byggt á þinni stöðu, mælum við með að byrja hér:
 
-**Skref 1: Innleiða Tækifæri #1**
+**Skref 1: ${opportunities[0]?.name || 'Tækifæri #1'}**
 - Hvers vegna: Mest áhrif á skammtíma markmiðin þín
 - Áætlaður tími: 2-4 vikur
 - Þú þarft: Teymi sem getur tekið að sér innleiðingu
+- 👉 [Nákvæm útfærsla í 30-daga roadmap](/30roadmap)
 
-**Skref 2: Innleiða Tækifæri #2**
-- Hvers vegna: Byggir á Tækifæri #1
+**Skref 2: ${opportunities[1]?.name || 'Tækifæri #2'}**
+- Hvers vegna: Byggir á fyrsta tækifæri
 - Áætlaður tími: 3-6 vikur
 - Þú þarft: Samþætting við núverandi kerfi
+- 👉 [Nákvæm útfærsla í 30-daga roadmap](/30roadmap)
 
 **Skref 3: Meta árangur og halda áfram**
 - Mæla árangur af #1 og #2
 - Ákveða hvort halda áfram með #3
 - Eða finna ný tækifæri
+- 👉 [Fá aðstoð við mælingar í 30-daga roadmap](/30roadmap)
 
 ---
 
@@ -431,17 +434,17 @@ Byggt á þinni stöðu, mælum við með að byrja hér:
 
 ### Hvað gerist núna?
 
-**Option 1: Innleiða sjálfur** ✅ Free
+**Option 1: Innleiða sjálf/-ur** ✅ Free
 
-Þú getur notað þessa greiningu til að byrja sjálfur.
+Þú getur notað þessa greiningu til að byrja sjálf/-ur.
 
 **Kostar:**
 - 0 ISK fyrir þessa greiningu
-- Þú þarft að finna tól og byggja sjálfur
+- Þú þarft að finna tól og byggja sjálf/-ur
 
 **Hæfir fyrir:**
 - Þá sem hafa tíma og tæknilega færni
-- Þá sem vilja læra og prófa sjálf
+- Þá sem vilja læra og prófa sjálf/-ur
 
 ---
 
@@ -503,7 +506,7 @@ info@lioratech.is
 
 ---
 
-*This analysis was generated using AI and is provided as-is. For detailed recommendations and implementation support, consider ordering the 30-Day AI Roadmap.*
+*Þessi greining var búin til með AI tækni og yfirfarin af sérfræðingi. Fyrir nákvæmar tillögur og innleiðingaraðstoð, skoðaðu* 👉 **[30-daga AI Roadmap](/30roadmap)**
 `;
 
   return analysis;
@@ -605,6 +608,14 @@ function formatOpportunities(opportunities) {
     'Erfitt': '🔴'
   };
 
+  const priorityLabels = {
+    5: '🔥 HÆSTUR FORGANGUR',
+    4: '⚡ MIKILL FORGANGUR',
+    3: '📊 MIÐLUNGS FORGANGUR',
+    2: '📝 LÍTILL FORGANGUR',
+    1: '💭 LÆGSTI FORGANGUR'
+  };
+
   return opportunities.map((opp, index) => `
 ### ${rankEmojis[index] || '⭐'} TÆKIFÆRI #${index + 1}: ${opp.name}
 
@@ -621,12 +632,12 @@ ${opp.benefits.map(b => `- ${b}`).join('\n')}
 
 **Erfiðleikastig:** ${difficultyEmojis[opp.difficulty] || '🟡'} ${opp.difficulty}
 
-**Forgangsröðun:** ${'⭐'.repeat(opp.priority)} (${opp.priority}/5)
+**Forgangur:** ${priorityLabels[opp.priority] || `Forgangur ${opp.priority}/5`}
 
 **Næstu skref ef þú vilt innleiða:**
 ${opp.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}
 
-*(Nákvæm innleiðingaráætlun er í 30-daga roadmap)*
+*👉 [Nákvæm innleiðingaráætlun í 30-daga roadmap](/30roadmap)*
 `).join('\n---\n');
 }
 
