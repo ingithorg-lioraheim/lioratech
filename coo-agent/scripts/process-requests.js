@@ -209,72 +209,90 @@ async function generateAIGreining(data) {
   // Call Claude API to analyze and generate opportunities
   console.log(`   → Calling Claude API for analysis...`);
 
-  const prompt = `Þú ert AI viðskiptaráðgjafi sem greinir íslensk fyrirtæki.
+  const prompt = `Þú ert reynslumikill viðskiptaráðgjafi með djúpa þekkingu á AI-lausnum fyrir ${data.industry} iðnaðinn á Íslandi.
 
-UPPLÝSINGAR UM FYRIRTÆKIÐ:
-- Nafn: ${data.companyName}
-- Iðnaður: ${data.industry}
-- Starfsmannafjöldi: ${data.employees || 'Ekki tilgreint'}
-- Vefsíða: ${data.website || 'Ekki tilgreint'}
-- Núverandi áskoranir: ${data.currentChallenges || 'Ekki tilgreint'}
-- Markmið: ${data.goals || 'Ekki tilgreint'}
-- Núverandi tól: ${data.currentTools || 'Ekki tilgreint'}
+═══════════════════════════════════════
+FYRIRTÆKIÐ SEM ÞÚ ERT AÐ GREINA
+═══════════════════════════════════════
 
-${websiteContent ? `INNIHALD AF VEFSÍÐU:\n${websiteContent}\n` : ''}
+Nafn: ${data.companyName}
+Iðnaður: ${data.industry}
+Starfsmannafjöldi: ${data.employees || 'Ekki tilgreint'}
+Vefsíða: ${data.website || 'Ekki tilgreint'}
 
-VERKEFNI:
-Búðu til 3-5 nákvæm AI tækifæri fyrir þetta fyrirtæki.
+Núverandi áskoranir: ${data.currentChallenges || 'Ekki tilgreint'}
+Markmið: ${data.goals || 'Ekki tilgreint'}
+Núverandi tól: ${data.currentTools || 'Ekki tilgreint'}
 
-Fyrir hvert tækifæri, gefðu:
-1. Nafn (stuttlega, t.d. "Automated Customer Support")
-2. Lýsing (1-2 setningar á íslensku um hvað þetta er)
-3. Ávinningur (3 bullet points á íslensku)
-4. Tímasparnaður (t.d. "15-20 tímar/viku")
-5. Kostnaðarsparnaður (t.d. "1.200.000-2.000.000 ISK/ári")
-6. Gæðabætur (t.d. "Betri þjónusta, ánægðari viðskiptavinir")
-7. Erfiðleikastig ("Auðvelt", "Miðlungs", eða "Erfitt")
-8. Forgangseinkunn (1-5, þar sem 5 er hæst)
-9. Næstu skref (3 actionable skref)
+${websiteContent ? `\n═══ INNIHALD AF VEFSÍÐU ═══\n${websiteContent}\n` : ''}
 
-Raðaðu tækifærum eftir ROI og forgangi.
+═══════════════════════════════════════
+ÞÍN VERKEFNI
+═══════════════════════════════════════
 
-MIKILVÆGT - REIKNIREGLUR:
-- Tímagjald á Íslandi: 3.000-5.000 ISK/klst fyrir skilled labor
-- Kostnaðarsparnaður = tímasparnaður × 52 vikur × ISK/klst
-- Dæmi: 15 tímar/viku = 780 tímar/ári × 4.000 ISK/klst = 3.120.000 ISK/ári
-- Vertu nákvæmur og specific fyrir þennan ${data.industry} iðnað
-- Notaðu raunhæfar tölur fyrir íslenskan markað
-- Svaraðu EINGÖNGU með gilt JSON fylki
-- Engin önnur texti, bara JSON
+Þú þarft að greina þetta fyrirtæki og finna 3-5 MJÖG SPECIFÍSK AI tækifæri sem eru:
 
-REIKNIDÆMI - FYLGDU NÁKVÆMLEGA:
-Tímasparnaður: 15 tímar/viku
-→ 15 × 52 vikur = 780 tímar/ári
-→ 780 × 4.000 ISK/klst = 3.120.000 ISK/ári
-→ costValue: "2.500.000-3.500.000 ISK/ári"
+1. **Sniðin að þessum iðnaði** - ekki generic "chatbot" eða "automation"
+2. **Byggð á raunverulegum pain points** - leysa RAUNVERULEG vandamál
+3. **Hagnýt og actionable** - hægt að innleiða strax
+4. **Með mælanlegum ávinningi** - nákvæmur ROI
+5. **Raðað eftir value** - mest áhrif fyrst
 
-Tímasparnaður: 8 tímar/viku
-→ 8 × 52 vikur = 416 tímar/ári
-→ 416 × 4.000 ISK/klst = 1.664.000 ISK/ári
-→ costValue: "1.200.000-1.800.000 ISK/ári"
+═══════════════════════════════════════
+HUGSA FYRST - CHAIN OF THOUGHT
+═══════════════════════════════════════
 
-Dæmi um format:
+Áður en þú svarar, hugsaðu:
+
+A) Hverjir eru BIGGEST pain points í ${data.industry}?
+B) Hvaða tasks taka MEST tíma hjá ${data.companyName}?
+C) Hvar er MESTUM peningum að spara?
+D) Hvað gerir ${data.industry} UNIQUE samanborið við aðra?
+E) Hvernig geta AI lausnir leyst SPECIFÍK vandamál í þessum iðnaði?
+
+EKKI bara svara með generic "automation" - vertu SPECIFIC!
+
+═══════════════════════════════════════
+OUTPUT FORMAT (MJÖG MIKILVÆGT)
+═══════════════════════════════════════
+
+Svaraðu EINGÖNGU með JSON array af þessu format:
+
 [
   {
-    "name": "AI-powered Customer Communication",
-    "description": "Sjálfvirkir viðskiptavinasamskipti með AI chatbot og email automation.",
-    "benefits": ["Svara fyrirspurnum 24/7", "Minnkar response time", "Bætir customer satisfaction"],
-    "timeValue": "15-20 tímar/viku",
-    "costValue": "2.500.000-3.500.000 ISK/ári",
-    "qualityValue": "Betri þjónusta, ánægðari viðskiptavinir",
-    "difficulty": "Auðvelt",
-    "priority": 4,
-    "steps": ["Setja upp chatbot", "Þjálfa á common queries", "Samþætta við CRM"]
+    "name": "Specific nafn (EKKI generic, t.d. 'Invoice Processing Automation' EKKI bara 'Automation')",
+    "description": "1-2 setningar á ÍSLENSKU sem útskýra nákvæmlega hvað þetta gerir fyrir ÞETTA fyrirtæki",
+    "benefits": ["Specifik ávinningur 1", "Specifik ávinningur 2", "Specifik ávinningur 3"],
+    "timeValue": "X-Y tímar/viku",
+    "costValue": "X-Y ISK/ári",
+    "qualityValue": "Specifik gæðabót fyrir þennan iðnað",
+    "difficulty": "Auðvelt|Miðlungs|Erfitt",
+    "priority": 1-5,
+    "steps": ["Actionable skref 1", "Actionable skref 2", "Actionable skref 3"]
   }
-]`;
+]
+
+═══════════════════════════════════════
+REIKNIREGLUR (VERTU NÁKVÆMUR)
+═══════════════════════════════════════
+
+Tímagjald á Íslandi: 3.000-5.000 ISK/klst
+Kostnaður = tímasparnaður × 52 vikur × ISK/klst
+
+Dæmi:
+- 15 tímar/viku → 780 tímar/ári × 4.000 = 3.120.000 ISK/ári
+- 8 tímar/viku → 416 tímar/ári × 4.000 = 1.664.000 ISK/ári
+
+Notaðu RAUNHÆFAR tölur fyrir ${data.industry}!
+
+═══════════════════════════════════════
+REMEMBER: SPECIFIC > GENERIC
+═══════════════════════════════════════
+
+SVARAÐU EINGÖNGU MEÐ JSON ARRAY - ENGIN ÖNNUR TEXTI!`;
 
   const message = await anthropic.messages.create({
-    model: "claude-3-haiku-20240307",
+    model: "claude-3-5-sonnet-20241022",
     max_tokens: 4000,
     messages: [{
       role: "user",
