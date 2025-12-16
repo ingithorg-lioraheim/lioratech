@@ -1,0 +1,14 @@
+{
+  "orderId": "TEST-1765715938719",
+  "timestamp": "2025-12-14T12:38:58.719Z",
+  "status": "pending",
+  "productType": "ai-greining-free",
+  "email": "test@example.is",
+  "companyName": "Test Company",
+  "industry": "Technology",
+  "employees": "11-20",
+  "currentChallenges": "Manual processes, Slow operations",
+  "goals": "Automate 50% of tasks",
+  "currentTools": "Excel, Email",
+  "timeline": "asap"
+}

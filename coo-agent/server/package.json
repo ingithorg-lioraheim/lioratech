@@ -1,0 +1,16 @@
+{
+  "name": "coo-agent-webhook-receiver",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Webhook receiver for COO-Agent - receives requests from n8n",
+  "main": "webhook-receiver.js",
+  "scripts": {
+    "start": "node webhook-receiver.js"
+  },
+  "keywords": ["webhook", "automation", "coo-agent"],
+  "author": "LioraTech",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

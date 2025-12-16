@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Greining - Vilma Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 25mm;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* BRAND COLORS */
+        :root {
+            --brand-dark: #0f172a;
+            --brand-primary: #1e3a8a;
+            --brand-accent: #3b82f6;
+            --brand-light: #f8fafc;
+            --brand-gray: #64748b;
+            --white: #ffffff;
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            background: var(--white);
+            page-break-after: always;
+            padding: 60px 40px 40px 40px;
+        }
+
+        .cover-logo {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .cover-blue-section {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            color: var(--white);
+            padding: 60px 80px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.3);
+            margin: 20px 0;
+        }
+
+        .cover-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .cover-company {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 50px;
+            opacity: 0.95;
+        }
+
+        .cover-meta {
+            font-size: 14px;
+            line-height: 2;
+            font-weight: 400;
+            color: var(--brand-gray);
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--brand-primary);
+            margin: 40px 0 20px 0;
+            page-break-after: avoid;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin: 35px 0 18px 0;
+            page-break-after: avoid;
+            letter-spacing: -0.3px;
+            border-left: 4px solid var(--brand-accent);
+            padding-left: 16px;
+        }
+
+        h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--brand-dark);
+            margin: 28px 0 14px 0;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 14px;
+            line-height: 1.9;
+            color: #334155;
+            font-size: 15px;
+        }
+
+        /* LISTS WITH BEAUTIFUL ARROWS */
+        ul, ol {
+            margin: 18px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.9;
+            padding-left: 32px;
+            position: relative;
+            color: #334155;
+            font-size: 15px;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--brand-accent);
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 1.9;
+        }
+
+        strong {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        /* OPPORTUNITY BOXES */
+        .opportunity {
+            border-left: 4px solid var(--brand-accent);
+            padding: 24px;
+            margin: 25px 0;
+            background: linear-gradient(to right, #f8fafc 0%, #ffffff 100%);
+            page-break-inside: avoid;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .opportunity h3 {
+            color: var(--brand-primary);
+            margin-top: 0;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .opportunity p:first-of-type {
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-top: 12px;
+        }
+
+        /* SECTION TITLES INSIDE OPPORTUNITIES */
+        .section-title {
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin-top: 18px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* METRICS - Enhanced styling */
+        .opportunity ul li::before {
+            font-size: 18px;
+        }
+
+        .opportunity strong {
+            color: var(--brand-dark);
+            font-weight: 700;
+        }
+
+        /* INFO BOXES */
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid var(--brand-accent);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+
+        /* FOOTER - Hidden on cover page */
+        .page-footer {
+            position: fixed;
+            bottom: 15mm;
+            left: 25mm;
+            right: 25mm;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            font-size: 11px;
+            color: var(--brand-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cover-page ~ .page-footer {
+            display: none;
+        }
+
+        /* PRINT SETTINGS */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        /* DIVIDERS */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, var(--brand-accent), transparent);
+            margin: 30px 0;
+        }
+
+        /* ENHANCED CHECKMARKS AND X MARKS */
+        li.check::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        li.cross::before {
+            content: "✗";
+            color: #ef4444;
+            font-weight: 900;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <!-- Logo at top (on white) -->
+        <div class="cover-logo">
+            <span style="color: #1e3a8a;">Liora</span><span style="color: #3b82f6;">Tech</span>
+        </div>
+
+        <!-- Blue section in middle -->
+        <div class="cover-blue-section">
+            <div class="cover-title">AI Greining</div>
+            <div class="cover-company">Vilma Home</div>
+            <div class="cover-subtitle">3-5 Tækifæri til úrbóta með gervigreind</div>
+        </div>
+
+        <!-- Meta info at bottom (on white) -->
+        <div class="cover-meta">
+            <div><strong style="color: var(--brand-primary);">Prepared by:</strong> LioraTech ehf.</div>
+            <div><strong style="color: var(--brand-primary);">Date:</strong> 2025-12-16</div>
+            <div><strong style="color: var(--brand-primary);">Project ID:</strong> AI-2025-12-16-G6AOE4</div>
+            <div style="height: 1px; width: 80px; background: #e2e8f0; margin: 20px auto;"></div>
+            <div>lioratech.is</div>
+            <div>ingi@lioratech.is</div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+        <h2>INTRO</h2>
+<h3>Takk fyrir að prófa AI-greininguna okkar!</h3>
+<p>Þessi greining er byggð á þeim upplýsingum sem þú gafst okkur um Vilma Home.</p>
+<p><strong>Hvað þú færð í þessari skýrslu:</strong></p>
+<ul>
+<li>✅ Stutt yfirlit yfir núverandi stöðu</li>
+<li>✅ 3-5 tækifæri til úrbóta með AI</li>
+<li>✅ Forgangsröðun (hvað á að byrja á)</li>
+<li>✅ Áætlað gildi hvers tækifæris</li>
+</ul>
+<p><strong>Hvað þú færð EKKI:</strong></p>
+<ul>
+<li>❌ Nákvæman implementation plan</li>
+<li>❌ Tól og verkfæri tillögur</li>
+<li>❌ ROI útreikninga</li>
+<li>❌ Tímasetningar og milestones</li>
+</ul>
+<p><em>(Þetta er allt innifalið í 30-daga roadmap-inu)</em></p>
+<hr>
+<h2>NÚVERANDI STAÐA</h2>
+<h3>Um Vilma Home</h3>
+<p><strong>Grunnupplýsingar:</strong></p>
+<ul>
+<li>Industry: Lífstíls netverslun</li>
+<li>Team size: 1-5</li>
+<li>Main goals: Markmið #1: Hækka handavinnunni
+Markmið #2: Drepa handavinnunni
+Markmið #3: Betri markaðsýtingu
+Markmið #4: Vöru- &amp; content-skólun</li>
+<li>Vefsíða: <a href="https://vilmahome.is/en?srsltid=AfmBOopabBl_itmixog0cHI99BqUhkJg4Ku65m9XlSjTkBwrvJ-hJR50">https://vilmahome.is/en?srsltid=AfmBOopabBl_itmixog0cHI99BqUhkJg4Ku65m9XlSjTkBwrvJ-hJR50</a></li>
+</ul>
+<h3>Þín helstu áskoranir</h3>
+<p><strong>1. Mjög veik framlegð</strong></p>
+<ul>
+<li>Þetta er algengt í Lífstíls netverslun geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<p><strong>2. Engin sýnileg skólun</strong></p>
+<ul>
+<li>Þetta er algengt í Lífstíls netverslun geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<p><strong>3. Mikil handavinna og Cashflow-þrýstingur</strong></p>
+<ul>
+<li>Þetta er algengt í Lífstíls netverslun geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<hr>
+<h2>PAGE 3-6: TÆKIFÆRI</h2>
+<h3>🥇 TÆKIFÆRI #1: Sjálfvirk vöruvefsíðufyrirspurn</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota AI til að svara algengum vöru- og aðstoðarfyrirspurnum á vefsíðunni sjálfkrafa.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Minnkar response time og bætir þjónustu</li>
+<li>Léttir álag af starfsfólki</li>
+<li>Nýtir gögn til að bæta og sérsníða fyrirspurnir</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 10-15 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.600.000-2.400.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri þjónusta, ánægðari viðskiptavinir</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟢 Auðvelt</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Kortleggja algeng vöru- og aðstoðarfyrirspurnir</li>
+<li>Þróa AI chatbot til að svara fyrirspurnunum</li>
+<li>Samþætta chatbot við vefsíðuna og CRM-kerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h3>🥈 TÆKIFÆRI #2: Sjálfvirk birgðastýring</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota AI til að spá fyrir um eftirspurn og stýra birgðum á sjálfvirkan hátt.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Minnkar yfirfull birgði og úrelt vöru</li>
+<li>Bætir flæði og minni vöruskortur</li>
+<li>Sparar tíma sem fer í handvirka birgðastýringu</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 8-12 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.300.000-1.900.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri flæði og ánægðari viðskiptavinir</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐ (3/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Safna gögnum um sölu og birgðir</li>
+<li>Þjálfa AI-líkan til að spá fyrir um eftirspurn</li>
+<li>Tengja líkanið við Shopify birgðakerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h3>🥉 TÆKIFÆRI #3: Sniðgengið markaðsefni</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota AI til að greina viðskiptavini og búa til sniðgengið markaðsefni.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Aukinn árangur af markaðsefni</li>
+<li>Betri skilningur á viðskiptavinum</li>
+<li>Minna handverk í markaðssetningu</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 12-18 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.900.000-2.700.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri markaðssetning og ánægðari viðskiptavinir</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Safna og greina gögn um viðskiptavini</li>
+<li>Þjálfa AI-módel til að skilja viðskiptavini betur</li>
+<li>Nota AI til að búa til sniðgengið markaðsefni</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h2>FORGANGSRÖÐUN</h2>
+<h3>Hvað áttu að gera fyrst?</h3>
+<p>Byggt á þinni stöðu, mælum við með að byrja hér:</p>
+<p><strong>Skref 1: Innleiða Tækifæri #1</strong></p>
+<ul>
+<li>Hvers vegna: Mest áhrif á skammtíma markmiðin þín</li>
+<li>Áætlaður tími: 2-4 vikur</li>
+<li>Þú þarft: Teymi sem getur tekið að sér innleiðingu</li>
+</ul>
+<p><strong>Skref 2: Innleiða Tækifæri #2</strong></p>
+<ul>
+<li>Hvers vegna: Byggir á Tækifæri #1</li>
+<li>Áætlaður tími: 3-6 vikur</li>
+<li>Þú þarft: Samþætting við núverandi kerfi</li>
+</ul>
+<p><strong>Skref 3: Meta árangur og halda áfram</strong></p>
+<ul>
+<li>Mæla árangur af #1 og #2</li>
+<li>Ákveða hvort halda áfram með #3</li>
+<li>Eða finna ný tækifæri</li>
+</ul>
+<hr>
+<h2>NÆSTU SKREF</h2>
+<h3>Hvað gerist núna?</h3>
+<p><strong>Option 1: Innleiða sjálfur</strong> ✅ Free</p>
+<p>Þú getur notað þessa greiningu til að byrja sjálfur.</p>
+<p><strong>Kostar:</strong></p>
+<ul>
+<li>0 ISK fyrir þessa greiningu</li>
+<li>Þú þarft að finna tól og byggja sjálfur</li>
+</ul>
+<p><strong>Hæfir fyrir:</strong></p>
+<ul>
+<li>Þá sem hafa tíma og tæknilega færni</li>
+<li>Þá sem vilja læra og prófa sjálf</li>
+</ul>
+<hr>
+<p><strong>Option 2: Fá nákvæman 30-daga plan</strong> 💎 49.900 ISK + VSK</p>
+<p>Við búum til nákvæman, step-by-step implementation plan:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Nákvæman 30-daga plan (dag fyrir dag)</li>
+<li>✅ Tiltekin tól og verkfæri</li>
+<li>✅ ROI útreikninga</li>
+<li>✅ Success metrics</li>
+<li>✅ Forgangsröðun og tímasetningar</li>
+<li>✅ Áhættumöt og lausnir</li>
+<li>✅ Email support</li>
+</ul>
+<p><strong>Delivery:</strong> Innan 24 klst</p>
+<p>👉 <strong><a href="https://lioratech.is/quote">Panta 30-daga roadmap</a></strong></p>
+<hr>
+<p><strong>Option 3: Full innleiðing með okkur</strong> 🚀 Custom verð</p>
+<p>Við innleiðum allt fyrir þig:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Allt úr Option 2</li>
+<li>✅ Við byggjum automation fyrir þig</li>
+<li>✅ Við setjum upp öll tól</li>
+<li>✅ Við þjálfum teymið þitt</li>
+<li>✅ Viðvarandi support</li>
+</ul>
+<p>👉 <strong><a href="https://lioratech.is/quote">Bóka samtal</a></strong></p>
+<hr>
+<h2>CLOSING</h2>
+<h3>Takk fyrir að prófa LioraTech! 🎉</h3>
+<p>Við vonumst til að þessi greining hafi gefið þér skýrari mynd af því hvar AI getur hjálpað þér.</p>
+<p><strong>Spurningar?</strong></p>
+<ul>
+<li>Email: <a href="mailto:ingi@lioratech.is">ingi@lioratech.is</a></li>
+<li>Website: lioratech.is</li>
+</ul>
+<p><strong>Viltu eitthvað meira?</strong></p>
+<ul>
+<li>30-daga roadmap: Nákvæmur plan → <a href="https://lioratech.is/roadmap">Panta hér</a></li>
+<li>Full innleiðing: Done-for-you → <a href="https://lioratech.is/quote">Bóka samtal</a></li>
+</ul>
+<hr>
+<p><strong>Gangi þér vel!</strong></p>
+<p>Ingi Þór Gunnarsson
+LioraTech ehf.
+<a href="mailto:ingi@lioratech.is">ingi@lioratech.is</a></p>
+<hr>
+<p><em>This analysis was generated using AI and is provided as-is. For detailed recommendations and implementation support, consider ordering the 30-Day AI Roadmap.</em></p>
+
+    </div>
+
+    <!-- FOOTER ON EVERY PAGE -->
+    <div class="page-footer">
+        <div>LioraTech ehf. • ingi@lioratech.is</div>
+        <div>lioratech.is</div>
+    </div>
+</body>
+</html>

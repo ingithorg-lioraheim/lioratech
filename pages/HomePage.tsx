@@ -358,10 +358,10 @@ const ServicesSection: React.FC = () => {
               Sérsniðin greining á rekstri, ferlum og tækifærum. Þú færð ítarlega 30 daga framkvæmdaáætlun sem hægt er að hrinda í framkvæmd strax.
             </p>
             <Link
-              to="/quote"
+              to="/roadmap"
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
-              Fá verðtilboð <ArrowRight className="ml-1 w-4 h-4" />
+              Fá 30 daga plan <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
 

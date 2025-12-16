@@ -1,0 +1,14 @@
+{
+  "orderId": "AI-2026-12-14-TEST01",
+  "timestamp": "2026-12-14T10:30:00.000Z",
+  "status": "pending",
+  "productType": "ai-greining-free",
+  "email": "test@example.is",
+  "companyName": "Test Fyrirtæki ehf",
+  "industry": "Retail",
+  "employees": "11-20",
+  "currentChallenges": "Too much manual data entry, Slow inventory management, Poor customer communication",
+  "goals": "Reduce manual work by 40%, Improve customer satisfaction, Speed up operations",
+  "currentTools": "Excel, Gmail, pen and paper",
+  "timeline": "asap"
+}

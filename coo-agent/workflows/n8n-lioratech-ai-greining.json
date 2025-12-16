@@ -1,0 +1,159 @@
+{
+  "name": "LioraTech AI-Greining Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "roadmap-request",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook - Form Submit",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "roadmap-request"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Generate unique Order ID\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-');\nconst randomId = Math.random().toString(36).substr(2, 6).toUpperCase();\nconst orderId = `AI-${timestamp.slice(0,10)}-${randomId}`;\n\n// Build complete order object\nconst order = {\n  orderId: orderId,\n  timestamp: new Date().toISOString(),\n  status: 'pending',\n  productType: 'ai-greining-free',\n  ...items[0].json\n};\n\nreturn {\n  json: order\n};"
+      },
+      "id": "generate-order-id",
+      "name": "Generate Order ID",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "fileName": "={{$json.orderId}}.json",
+        "fileContent": "={{JSON.stringify($json, null, 2)}}",
+        "options": {
+          "folderPath": "/Users/ingithor/Downloads/lioratech---ai-ráðgjöf/coo-agent/requests/pending"
+        }
+      },
+      "id": "save-request-file",
+      "name": "Save Request to File",
+      "type": "n8n-nodes-base.writeFile",
+      "typeVersion": 1,
+      "position": [650, 300],
+      "notes": "Saves order JSON to pending folder for COO-Agent to process"
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@lioratech.is",
+        "toEmail": "={{$json.email}}",
+        "subject": "Greining þín er í vinnslu - {{$json.companyName}}",
+        "emailFormat": "html",
+        "text": "",
+        "html": "<!DOCTYPE html>\n<html>\n<body style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;\">\n  <div style=\"background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;\">\n    <h1 style=\"color: white; margin: 0;\">LioraTech</h1>\n    <p style=\"color: #e0e7ff; margin: 10px 0 0 0;\">AI Ráðgjöf fyrir íslensk fyrirtæki</p>\n  </div>\n\n  <div style=\"background: white; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;\">\n    <h2 style=\"color: #1f2937; margin-top: 0;\">Takk fyrir pöntunina!</h2>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Hæ,\n    </p>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Við höfum móttekið beiðni þína um <strong>ókeypis AI-greiningu</strong> fyrir <strong>{{$json.companyName}}</strong>.\n    </p>\n\n    <div style=\"background: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px;\">\n      <p style=\"margin: 0; color: #1e40af;\"><strong>📋 Pöntunarnúmer:</strong> {{$json.orderId}}</p>\n      <p style=\"margin: 10px 0 0 0; color: #1e40af;\"><strong>⏰ Áætluð afhending:</strong> Innan 24 klst</p>\n    </div>\n\n    <h3 style=\"color: #1f2937; margin-top: 30px;\">Næstu skref:</h3>\n    <ol style=\"color: #4b5563; line-height: 1.8;\">\n      <li>✅ AI greinir reksturinn þinn (í gangi núna)</li>\n      <li>⏳ Greiningin verður tilbúin innan 24 klst</li>\n      <li>📧 Þú færð tölvupóst með niðurstöðunum</li>\n    </ol>\n\n    <p style=\"color: #4b5563; line-height: 1.6; margin-top: 30px;\">\n      Ef þú hefur spurningar, ekki hika við að hafa samband!\n    </p>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Bestu kveðjur,<br>\n      <strong>Ingi Þór Gunnarsson</strong><br>\n      LioraTech ehf.<br>\n      <a href=\"mailto:info@lioratech.is\" style=\"color: #3b82f6;\">info@lioratech.is</a><br>\n      <a href=\"https://lioratech.is\" style=\"color: #3b82f6;\">lioratech.is</a>\n    </p>\n  </div>\n\n  <div style=\"text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;\">\n    <p>© 2026 LioraTech ehf. - AI ráðgjöf fyrir íslensk fyrirtæki</p>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "email-customer-confirmation",
+      "name": "Email - Customer Confirmation",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [850, 200],
+      "notes": "Send confirmation to customer"
+    },
+    {
+      "parameters": {
+        "fromEmail": "info@lioratech.is",
+        "toEmail": "ingi@lioratech.is",
+        "subject": "🆕 New AI-Greining Request - {{$json.companyName}}",
+        "emailFormat": "text",
+        "text": "🆕 NEW AI-GREINING REQUEST\n\nOrder ID: {{$json.orderId}}\nCompany: {{$json.companyName}}\nIndustry: {{$json.industry}}\nTeam size: {{$json.employees}}\n\nCurrent challenges:\n{{$json.currentChallenges}}\n\nGoals:\n{{$json.goals}}\n\nCurrent tools: {{$json.currentTools}}\nTimeline: {{$json.timeline}}\n\nStatus: COO-Agent will pick this up and generate analysis automatically.\n\nYou will receive another email when the analysis is ready for review.\n\nRequest file: coo-agent/requests/pending/{{$json.orderId}}.json\n\n---\nTo process manually:\ncd coo-agent && ./coo check",
+        "options": {}
+      },
+      "id": "email-ceo-notification",
+      "name": "Email - CEO Notification",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [850, 400],
+      "notes": "Notify CEO that new request arrived"
+    },
+    {
+      "parameters": {
+        "mode": "passThrough",
+        "options": {}
+      },
+      "id": "respond-success",
+      "name": "Respond Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Form Submit": {
+      "main": [
+        [
+          {
+            "node": "Generate Order ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Order ID": {
+      "main": [
+        [
+          {
+            "node": "Save Request to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Request to File": {
+      "main": [
+        [
+          {
+            "node": "Email - Customer Confirmation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email - CEO Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email - Customer Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email - CEO Notification": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-12-14T00:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 Daga AI Roadmap - {{companyName}}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            font-size: 11pt;
+        }
+
+        /* Cover Page */
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            page-break-after: always;
+            background: linear-gradient(135deg, #0066CC 0%, #0052A3 100%);
+            color: white;
+            padding: 4cm;
+        }
+
+        .cover-logo {
+            font-size: 48pt;
+            font-weight: bold;
+            margin-bottom: 2cm;
+            font-family: Georgia, serif;
+        }
+
+        .cover-logo .tech {
+            color: #60A5FA;
+        }
+
+        .cover-title {
+            font-size: 32pt;
+            font-weight: bold;
+            margin-bottom: 1cm;
+            font-family: Georgia, serif;
+        }
+
+        .cover-company {
+            font-size: 24pt;
+            margin-bottom: 2cm;
+            opacity: 0.9;
+        }
+
+        .cover-date {
+            font-size: 12pt;
+            opacity: 0.8;
+        }
+
+        .cover-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5cm 1cm;
+            border-radius: 2cm;
+            font-size: 10pt;
+            font-weight: bold;
+            margin-bottom: 1cm;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Headers */
+        h1 {
+            font-size: 24pt;
+            color: #0066CC;
+            margin-top: 1.5cm;
+            margin-bottom: 0.8cm;
+            font-family: Georgia, serif;
+            page-break-after: avoid;
+        }
+
+        h2 {
+            font-size: 18pt;
+            color: #0052A3;
+            margin-top: 1cm;
+            margin-bottom: 0.6cm;
+            font-family: Georgia, serif;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 14pt;
+            color: #1a1a1a;
+            margin-top: 0.8cm;
+            margin-bottom: 0.4cm;
+            font-weight: bold;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            font-size: 12pt;
+            color: #333;
+            margin-top: 0.5cm;
+            margin-bottom: 0.3cm;
+            font-weight: bold;
+        }
+
+        /* Paragraphs */
+        p {
+            margin-bottom: 0.5cm;
+            text-align: justify;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 1cm;
+            margin-bottom: 0.5cm;
+        }
+
+        li {
+            margin-bottom: 0.3cm;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.5cm 0;
+            font-size: 10pt;
+        }
+
+        th {
+            background-color: #0066CC;
+            color: white;
+            padding: 0.4cm;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 0.3cm;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        /* Boxes and Highlights */
+        .highlight-box {
+            background-color: #EBF5FF;
+            border-left: 4px solid #0066CC;
+            padding: 0.5cm;
+            margin: 0.5cm 0;
+            page-break-inside: avoid;
+        }
+
+        .success-box {
+            background-color: #F0FDF4;
+            border-left: 4px solid #10B981;
+            padding: 0.5cm;
+            margin: 0.5cm 0;
+            page-break-inside: avoid;
+        }
+
+        .warning-box {
+            background-color: #FEF3C7;
+            border-left: 4px solid #F59E0B;
+            padding: 0.5cm;
+            margin: 0.5cm 0;
+            page-break-inside: avoid;
+        }
+
+        /* Day Cards */
+        .day-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.6cm;
+            margin: 0.4cm 0;
+            page-break-inside: avoid;
+        }
+
+        .day-card h4 {
+            color: #0066CC;
+            margin: 0 0 0.3cm 0;
+        }
+
+        .day-card .meta {
+            font-size: 9pt;
+            color: #666;
+            margin-bottom: 0.3cm;
+        }
+
+        .day-card .meta span {
+            margin-right: 0.5cm;
+        }
+
+        /* Checkboxes */
+        .checkbox {
+            display: inline-block;
+            width: 0.4cm;
+            height: 0.4cm;
+            border: 2px solid #0066CC;
+            margin-right: 0.3cm;
+            vertical-align: middle;
+        }
+
+        /* Tool Cards */
+        .tool-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 0.6cm;
+            margin: 0.5cm 0;
+            page-break-inside: avoid;
+        }
+
+        .tool-card h3 {
+            color: #0066CC;
+            margin-top: 0;
+        }
+
+        .tool-price {
+            background: #0066CC;
+            color: white;
+            padding: 0.2cm 0.4cm;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0.2cm 0;
+        }
+
+        .tool-difficulty {
+            display: inline-block;
+            padding: 0.2cm 0.4cm;
+            border-radius: 4px;
+            font-size: 9pt;
+            font-weight: bold;
+            margin-left: 0.3cm;
+        }
+
+        .difficulty-easy {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .difficulty-medium {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .difficulty-hard {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        /* Timeline */
+        .timeline-week {
+            margin: 0.8cm 0;
+            padding-left: 0.8cm;
+            border-left: 3px solid #0066CC;
+        }
+
+        /* Page breaks */
+        .page-break {
+            page-break-after: always;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        /* Footer */
+        .footer {
+            position: fixed;
+            bottom: 1cm;
+            left: 2cm;
+            right: 2cm;
+            font-size: 9pt;
+            color: #666;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 0.3cm;
+        }
+
+        /* Header on each page */
+        .page-header {
+            position: fixed;
+            top: 1cm;
+            right: 2cm;
+            font-size: 9pt;
+            color: #666;
+        }
+
+        /* ROI Box */
+        .roi-box {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 0.6cm;
+            border-radius: 8px;
+            margin: 0.5cm 0;
+            text-align: center;
+            page-break-inside: avoid;
+        }
+
+        .roi-box h3 {
+            color: white;
+            margin: 0 0 0.3cm 0;
+        }
+
+        .roi-amount {
+            font-size: 32pt;
+            font-weight: bold;
+            margin: 0.3cm 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <div class="cover-logo">
+            Liora<span class="tech">Tech</span>
+        </div>
+        <div class="cover-badge">30 DAGA AI ROADMAP</div>
+        <div class="cover-title">Innleiðing Gervigreindar</div>
+        <div class="cover-company">{{companyName}}</div>
+        <div class="cover-date">{{date}}</div>
+    </div>
+
+    <!-- PAGE HEADER (appears on all pages) -->
+    <div class="page-header">
+        {{companyName}} - 30 Daga AI Roadmap
+    </div>
+
+    <!-- CONTENT STARTS -->
+
+    <!-- EXECUTIVE SUMMARY -->
+    <h1>1. Executive Summary</h1>
+
+    <h2>1.1 Yfirlit Fyrirtækisins</h2>
+    <p>{{executiveSummary}}</p>
+
+    <h2>1.2 Greindar Áskoranir</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Áskorun</th>
+                <th>Forgangsröðun</th>
+                <th>Lausn með AI</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each challenges}}
+            <tr>
+                <td>{{this.challenge}}</td>
+                <td><strong>{{this.priority}}</strong></td>
+                <td>{{this.solution}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <h2>1.3 Top 5 AI Tækifæri</h2>
+    {{#each opportunities}}
+    <div class="highlight-box">
+        <h4>{{@index}}. {{this.title}}</h4>
+        <p><strong>Tímasparnaður:</strong> {{this.timeSavings}}</p>
+        <p><strong>Difficulty:</strong> <span class="tool-difficulty difficulty-{{this.difficulty}}">{{this.difficulty}}</span></p>
+        <p>{{this.description}}</p>
+    </div>
+    {{/each}}
+
+    <div class="page-break"></div>
+
+    <h2>1.4 Áætlaður Ávinningur</h2>
+
+    <div class="roi-box">
+        <h3>Áætlaður mánaðarlegur ávinningur</h3>
+        <div class="roi-amount">{{totalROI}} kr</div>
+        <p style="margin: 0;">Eftir fyrsta mánuðinn</p>
+    </div>
+
+    <table>
+        <tr>
+            <td><strong>Heildar tímasparnaður:</strong></td>
+            <td>{{totalTimeSaved}} klst/viku</td>
+        </tr>
+        <tr>
+            <td><strong>Kostnaður fyrir tól:</strong></td>
+            <td>{{toolCost}} kr/mán</td>
+        </tr>
+        <tr>
+            <td><strong>Net ávinningur:</strong></td>
+            <td><strong style="color: #10B981;">{{netBenefit}} kr/mán</strong></td>
+        </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 30 DAY PLAN -->
+    <h1>2. 30 Daga Áætlun</h1>
+
+    <!-- WEEK 1 -->
+    <div class="timeline-week">
+        <h2>Vika 1: Foundation & Quick Wins (Dagur 1-7)</h2>
+        <p><strong>Markmið:</strong> Kynna AI fyrir teyminu, setja upp grunntól, ná fyrstu quick wins</p>
+
+        {{#each week1}}
+        <div class="day-card">
+            <h4>Dagur {{this.day}}: {{this.title}}</h4>
+            <div class="meta">
+                <span>⏱️ Tími: {{this.time}}</span>
+                <span>👥 Hverjir: {{this.who}}</span>
+            </div>
+            <p><strong>Verkefni:</strong></p>
+            <ul>
+                {{#each this.tasks}}
+                <li><span class="checkbox"></span> {{this}}</li>
+                {{/each}}
+            </ul>
+            <p><strong>Tilgangur:</strong> {{this.purpose}}</p>
+            {{#if this.benefit}}
+            <div class="success-box">
+                <strong>Ávinningur:</strong> {{this.benefit}}
+            </div>
+            {{/if}}
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- WEEK 2 -->
+    <div class="timeline-week">
+        <h2>Vika 2: Automation Basics (Dagur 8-14)</h2>
+        <p><strong>Markmið:</strong> Setja upp fyrstu automation workflows</p>
+
+        {{#each week2}}
+        <div class="day-card">
+            <h4>Dagur {{this.day}}: {{this.title}}</h4>
+            <div class="meta">
+                <span>⏱️ Tími: {{this.time}}</span>
+                <span>👥 Hverjir: {{this.who}}</span>
+            </div>
+            <p><strong>Verkefni:</strong></p>
+            <ul>
+                {{#each this.tasks}}
+                <li><span class="checkbox"></span> {{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- WEEK 3 -->
+    <div class="timeline-week">
+        <h2>Vika 3: Process Optimization (Dagur 15-21)</h2>
+        <p><strong>Markmið:</strong> Bæta núverandi verkferla með AI</p>
+
+        {{#each week3}}
+        <div class="day-card">
+            <h4>Dagur {{this.day}}: {{this.title}}</h4>
+            <div class="meta">
+                <span>⏱️ Tími: {{this.time}}</span>
+                <span>👥 Hverjir: {{this.who}}</span>
+            </div>
+            <p><strong>Verkefni:</strong></p>
+            <ul>
+                {{#each this.tasks}}
+                <li><span class="checkbox"></span> {{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- WEEK 4 -->
+    <div class="timeline-week">
+        <h2>Vika 4: Scale & Measure (Dagur 22-30)</h2>
+        <p><strong>Markmið:</strong> Þjálfa teymi, mæla árangur, skipuleggja framtíð</p>
+
+        {{#each week4}}
+        <div class="day-card">
+            <h4>Dagur {{this.day}}: {{this.title}}</h4>
+            <div class="meta">
+                <span>⏱️ Tími: {{this.time}}</span>
+                <span>👥 Hverjir: {{this.who}}</span>
+            </div>
+            <p><strong>Verkefni:</strong></p>
+            <ul>
+                {{#each this.tasks}}
+                <li><span class="checkbox"></span> {{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- TOOL RECOMMENDATIONS -->
+    <h1>3. Tool Recommendations</h1>
+    <p>Hér eru verkfærin sem við mælum sérstaklega með fyrir {{companyName}}:</p>
+
+    {{#each tools}}
+    <div class="tool-card">
+        <h3>{{@index}}. {{this.name}}</h3>
+
+        <div>
+            <span class="tool-price">{{this.price}}</span>
+            <span class="tool-difficulty difficulty-{{this.difficulty}}">{{this.difficulty}}</span>
+        </div>
+
+        <p><strong>Hvað það gerir:</strong><br>{{this.description}}</p>
+
+        <p><strong>Hvers vegna við mælum með þessu:</strong><br>{{this.why}}</p>
+
+        <p><strong>Use cases fyrir {{companyName}}:</strong></p>
+        <ul>
+            {{#each this.useCases}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+
+        <p><strong>Setup tími:</strong> {{this.setupTime}}</p>
+
+        <div class="success-box">
+            <strong>ROI estimate:</strong> {{this.roi}}
+        </div>
+    </div>
+    {{/each}}
+
+    <div class="page-break"></div>
+
+    <!-- MEASURING SUCCESS -->
+    <h1>5. Measuring Success</h1>
+
+    <h2>KPI til að fylgjast með:</h2>
+    {{#each kpis}}
+    <div class="highlight-box">
+        <h4>{{@index}}. {{this.name}}</h4>
+        <p><strong>Hvernig á að mæla:</strong> {{this.howToMeasure}}</p>
+        <p><strong>Target:</strong> {{this.target}}</p>
+    </div>
+    {{/each}}
+
+    <h2>Vikulegar Milestones:</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Vika</th>
+                <th>Áætlaður árangur</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Vika 1</td><td>{{milestoneWeek1}}</td></tr>
+            <tr><td>Vika 2</td><td>{{milestoneWeek2}}</td></tr>
+            <tr><td>Vika 3</td><td>{{milestoneWeek3}}</td></tr>
+            <tr><td>Vika 4</td><td>{{milestoneWeek4}}</td></tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- COMMON PITFALLS -->
+    <h1>6. Common Pitfalls & How to Avoid Them</h1>
+
+    {{#each pitfalls}}
+    <div class="warning-box">
+        <h4>{{@index}}. {{this.pitfall}}</h4>
+        <p><strong>Lausn:</strong> {{this.solution}}</p>
+    </div>
+    {{/each}}
+
+    <div class="page-break"></div>
+
+    <!-- RESOURCES -->
+    <h1>7. Resources & Support</h1>
+
+    <h2>Prompt Templates</h2>
+    {{#each promptTemplates}}
+    <div class="highlight-box">
+        <h4>{{this.name}}</h4>
+        <pre style="background: #f8f9fa; padding: 0.5cm; border-radius: 4px; overflow-x: auto;">{{this.template}}</pre>
+    </div>
+    {{/each}}
+
+    <h2>Support frá LioraTech</h2>
+    <div class="success-box">
+        <p><strong>📞 20 mínútna uppfylgni-samtal</strong> (innifalið í verði)<br>
+        Bókaðu hér: {{calendlyLink}}</p>
+
+        <p><strong>📧 Email support:</strong><br>
+        info@lioratech.is - svörum innan 24 klst</p>
+    </div>
+
+    <h2>Next Steps eftir 30 daga</h2>
+    <p>Eftir að þú hefur klárað þetta roadmap, mælum við með:</p>
+    <ul>
+        <li><strong>Advanced Automation Workshop</strong> - dýpri automation með n8n/Make</li>
+        <li><strong>Custom AI Agent Development</strong> - búa til sérsniðna AI assistant</li>
+        <li><strong>AI Strategy Consulting</strong> - long-term AI plan (6-12 mánuðir)</li>
+    </ul>
+
+    <!-- FINAL PAGE -->
+    <div class="page-break"></div>
+    <div class="cover" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+        <h1 style="color: white; font-size: 36pt; margin: 0;">Gangi þér vel!</h1>
+        <p style="font-size: 18pt; margin-top: 1cm;">Við erum hér til að hjálpa þér á leiðinni</p>
+
+        <div style="margin-top: 2cm; text-align: left; background: rgba(255,255,255,0.1); padding: 1cm; border-radius: 8px;">
+            <p><strong>LioraTech - AI Ráðgjöf</strong></p>
+            <p>📧 info@lioratech.is</p>
+            <p>🌐 lioratech.is</p>
+            <p>📞 Bóka samtal: {{calendlyLink}}</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © {{year}} LioraTech Ráðgjöf | info@lioratech.is | Allur réttur áskilinn
+    </div>
+</body>
+</html>

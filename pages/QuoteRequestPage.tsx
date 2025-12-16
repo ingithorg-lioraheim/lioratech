@@ -8,6 +8,7 @@ const QuoteRequestPage: React.FC = () => {
     name: '',
     email: '',
     phone: '',
+    website: '',
     employees: '',
     goals: '',
     budget: '',
@@ -118,6 +119,17 @@ const QuoteRequestPage: React.FC = () => {
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Vefsíða</label>
+                <input
+                  type="url"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                  placeholder="https://fyrirtaeki.is"
+                  value={formData.website}
+                  onChange={(e) => setFormData({...formData, website: e.target.value})}
+                />
               </div>
 
               <div>

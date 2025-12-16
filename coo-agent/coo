@@ -1,0 +1,110 @@
+#!/bin/bash
+
+# COO-AGENT COMMAND LINE INTERFACE
+# Quick commands to interact with COO-Agent
+
+COO_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPTS_DIR="$COO_DIR/scripts"
+
+case "$1" in
+  "setup"|"auth"|"configure")
+    echo "⚙️  COO-Agent: Setting up Google Drive authentication..."
+    node "$SCRIPTS_DIR/setup-google-auth.js"
+    ;;
+
+  "fetch"|"sync")
+    echo "⚙️  COO-Agent: Fetching from Google Drive..."
+    node "$SCRIPTS_DIR/fetch-from-drive.js"
+    ;;
+
+  "check"|"process")
+    echo "⚙️  COO-Agent: Processing pending requests..."
+    node "$SCRIPTS_DIR/process-requests.js"
+    ;;
+
+  "watch"|"monitor")
+    echo "⚙️  COO-Agent: Starting continuous monitoring..."
+    node "$SCRIPTS_DIR/process-requests.js" --watch
+    ;;
+
+  "approve"|"pdf"|"convert")
+    echo "⚙️  COO-Agent: Processing approved analyses..."
+    node "$SCRIPTS_DIR/process-approved.js"
+    ;;
+
+  "status")
+    echo "⚙️  COO-Agent: Current status"
+    echo ""
+    echo "PENDING REQUESTS:"
+    ls -1 "$COO_DIR/requests/pending" 2>/dev/null | wc -l | xargs echo "  Count:"
+    echo ""
+    echo "PROCESSING:"
+    ls -1 "$COO_DIR/requests/processing" 2>/dev/null | wc -l | xargs echo "  Count:"
+    echo ""
+    echo "COMPLETED THIS SESSION:"
+    ls -1 "$COO_DIR/requests/completed" 2>/dev/null | wc -l | xargs echo "  Count:"
+    echo ""
+    echo "PRODUCTS GENERATED:"
+    ls -1 "$COO_DIR/products/completed" 2>/dev/null | wc -l | xargs echo "  Count:"
+    echo ""
+    ;;
+
+  "init"|"initialize")
+    echo "⚙️  COO-Agent: Initializing system..."
+    echo ""
+    mkdir -p "$COO_DIR/requests/pending"
+    mkdir -p "$COO_DIR/requests/processing"
+    mkdir -p "$COO_DIR/requests/completed"
+    mkdir -p "$COO_DIR/products/completed"
+    mkdir -p "$COO_DIR/scripts"
+    echo "✓ Directories ready"
+    echo "✓ Monitoring system ready"
+    echo "✓ Product templates ready"
+    echo "✓ Tracking system ready"
+    echo ""
+    echo "COO-Agent operational status: ✅ READY"
+    echo ""
+    echo "Available commands:"
+    echo "  ./coo setup      - Setup Google Drive authentication"
+    echo "  ./coo fetch      - Fetch orders from Google Drive"
+    echo "  ./coo check      - Process pending requests"
+    echo "  ./coo approve    - Convert approved analyses to PDF"
+    echo "  ./coo watch      - Continuous monitoring mode"
+    echo "  ./coo status     - Show current status"
+    echo "  ./coo help       - Show this help"
+    echo ""
+    ;;
+
+  "help"|"--help"|"-h")
+    echo "COO-AGENT COMMANDS"
+    echo ""
+    echo "Usage: ./coo <command>"
+    echo ""
+    echo "Commands:"
+    echo "  setup, auth          - Setup Google Drive authentication (one-time)"
+    echo "  fetch, sync          - Fetch orders from Google Drive to local pending/"
+    echo "  check, process       - Process all pending requests once"
+    echo "  approve, pdf         - Convert approved analyses to PDF"
+    echo "  watch, monitor       - Start continuous monitoring (checks every 30s)"
+    echo "  status               - Show current pipeline status"
+    echo "  init, initialize     - Initialize COO-Agent system"
+    echo "  help                 - Show this help message"
+    echo ""
+    echo "Examples:"
+    echo "  ./coo setup      # First-time Google Drive setup"
+    echo "  ./coo fetch      # Download orders from Google Drive"
+    echo "  ./coo check      # Check for and process new requests"
+    echo "  ./coo approve    # Convert approved analyses to PDF"
+    echo "  ./coo watch      # Run in background monitoring mode"
+    echo "  ./coo status     # See what's in the pipeline"
+    echo ""
+    ;;
+
+  *)
+    echo "⚙️  COO-Agent"
+    echo ""
+    echo "Unknown command: $1"
+    echo "Use './coo help' to see available commands"
+    echo ""
+    ;;
+esac

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Greining - Hans & Gréta</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 25mm;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            page-break-after: always;
+            padding: 40px;
+        }
+
+        .cover-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .cover-company {
+            font-size: 56px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .cover-meta {
+            font-size: 14px;
+            line-height: 2;
+            opacity: 0.9;
+        }
+
+        /* CONTENT */
+        h1 {
+            font-size: 28px;
+            color: #1e3a8a;
+            margin: 40px 0 20px 0;
+            page-break-after: avoid;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #1e3a8a;
+            margin: 30px 0 15px 0;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 18px;
+            color: #0f172a;
+            margin: 25px 0 12px 0;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.8;
+        }
+
+        strong {
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+
+        /* OPPORTUNITY BOX */
+        .opportunity {
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 25px 0;
+            background: #f8fafc;
+            page-break-inside: avoid;
+        }
+
+        .opportunity h3 {
+            color: #1e3a8a;
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .opp-title {
+            font-size: 18px;
+            color: #3b82f6;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: #1e3a8a;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* FOOTER */
+        .page-footer {
+            position: fixed;
+            bottom: 15mm;
+            left: 25mm;
+            right: 25mm;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <div style="font-size: 36px; font-weight: bold; margin-bottom: 40px;">LIORATECH</div>
+        <div class="cover-title">AI Greining</div>
+        <div class="cover-company">Hans & Gréta</div>
+        <div class="cover-subtitle">3-5 Tækifæri til úrbóta með gervigreind</div>
+        <div style="height: 2px; width: 100px; background: rgba(255,255,255,0.5); margin: 40px auto;"></div>
+        <div class="cover-meta">
+            <div><strong>Prepared by:</strong> LioraTech ehf.</div>
+            <div><strong>Date:</strong> 2025-12-15</div>
+            <div><strong>Project ID:</strong> AI-2025-12-15-QBEX39</div>
+            <div style="margin-top: 30px;">
+                <div>lioratech.is</div>
+                <div>ingi@lioratech.is</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+        <h2>INTRO</h2>
+<h3>Takk fyrir að prófa AI-greininguna okkar!</h3>
+<p>Þessi greining er byggð á þeim upplýsingum sem þú gafst okkur um Hans &amp; Gréta.</p>
+<p><strong>Hvað þú færð í þessari skýrslu:</strong></p>
+<ul>
+<li>✅ Stutt yfirlit yfir núverandi stöðu</li>
+<li>✅ 3-5 tækifæri til úrbóta með AI</li>
+<li>✅ Forgangsröðun (hvað á að byrja á)</li>
+<li>✅ Áætlað gildi hvers tækifæris</li>
+</ul>
+<p><strong>Hvað þú færð EKKI:</strong></p>
+<ul>
+<li>❌ Nákvæman implementation plan</li>
+<li>❌ Tól og verkfæri tillögur</li>
+<li>❌ ROI útreikninga</li>
+<li>❌ Tímasetningar og milestones</li>
+</ul>
+<p><em>(Þetta er allt innifalið í 30-daga roadmap-inu)</em></p>
+<hr>
+<h2>NÚVERANDI STAÐA</h2>
+<h3>Um Hans &amp; Gréta</h3>
+<p><strong>Grunnupplýsingar:</strong></p>
+<ul>
+<li>Industry: verslun og vefsala</li>
+<li>Team size: 1-5</li>
+<li>Main goals: Bæta þjónustu við viðskiptavini og auka sölu</li>
+<li>Vefsíða: <a href="https://hansoggreta.is/?srsltid=AfmB0or2LzfXlxnX4mNepSlwwEtSJYVFhRLffHTe5PJDIXRhrWs9pE8l">https://hansoggreta.is/?srsltid=AfmB0or2LzfXlxnX4mNepSlwwEtSJYVFhRLffHTe5PJDIXRhrWs9pE8l</a></li>
+</ul>
+<h3>Þín helstu áskoranir</h3>
+<p><strong>1. Of lítil sala</strong></p>
+<ul>
+<li>Þetta er algengt í verslun og vefsala geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<p><strong>2. þurfum alltaf að vera með lagersölu því það festist svo mikið á lager hjá okkur</strong></p>
+<ul>
+<li>Þetta er algengt í verslun og vefsala geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<hr>
+<h2>PAGE 3-6: TÆKIFÆRI</h2>
+<h3>🥇 TÆKIFÆRI #1: Sjálfvirk Birgðastjórnun</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota gögn og spá til að stýra birgðum sjálfkrafa og lágmarka festingu á lager.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Fækkar handvirku vinnu í birgðaeftirliti</li>
+<li>Bætir flæði vöru og lágmarkar festingu á lager</li>
+<li>Auðveldar áætlanagerð og fjármögnun</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 10-15 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.600.000-2.400.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri birgðastjórnun, aukin veltuhraði</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐⭐ (5/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Greina birgðagögn og söguleg notkun</li>
+<li>Setja upp sjálfvirka pöntun og endurpöntun</li>
+<li>Samþætta við núverandi kerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h3>🥈 TÆKIFÆRI #2: Stafræn Markaðssetning</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota gervigreind til að greina markaðstækifæri og bæta markaðssetningu á netinu.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Betri markaðssetning og leiðbeiningar</li>
+<li>Aukinn sýnileiki og vöruumferð</li>
+<li>Aukin sala og viðskiptavinalanganir</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 8-12 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.300.000-2.000.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri vörusýnileiki, aukin sala</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Greina markaðsstöðu og sölustrauma</li>
+<li>Þróa stafræna auglýsingaherferð</li>
+<li>Fylgjast með árangri og bæta reglulega</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h3>🥉 TÆKIFÆRI #3: Sjálfvirk Viðskiptavinastuðningur</h3>
+<p><strong>Hvað þetta er:</strong>
+Nota AI til að svara fyrirspurnum og útvega sjálfvirka þjónustu við viðskiptavini.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Sinna fyrirspurnum 24/7</li>
+<li>Minnka svartíma og bæta þjónustu</li>
+<li>Losa starfsmenn við endurteknar fyrirspurnir</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 12-18 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.900.000-2.800.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri þjónusta, ánægðari viðskiptavinir</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟢 Auðvelt</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Setja upp AI-stuðningskerfi</li>
+<li>Þjálfa á algeng fyrirspurnarmynstur</li>
+<li>Samþætta við núverandi þjónustukerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h2>FORGANGSRÖÐUN</h2>
+<h3>Hvað áttu að gera fyrst?</h3>
+<p>Byggt á þinni stöðu, mælum við með að byrja hér:</p>
+<p><strong>Skref 1: Innleiða Tækifæri #1</strong></p>
+<ul>
+<li>Hvers vegna: Mest áhrif á skammtíma markmiðin þín</li>
+<li>Áætlaður tími: 2-4 vikur</li>
+<li>Þú þarft: Teymi sem getur tekið að sér innleiðingu</li>
+</ul>
+<p><strong>Skref 2: Innleiða Tækifæri #2</strong></p>
+<ul>
+<li>Hvers vegna: Byggir á Tækifæri #1</li>
+<li>Áætlaður tími: 3-6 vikur</li>
+<li>Þú þarft: Samþætting við núverandi kerfi</li>
+</ul>
+<p><strong>Skref 3: Meta árangur og halda áfram</strong></p>
+<ul>
+<li>Mæla árangur af #1 og #2</li>
+<li>Ákveða hvort halda áfram með #3</li>
+<li>Eða finna ný tækifæri</li>
+</ul>
+<hr>
+<h2>NÆSTU SKREF</h2>
+<h3>Hvað gerist núna?</h3>
+<p><strong>Option 1: Innleiða sjálfur</strong> ✅ Free</p>
+<p>Þú getur notað þessa greiningu til að byrja sjálfur.</p>
+<p><strong>Kostar:</strong></p>
+<ul>
+<li>0 ISK fyrir þessa greiningu</li>
+<li>Þú þarft að finna tól og byggja sjálfur</li>
+</ul>
+<p><strong>Hæfir fyrir:</strong></p>
+<ul>
+<li>Þá sem hafa tíma og tæknilega færni</li>
+<li>Þá sem vilja læra og prófa sjálf</li>
+</ul>
+<hr>
+<p><strong>Option 2: Fá nákvæman 30-daga plan</strong> 💎 49.900 ISK + VSK</p>
+<p>Við búum til nákvæman, step-by-step implementation plan:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Nákvæman 30-daga plan (dag fyrir dag)</li>
+<li>✅ Tiltekin tól og verkfæri</li>
+<li>✅ ROI útreikninga</li>
+<li>✅ Success metrics</li>
+<li>✅ Forgangsröðun og tímasetningar</li>
+<li>✅ Áhættumöt og lausnir</li>
+<li>✅ Email support</li>
+</ul>
+<p><strong>Delivery:</strong> Innan 24 klst</p>
+<p>👉 <strong><a href="https://lioratech.is/quote">Panta 30-daga roadmap</a></strong></p>
+<hr>
+<p><strong>Option 3: Full innleiðing með okkur</strong> 🚀 Custom verð</p>
+<p>Við innleiðum allt fyrir þig:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Allt úr Option 2</li>
+<li>✅ Við byggjum automation fyrir þig</li>
+<li>✅ Við setjum upp öll tól</li>
+<li>✅ Við þjálfum teymið þitt</li>
+<li>✅ Viðvarandi support</li>
+</ul>
+<p>👉 <strong><a href="https://lioratech.is/quote">Bóka samtal</a></strong></p>
+<hr>
+<h2>CLOSING</h2>
+<h3>Takk fyrir að prófa LioraTech! 🎉</h3>
+<p>Við vonumst til að þessi greining hafi gefið þér skýrari mynd af því hvar AI getur hjálpað þér.</p>
+<p><strong>Spurningar?</strong></p>
+<ul>
+<li>Email: <a href="mailto:info@lioratech.is">info@lioratech.is</a></li>
+<li>Website: lioratech.is</li>
+</ul>
+<p><strong>Viltu eitthvað meira?</strong></p>
+<ul>
+<li>30-daga roadmap: Nákvæmur plan → <a href="https://lioratech.is/roadmap">Panta hér</a></li>
+<li>Full innleiðing: Done-for-you → <a href="https://lioratech.is/quote">Bóka samtal</a></li>
+</ul>
+<hr>
+<p><strong>Gangi þér vel!</strong></p>
+<p>Ingi Þór Gunnarsson
+LioraTech ehf.
+<a href="mailto:info@lioratech.is">info@lioratech.is</a></p>
+<hr>
+<p><em>This analysis was generated using AI and is provided as-is. For detailed recommendations and implementation support, consider ordering the 30-Day AI Roadmap.</em></p>
+
+    </div>
+
+    <!-- FOOTER ON EVERY PAGE -->
+    <div class="page-footer">
+        <div>LioraTech ehf. • ingi@lioratech.is</div>
+        <div>lioratech.is</div>
+    </div>
+</body>
+</html>

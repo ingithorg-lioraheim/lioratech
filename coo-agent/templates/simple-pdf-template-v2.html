@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Greining - {{companyName}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: A4;
+            margin: 25mm;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* BRAND COLORS */
+        :root {
+            --brand-dark: #0f172a;
+            --brand-primary: #1e3a8a;
+            --brand-accent: #3b82f6;
+            --brand-light: #f8fafc;
+            --brand-gray: #64748b;
+            --white: #ffffff;
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            background: var(--white);
+            page-break-after: always;
+            padding: 60px 40px 40px 40px;
+        }
+
+        .cover-logo {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .cover-blue-section {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            color: var(--white);
+            padding: 60px 80px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.3);
+            margin: 20px 0;
+        }
+
+        .cover-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .cover-company {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 50px;
+            opacity: 0.95;
+        }
+
+        .cover-meta {
+            font-size: 14px;
+            line-height: 2;
+            font-weight: 400;
+            color: var(--brand-gray);
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--brand-primary);
+            margin: 40px 0 20px 0;
+            page-break-after: avoid;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin: 35px 0 18px 0;
+            page-break-after: avoid;
+            letter-spacing: -0.3px;
+            border-left: 4px solid var(--brand-accent);
+            padding-left: 16px;
+        }
+
+        h3 {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--brand-dark);
+            margin: 28px 0 14px 0;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-bottom: 14px;
+            line-height: 1.9;
+            color: #334155;
+            font-size: 15px;
+        }
+
+        /* LISTS WITH BEAUTIFUL ARROWS */
+        ul, ol {
+            margin: 18px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.9;
+            padding-left: 32px;
+            position: relative;
+            color: #334155;
+            font-size: 15px;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--brand-accent);
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 1.9;
+        }
+
+        strong {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        /* OPPORTUNITY BOXES */
+        .opportunity {
+            border-left: 4px solid var(--brand-accent);
+            padding: 24px;
+            margin: 25px 0;
+            background: linear-gradient(to right, #f8fafc 0%, #ffffff 100%);
+            page-break-inside: avoid;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .opportunity h3 {
+            color: var(--brand-primary);
+            margin-top: 0;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .opportunity p:first-of-type {
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-top: 12px;
+        }
+
+        /* SECTION TITLES INSIDE OPPORTUNITIES */
+        .section-title {
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin-top: 18px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* METRICS - Enhanced styling */
+        .opportunity ul li::before {
+            font-size: 18px;
+        }
+
+        .opportunity strong {
+            color: var(--brand-dark);
+            font-weight: 700;
+        }
+
+        /* INFO BOXES */
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-left: 4px solid var(--brand-accent);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 25px 0;
+            page-break-inside: avoid;
+        }
+
+        /* FOOTER - Hidden on cover page */
+        .page-footer {
+            position: fixed;
+            bottom: 15mm;
+            left: 25mm;
+            right: 25mm;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+            font-size: 11px;
+            color: var(--brand-gray);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cover-page ~ .page-footer {
+            display: none;
+        }
+
+        /* PRINT SETTINGS */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        /* DIVIDERS */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, var(--brand-accent), transparent);
+            margin: 30px 0;
+        }
+
+        /* ENHANCED CHECKMARKS AND X MARKS */
+        li.check::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: 900;
+            font-size: 18px;
+        }
+
+        li.cross::before {
+            content: "✗";
+            color: #ef4444;
+            font-weight: 900;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <!-- Logo at top (on white) -->
+        <div class="cover-logo">
+            <span style="color: #1e3a8a;">Liora</span><span style="color: #3b82f6;">Tech</span>
+        </div>
+
+        <!-- Blue section in middle -->
+        <div class="cover-blue-section">
+            <div class="cover-title">AI Greining</div>
+            <div class="cover-company">{{companyName}}</div>
+            <div class="cover-subtitle">3-5 Tækifæri til úrbóta með gervigreind</div>
+        </div>
+
+        <!-- Meta info at bottom (on white) -->
+        <div class="cover-meta">
+            <div><strong style="color: var(--brand-primary);">Prepared by:</strong> LioraTech ehf.</div>
+            <div><strong style="color: var(--brand-primary);">Date:</strong> {{date}}</div>
+            <div><strong style="color: var(--brand-primary);">Project ID:</strong> {{orderId}}</div>
+            <div style="height: 1px; width: 80px; background: #e2e8f0; margin: 20px auto;"></div>
+            <div>lioratech.is</div>
+            <div>ingi@lioratech.is</div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+        {{content}}
+    </div>
+
+    <!-- FOOTER ON EVERY PAGE -->
+    <div class="page-footer">
+        <div>LioraTech ehf. • ingi@lioratech.is</div>
+        <div>lioratech.is</div>
+    </div>
+</body>
+</html>

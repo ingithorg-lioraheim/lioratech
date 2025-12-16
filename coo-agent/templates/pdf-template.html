@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Greining - {{companyName}}</title>
+    <style>
+        @page {
+            margin: 0;
+            size: A4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: white;
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+            page-break-after: always;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .cover-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 80px;
+            opacity: 0.95;
+        }
+
+        .cover-meta {
+            font-size: 16px;
+            opacity: 0.85;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 200px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            margin: 40px auto;
+        }
+
+        /* CONTENT PAGES */
+        .page {
+            padding: 80px 60px 100px 60px;
+            min-height: 100vh;
+            page-break-after: always;
+            position: relative;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        /* HEADER */
+        .page-header {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 50px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* OPPORTUNITY CARDS */
+        .opportunity {
+            background: #f7fafc;
+            border-left: 5px solid #667eea;
+            padding: 35px;
+            margin: 40px 0;
+            border-radius: 8px;
+            page-break-inside: avoid;
+        }
+
+        .opportunity.rank-1 {
+            border-left-color: #f6ad55;
+            background: linear-gradient(135deg, #fff5eb 0%, #fef5e7 100%);
+        }
+
+        .opportunity.rank-2 {
+            border-left-color: #cbd5e0;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .opportunity.rank-3 {
+            border-left-color: #fc8181;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        }
+
+        .opportunity-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .opportunity-rank {
+            font-size: 40px;
+            margin-right: 15px;
+        }
+
+        .opportunity-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .opportunity-section {
+            margin: 25px 0;
+        }
+
+        .opportunity-section strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .opportunity-section p, .opportunity-section li {
+            font-size: 17px;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding-left: 30px;
+            position: relative;
+            margin: 10px 0;
+        }
+
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* VALUE METRICS */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .metric {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        /* PRIORITY STARS */
+        .priority {
+            font-size: 24px;
+            color: #f6ad55;
+            margin: 15px 0;
+        }
+
+        /* DIFFICULTY BADGE */
+        .difficulty {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 15px 0;
+        }
+
+        .difficulty.easy {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .difficulty.medium {
+            background: #feebc8;
+            color: #7c2d12;
+        }
+
+        .difficulty.hard {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: #edf2f7;
+            border-left: 4px solid #4299e1;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        .info-box ul {
+            margin-top: 15px;
+        }
+
+        /* FOOTER */
+        .page-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            right: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-right {
+            text-align: right;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        /* UTILITY */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-40 {
+            margin-top: 40px;
+        }
+
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        /* PRICING TABLE */
+        .pricing-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 35px;
+            page-break-inside: avoid;
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .pricing-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .pricing-features {
+            margin: 25px 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0 12px 30px;
+            font-size: 16px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <div class="logo">LIORATECH</div>
+        <div class="cover-title">AI GREINING FYRIR<br>{{companyName}}</div>
+        <div class="cover-subtitle">3-5 Tækifæri til úrbóta með gervigreind</div>
+        <div class="divider"></div>
+        <div class="cover-meta">
+            <div><strong>Prepared by:</strong> LioraTech ehf.</div>
+            <div><strong>Date:</strong> {{date}}</div>
+            <div><strong>Project ID:</strong> {{orderId}}</div>
+            <div style="margin-top: 20px;">
+                <div>lioratech.is</div>
+                <div>ingi@lioratech.is</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content">
+        {{content}}
+    </div>
+
+    <script>
+        // Add page numbers
+        const pages = document.querySelectorAll('.page');
+        pages.forEach((page, index) => {
+            const footer = page.querySelector('.page-footer');
+            if (footer) {
+                const pageNum = footer.querySelector('.footer-right');
+                if (pageNum) {
+                    pageNum.textContent = `Síða ${index + 1} af ${pages.length}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

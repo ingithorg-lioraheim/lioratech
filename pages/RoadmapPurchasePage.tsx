@@ -9,6 +9,7 @@ const RoadmapPurchasePage: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     companyName: '',
+    website: '',
     industry: '',
     employees: '',
     currentChallenges: '',
@@ -26,7 +27,7 @@ const RoadmapPurchasePage: React.FC = () => {
 
     try {
       // Send data to n8n
-      const response = await fetch('https://lioratech.app.n8n.cloud/webhook-test/roadmap-request', {
+      const response = await fetch('https://lioratech.app.n8n.cloud/webhook/roadmap-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ const RoadmapPurchasePage: React.FC = () => {
     try {
       // TODO: Integrate with Stripe/payment gateway here
       // For now, send data to n8n after "payment"
-      const response = await fetch('https://lioratech.app.n8n.cloud/webhook-test/roadmap-request', {
+      const response = await fetch('https://lioratech.app.n8n.cloud/webhook/roadmap-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -220,6 +221,18 @@ const RoadmapPurchasePage: React.FC = () => {
                   value={formData.companyName}
                   onChange={(e) => setFormData({...formData, companyName: e.target.value})}
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Vefsíða fyrirtækis</label>
+                <input
+                  type="url"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
+                  placeholder="https://fyrirtaeki.is"
+                  value={formData.website}
+                  onChange={(e) => setFormData({...formData, website: e.target.value})}
+                />
+                <p className="text-xs text-gray-500 mt-1">Hjálpar AI að greina reksturinn betur</p>
               </div>
 
               <div>

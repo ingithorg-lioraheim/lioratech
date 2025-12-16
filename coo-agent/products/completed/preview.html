@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Greining - Hans & Gréta</title>
+    <style>
+        @page {
+            margin: 0;
+            size: A4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: white;
+        }
+
+        /* COVER PAGE */
+        .cover-page {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px;
+            page-break-after: always;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .cover-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 80px;
+            opacity: 0.95;
+        }
+
+        .cover-meta {
+            font-size: 16px;
+            opacity: 0.85;
+            line-height: 1.8;
+        }
+
+        .divider {
+            width: 200px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            margin: 40px auto;
+        }
+
+        /* CONTENT PAGES */
+        .page {
+            padding: 80px 60px 100px 60px;
+            min-height: 100vh;
+            page-break-after: always;
+            position: relative;
+        }
+
+        .page:last-child {
+            page-break-after: auto;
+        }
+
+        /* HEADER */
+        .page-header {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-top: 50px;
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* OPPORTUNITY CARDS */
+        .opportunity {
+            background: #f7fafc;
+            border-left: 5px solid #667eea;
+            padding: 35px;
+            margin: 40px 0;
+            border-radius: 8px;
+            page-break-inside: avoid;
+        }
+
+        .opportunity.rank-1 {
+            border-left-color: #f6ad55;
+            background: linear-gradient(135deg, #fff5eb 0%, #fef5e7 100%);
+        }
+
+        .opportunity.rank-2 {
+            border-left-color: #cbd5e0;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .opportunity.rank-3 {
+            border-left-color: #fc8181;
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        }
+
+        .opportunity-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .opportunity-rank {
+            font-size: 40px;
+            margin-right: 15px;
+        }
+
+        .opportunity-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .opportunity-section {
+            margin: 25px 0;
+        }
+
+        .opportunity-section strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .opportunity-section p, .opportunity-section li {
+            font-size: 17px;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding-left: 30px;
+            position: relative;
+            margin: 10px 0;
+        }
+
+        li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* VALUE METRICS */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .metric {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .metric-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        /* PRIORITY STARS */
+        .priority {
+            font-size: 24px;
+            color: #f6ad55;
+            margin: 15px 0;
+        }
+
+        /* DIFFICULTY BADGE */
+        .difficulty {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            margin: 15px 0;
+        }
+
+        .difficulty.easy {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .difficulty.medium {
+            background: #feebc8;
+            color: #7c2d12;
+        }
+
+        .difficulty.hard {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background: #edf2f7;
+            border-left: 4px solid #4299e1;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+
+        .info-box ul {
+            margin-top: 15px;
+        }
+
+        /* FOOTER */
+        .page-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            right: 60px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-right {
+            text-align: right;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f7fafc;
+        }
+
+        /* UTILITY */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-40 {
+            margin-top: 40px;
+        }
+
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+
+        strong {
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .highlight {
+            background: #fef5e7;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+
+        /* PRICING TABLE */
+        .pricing-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 35px;
+            page-break-inside: avoid;
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        }
+
+        .pricing-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .pricing-features {
+            margin: 25px 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0 12px 30px;
+            font-size: 16px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+        <div class="logo">LIORATECH</div>
+        <div class="cover-title">AI GREINING FYRIR<br>Hans & Gréta</div>
+        <div class="cover-subtitle">3-5 Tækifæri til úrbóta með gervigreind</div>
+        <div class="divider"></div>
+        <div class="cover-meta">
+            <div><strong>Prepared by:</strong> LioraTech ehf.</div>
+            <div><strong>Date:</strong> 2025-12-15</div>
+            <div><strong>Project ID:</strong> AI-2025-12-15-QBEX39</div>
+            <div style="margin-top: 20px;">
+                <div>lioratech.is</div>
+                <div>ingi@lioratech.is</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div id="content">
+        <h2>PAGE 1: INTRO</h2>
+<h3>Takk fyrir að prófa AI-greininguna okkar!</h3>
+<p>Þessi greining er byggð á þeim upplýsingum sem þú gafst okkur um Hans &amp; Gréta.</p>
+<p><strong>Hvað þú færð í þessari skýrslu:</strong></p>
+<ul>
+<li>✅ Stutt yfirlit yfir núverandi stöðu</li>
+<li>✅ 3-5 tækifæri til úrbóta með AI</li>
+<li>✅ Forgangsröðun (hvað á að byrja á)</li>
+<li>✅ Áætlað gildi hvers tækifæris</li>
+</ul>
+<p><strong>Hvað þú færð EKKI:</strong></p>
+<ul>
+<li>❌ Nákvæman implementation plan</li>
+<li>❌ Tól og verkfæri tillögur</li>
+<li>❌ ROI útreikninga</li>
+<li>❌ Tímasetningar og milestones</li>
+</ul>
+<p><em>(Þetta er allt innifalið í 30-daga roadmap-inu)</em></p>
+<hr>
+<h2>PAGE 2: NÚVERANDI STAÐA</h2>
+<h3>Um Hans &amp; Gréta</h3>
+<p><strong>Grunnupplýsingar:</strong></p>
+<ul>
+<li>Industry: verslun og vefsala</li>
+<li>Team size: 1-5</li>
+<li>Main goals: Bæta þjónustu við viðskiptavini og auka sölu</li>
+<li>Vefsíða: <a href="https://hansoggreta.is/?srsltid=AfmB0or2LzfXlxnX4mNepSlwwEtSJYVFhRLffHTe5PJDIXRhrWs9pE8l">https://hansoggreta.is/?srsltid=AfmB0or2LzfXlxnX4mNepSlwwEtSJYVFhRLffHTe5PJDIXRhrWs9pE8l</a></li>
+</ul>
+<h3>Þín helstu áskoranir</h3>
+<p><strong>1. Of lítil sala</strong></p>
+<ul>
+<li>Þetta er algengt í verslun og vefsala geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<p><strong>2. þurfum alltaf að vera með lagersölu því það festist svo mikið á lager hjá okkur</strong></p>
+<ul>
+<li>Þetta er algengt í verslun og vefsala geiranum</li>
+<li>Áætlað tap: 5-10 tímar/viku</li>
+<li>AI getur hjálpað: Já</li>
+</ul>
+<hr>
+<h2>PAGE 3-6: TÆKIFÆRI</h2>
+<div class="opportunity gold">
+        <div class="opp-header">
+          <span class="opp-emoji">🥇</span>
+          <h3>TÆKIFÆRI #1: Sjálfvirk Birgðastjórnun</h3>
+        </div>
+<p><strong>Hvað þetta er:</strong>
+Nota gögn og spá til að stýra birgðum sjálfkrafa og lágmarka festingu á lager.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Fækkar handvirku vinnu í birgðaeftirliti</li>
+<li>Bætir flæði vöru og lágmarkar festingu á lager</li>
+<li>Auðveldar áætlanagerð og fjármögnun</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 10-15 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.600.000-2.400.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri birgðastjórnun, aukin veltuhraði</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐⭐ (5/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Greina birgðagögn og söguleg notkun</li>
+<li>Setja upp sjálfvirka pöntun og endurpöntun</li>
+<li>Samþætta við núverandi kerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<div class="opportunity silver">
+        <div class="opp-header">
+          <span class="opp-emoji">🥈</span>
+          <h3>TÆKIFÆRI #2: Stafræn Markaðssetning</h3>
+        </div>
+<p><strong>Hvað þetta er:</strong>
+Nota gervigreind til að greina markaðstækifæri og bæta markaðssetningu á netinu.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Betri markaðssetning og leiðbeiningar</li>
+<li>Aukinn sýnileiki og vöruumferð</li>
+<li>Aukin sala og viðskiptavinalanganir</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 8-12 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.300.000-2.000.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri vörusýnileiki, aukin sala</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟡 Miðlungs</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Greina markaðsstöðu og sölustrauma</li>
+<li>Þróa stafræna auglýsingaherferð</li>
+<li>Fylgjast með árangri og bæta reglulega</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<div class="opportunity bronze">
+        <div class="opp-header">
+          <span class="opp-emoji">🥉</span>
+          <h3>TÆKIFÆRI #3: Sjálfvirk Viðskiptavinastuðningur</h3>
+        </div>
+<p><strong>Hvað þetta er:</strong>
+Nota AI til að svara fyrirspurnum og útvega sjálfvirka þjónustu við viðskiptavini.</p>
+<p><strong>Hvernig það hjálpar þér:</strong></p>
+<ul>
+<li>Sinna fyrirspurnum 24/7</li>
+<li>Minnka svartíma og bæta þjónustu</li>
+<li>Losa starfsmenn við endurteknar fyrirspurnir</li>
+</ul>
+<p><strong>Áætlað gildi:</strong></p>
+<ul>
+<li>⏰ Tímasparnaður: 12-18 tímar/viku</li>
+<li>💰 Kostnaðarsparnaður: 1.900.000-2.800.000 ISK/ári</li>
+<li>📈 Gæðabót: Betri þjónusta, ánægðari viðskiptavinir</li>
+</ul>
+<p><strong>Erfiðleikastig:</strong> 🟢 Auðvelt</p>
+<p><strong>Forgangsröðun:</strong> ⭐⭐⭐⭐ (4/5)</p>
+<p><strong>Næstu skref ef þú vilt innleiða:</strong></p>
+<ol>
+<li>Setja upp AI-stuðningskerfi</li>
+<li>Þjálfa á algeng fyrirspurnarmynstur</li>
+<li>Samþætta við núverandi þjónustukerfi</li>
+</ol>
+<p><em>(Nákvæm innleiðingaráætlun er í 30-daga roadmap)</em></p>
+<hr>
+<h2>PAGE 7: FORGANGSRÖÐUN</h2>
+<h3>Hvað áttu að gera fyrst?</h3>
+<p>Byggt á þinni stöðu, mælum við með að byrja hér:</p>
+<p><strong>Skref 1: Innleiða Tækifæri #1</strong></p>
+<ul>
+<li>Hvers vegna: Mest áhrif á skammtíma markmiðin þín</li>
+<li>Áætlaður tími: 2-4 vikur</li>
+<li>Þú þarft: Teymi sem getur tekið að sér innleiðingu</li>
+</ul>
+<p><strong>Skref 2: Innleiða Tækifæri #2</strong></p>
+<ul>
+<li>Hvers vegna: Byggir á Tækifæri #1</li>
+<li>Áætlaður tími: 3-6 vikur</li>
+<li>Þú þarft: Samþætting við núverandi kerfi</li>
+</ul>
+<p><strong>Skref 3: Meta árangur og halda áfram</strong></p>
+<ul>
+<li>Mæla árangur af #1 og #2</li>
+<li>Ákveða hvort halda áfram með #3</li>
+<li>Eða finna ný tækifæri</li>
+</ul>
+<hr>
+<h2>PAGE 8: NÆSTU SKREF</h2>
+<h3>Hvað gerist núna?</h3>
+<p><strong>Option 1: Innleiða sjálfur</strong> ✅ Free</p>
+<p>Þú getur notað þessa greiningu til að byrja sjálfur.</p>
+<p><strong>Kostar:</strong></p>
+<ul>
+<li>0 ISK fyrir þessa greiningu</li>
+<li>Þú þarft að finna tól og byggja sjálfur</li>
+</ul>
+<p><strong>Hæfir fyrir:</strong></p>
+<ul>
+<li>Þá sem hafa tíma og tæknilega færni</li>
+<li>Þá sem vilja læra og prófa sjálf</li>
+</ul>
+<hr>
+<p><strong>Option 2: Fá nákvæman 30-daga plan</strong> 💎 49.900 ISK + VSK</p>
+<p>Við búum til nákvæman, step-by-step implementation plan:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Nákvæman 30-daga plan (dag fyrir dag)</li>
+<li>✅ Tiltekin tól og verkfæri</li>
+<li>✅ ROI útreikninga</li>
+<li>✅ Success metrics</li>
+<li>✅ Forgangsröðun og tímasetningar</li>
+<li>✅ Áhættumöt og lausnir</li>
+<li>✅ Email support</li>
+</ul>
+<p><strong>Delivery:</strong> Innan 24 klst</p>
+<p>👉 <strong><a href="https://lioratech.is/quote">Panta 30-daga roadmap</a></strong></p>
+<hr>
+<p><strong>Option 3: Full innleiðing með okkur</strong> 🚀 Custom verð</p>
+<p>Við innleiðum allt fyrir þig:</p>
+<p><strong>Þú færð:</strong></p>
+<ul>
+<li>✅ Allt úr Option 2</li>
+<li>✅ Við byggjum automation fyrir þig</li>
+<li>✅ Við setjum upp öll tól</li>
+<li>✅ Við þjálfum teymið þitt</li>
+<li>✅ Viðvarandi support</li>
+</ul>
+<p>👉 <strong><a href="https://lioratech.is/quote">Bóka samtal</a></strong></p>
+<hr>
+<h2>CLOSING</h2>
+<h3>Takk fyrir að prófa LioraTech! 🎉</h3>
+<p>Við vonumst til að þessi greining hafi gefið þér skýrari mynd af því hvar AI getur hjálpað þér.</p>
+<p><strong>Spurningar?</strong></p>
+<ul>
+<li>Email: <a href="mailto:info@lioratech.is">info@lioratech.is</a></li>
+<li>Website: lioratech.is</li>
+</ul>
+<p><strong>Viltu eitthvað meira?</strong></p>
+<ul>
+<li>30-daga roadmap: Nákvæmur plan → <a href="https://lioratech.is/roadmap">Panta hér</a></li>
+<li>Full innleiðing: Done-for-you → <a href="https://lioratech.is/quote">Bóka samtal</a></li>
+</ul>
+<hr>
+<p><strong>Gangi þér vel!</strong></p>
+<p>Ingi Þór Gunnarsson
+LioraTech ehf.
+<a href="mailto:info@lioratech.is">info@lioratech.is</a></p>
+<hr>
+<p><em>This analysis was generated using AI and is provided as-is. For detailed recommendations and implementation support, consider ordering the 30-Day AI Roadmap.</em></p>
+
+    </div>
+
+    <script>
+        // Add page numbers
+        const pages = document.querySelectorAll('.page');
+        pages.forEach((page, index) => {
+            const footer = page.querySelector('.page-footer');
+            if (footer) {
+                const pageNum = footer.querySelector('.footer-right');
+                if (pageNum) {
+                    pageNum.textContent = `Síða ${index + 1} af ${pages.length}`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

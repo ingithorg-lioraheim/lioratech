@@ -1,0 +1,119 @@
+{
+  "name": "LioraTech AI-Greining - Email Workflow (FIXED)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "roadmap-request",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook - Form Submit",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "webhookId": "roadmap-request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get data from webhook\nconst webhookData = $input.first().json;\n\n// Generate unique Order ID\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-');\nconst randomId = Math.random().toString(36).substr(2, 6).toUpperCase();\nconst orderId = `AI-${timestamp.slice(0,10)}-${randomId}`;\n\n// Build complete order object\nconst orderData = {\n  orderId: orderId,\n  timestamp: new Date().toISOString(),\n  status: 'pending',\n  productType: 'ai-greining-free',\n  email: webhookData.email || '',\n  companyName: webhookData.companyName || '',\n  industry: webhookData.industry || '',\n  employees: webhookData.employees || '',\n  currentChallenges: webhookData.currentChallenges || '',\n  goals: webhookData.goals || '',\n  currentTools: webhookData.currentTools || '',\n  timeline: webhookData.timeline || ''\n};\n\n// Create JSON for file (pretty printed)\nconst jsonForFile = JSON.stringify(orderData, null, 2);\n\n// Create filename\nconst filename = `${orderId}.json`;\n\nreturn {\n  orderData: orderData,\n  jsonForFile: jsonForFile,\n  filename: filename,\n  orderId: orderId\n};"
+      },
+      "name": "Generate Order ID & JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "ingithorg@gmail.com",
+        "subject": "=🆕 New AI-Greining Request - {{ $json.orderData.companyName }}",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n<style>\nbody { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }\n.container { background: white; padding: 30px; border-radius: 8px; max-width: 800px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }\n.header { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); color: white; padding: 20px; border-radius: 8px 8px 0 0; margin: -30px -30px 20px -30px; }\nh1 { margin: 0; font-size: 24px; }\n.order-id { background: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px; }\n.info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 10px; margin: 20px 0; }\n.label { font-weight: bold; color: #374151; }\n.value { color: #6b7280; }\n.json-block { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }\n.json-block pre { margin: 0; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.6; }\n.instructions { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px; }\n.step { margin: 10px 0; padding: 10px; background: #f9fafb; border-radius: 4px; }\n.step-number { display: inline-block; width: 30px; height: 30px; background: #3b82f6; color: white; border-radius: 50%; text-align: center; line-height: 30px; margin-right: 10px; }\ncode { background: #f3f4f6; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 13px; }\n</style>\n</head>\n<body>\n<div class=\"container\">\n  <div class=\"header\">\n    <h1>🆕 New AI-Greining Request</h1>\n    <p style=\"margin: 5px 0 0 0; opacity: 0.9;\">COO-Agent er tilbúinn að vinna þetta!</p>\n  </div>\n\n  <div class=\"order-id\">\n    <strong>📋 Order ID:</strong> {{ $json.orderId }}<br>\n    <strong>⏰ Received:</strong> {{ $json.orderData.timestamp }}\n  </div>\n\n  <h2 style=\"color: #1f2937; margin-top: 30px;\">Customer Information</h2>\n  <div class=\"info-grid\">\n    <div class=\"label\">Company:</div>\n    <div class=\"value\">{{ $json.orderData.companyName }}</div>\n    \n    <div class=\"label\">Email:</div>\n    <div class=\"value\">{{ $json.orderData.email }}</div>\n    \n    <div class=\"label\">Industry:</div>\n    <div class=\"value\">{{ $json.orderData.industry }}</div>\n    \n    <div class=\"label\">Team Size:</div>\n    <div class=\"value\">{{ $json.orderData.employees }}</div>\n    \n    <div class=\"label\">Timeline:</div>\n    <div class=\"value\">{{ $json.orderData.timeline }}</div>\n  </div>\n\n  <h2 style=\"color: #1f2937; margin-top: 30px;\">Details</h2>\n  <div style=\"margin: 15px 0;\">\n    <div class=\"label\">Current Challenges:</div>\n    <div class=\"value\" style=\"margin-top: 5px;\">{{ $json.orderData.currentChallenges }}</div>\n  </div>\n  \n  <div style=\"margin: 15px 0;\">\n    <div class=\"label\">Goals:</div>\n    <div class=\"value\" style=\"margin-top: 5px;\">{{ $json.orderData.goals }}</div>\n  </div>\n  \n  <div style=\"margin: 15px 0;\">\n    <div class=\"label\">Current Tools:</div>\n    <div class=\"value\" style=\"margin-top: 5px;\">{{ $json.orderData.currentTools }}</div>\n  </div>\n\n  <div class=\"instructions\">\n    <strong>⚡ NEXT STEPS - Copy & Paste JSON</strong>\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">1</span>\n    <strong>Open Terminal and navigate to COO-Agent:</strong><br>\n    <code>cd /Users/ingithor/Downloads/lioratech---ai-ráðgjöf/coo-agent</code>\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">2</span>\n    <strong>Create the request file:</strong><br>\n    <code>cat > requests/pending/{{ $json.filename }}</code>\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">3</span>\n    <strong>Copy the JSON below and paste into Terminal, then press Ctrl+D:</strong>\n  </div>\n\n  <div class=\"json-block\">\n    <pre>{{ $json.jsonForFile }}</pre>\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">4</span>\n    <strong>Process the request:</strong><br>\n    <code>./coo check</code>\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">5</span>\n    <strong>Wait for COO to generate analysis (~1-3 minutes)</strong><br>\n    You'll see: \"✅ COMPLETED\" and \"AWAITING CEO REVIEW\"\n  </div>\n\n  <div class=\"step\">\n    <span class=\"step-number\">6</span>\n    <strong>Review the analysis:</strong><br>\n    <code>open products/completed/{{ $json.orderId }}-*-ai-greining.md</code>\n  </div>\n\n  <div style=\"margin-top: 30px; padding-top: 20px; border-top: 2px solid #e5e7eb; color: #6b7280; font-size: 14px;\">\n    <p><strong>💡 TIP:</strong> If you're running COO in watch mode (<code>./coo watch</code>), it will process this automatically!</p>\n    <p style=\"margin-top: 10px;\">📧 Once processed, send the analysis to: <strong>{{ $json.orderData.email }}</strong></p>\n  </div>\n\n  <div style=\"margin-top: 20px; text-align: center; color: #9ca3af; font-size: 12px;\">\n    <p>🤖 COO-Agent | LioraTech ehf.</p>\n  </div>\n</div>\n</body>\n</html>",
+        "options": {}
+      },
+      "name": "Send Email to CEO",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [650, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook - Form Submit').item.json.email }}",
+        "subject": "=Greining þín er í vinnslu - {{ $('Webhook - Form Submit').item.json.companyName }}",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;\">\n  <div style=\"background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;\">\n    <h1 style=\"color: white; margin: 0;\">LioraTech</h1>\n    <p style=\"color: #e0e7ff; margin: 10px 0 0 0;\">AI Ráðgjöf fyrir íslensk fyrirtæki</p>\n  </div>\n\n  <div style=\"background: white; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 10px 10px;\">\n    <h2 style=\"color: #1f2937; margin-top: 0;\">Takk fyrir pöntunina!</h2>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Hæ,\n    </p>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Við höfum móttekið beiðni þína um <strong>ókeypis AI-greiningu</strong> fyrir <strong>{{ $('Webhook - Form Submit').item.json.companyName }}</strong>.\n    </p>\n\n    <div style=\"background: #eff6ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 4px;\">\n      <p style=\"margin: 0; color: #1e40af;\"><strong>📋 Pöntunarnúmer:</strong> {{ $json.orderId }}</p>\n      <p style=\"margin: 10px 0 0 0; color: #1e40af;\"><strong>⏰ Áætluð afhending:</strong> Innan 24 klst</p>\n    </div>\n\n    <h3 style=\"color: #1f2937; margin-top: 30px;\">Næstu skref:</h3>\n    <ol style=\"color: #4b5563; line-height: 1.8;\">\n      <li>✅ AI greinir reksturinn þinn (í gangi núna)</li>\n      <li>⏳ Greiningin verður tilbúin innan 24 klst</li>\n      <li>📧 Þú færð tölvupóst með niðurstöðunum</li>\n    </ol>\n\n    <p style=\"color: #4b5563; line-height: 1.6; margin-top: 30px;\">\n      Ef þú hefur spurningar, ekki hika við að hafa samband!\n    </p>\n\n    <p style=\"color: #4b5563; line-height: 1.6;\">\n      Bestu kveðjur,<br>\n      <strong>Ingi Þór Gunnarsson</strong><br>\n      LioraTech ehf.<br>\n      <a href=\"mailto:info@lioratech.is\" style=\"color: #3b82f6;\">info@lioratech.is</a><br>\n      <a href=\"https://lioratech.is\" style=\"color: #3b82f6;\">lioratech.is</a>\n    </p>\n  </div>\n\n  <div style=\"text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;\">\n    <p>© 2026 LioraTech ehf. - AI ráðgjöf fyrir íslensk fyrirtæki</p>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "name": "Send Customer Confirmation",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [650, 500],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, orderId: $json.orderId, message: 'Request received. CEO will be notified via email.' }) }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Form Submit": {
+      "main": [
+        [
+          {
+            "node": "Generate Order ID & JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Order ID & JSON": {
+      "main": [
+        [
+          {
+            "node": "Send Email to CEO",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Customer Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email to CEO": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
