@@ -1,0 +1,479 @@
+{
+  "name": "30-Day Roadmap with Payment (New)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "30-day-questionnaire-submit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-questionnaire",
+      "name": "Webhook - Questionnaire Submit",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [-600, 100],
+      "webhookId": "auto-generated"
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $input.item.json.body;\n\n// Generate unique order ID\nconst timestamp = new Date().toISOString();\nconst orderId = `AI-${timestamp.slice(0,10)}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;\n\n// Extract key fields\nconst companyName = formData.companyName || 'Unknown Company';\nconst email = formData.email || 'no-email@example.com';\nconst name = formData.name || 'Unknown';\n\nreturn {\n  json: {\n    orderId,\n    timestamp,\n    companyName,\n    email,\n    name,\n    formData\n  }\n};"
+      },
+      "id": "generate-orderid",
+      "name": "Generate OrderID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-400, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $json.formData;\nconst orderId = $json.orderId;\n\n// Convert to JSON string\nconst jsonString = JSON.stringify({\n  orderId: orderId,\n  timestamp: $json.timestamp,\n  companyName: $json.companyName,\n  email: $json.email,\n  name: $json.name,\n  formData: formData\n}, null, 2);\n\n// Convert to binary\nconst binaryData = Buffer.from(jsonString, 'utf-8');\n\nreturn {\n  json: {\n    orderId: orderId,\n    companyName: $json.companyName\n  },\n  binary: {\n    data: {\n      data: binaryData.toString('base64'),\n      mimeType: 'application/json',\n      fileName: `${orderId}-questionnaire.json`\n    }\n  }\n};"
+      },
+      "id": "convert-questionnaire-binary",
+      "name": "Convert to Binary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-200, 100]
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.orderId }}-questionnaire.json",
+        "driveId": {
+          "__rl": true,
+          "value": "1le7A1ieoPrX0ZSxV7u3qwc_e_oRa5eCs",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1vRP5yGFdvUZnY2DjSgIivSLywoJS2n-6",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "save-to-pending",
+      "name": "Save to pending-payment",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [0, 100],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"orderId\": $node[\"Generate OrderID\"].json.orderId, \"message\": \"Questionnaire saved. Please proceed to payment.\" } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-questionnaire",
+      "name": "Respond - Questionnaire",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [200, 100]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "30-day-payment-callback",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-payment",
+      "name": "Webhook - Payment Callback",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [-600, 400],
+      "webhookId": "auto-generated"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract orderId from Rapyd payment webhook\nconst paymentData = $input.item.json.body;\n\n// Rapyd sends payment data with metadata\nconst metadata = paymentData.data?.metadata || paymentData.metadata || {};\nconst orderId = metadata.orderId || metadata.order_id;\n\nif (!orderId) {\n  throw new Error('No orderId found in payment webhook data');\n}\n\nreturn {\n  json: {\n    orderId: orderId,\n    paymentId: paymentData.data?.id || paymentData.id,\n    paymentStatus: paymentData.data?.status || paymentData.status,\n    amount: paymentData.data?.amount || paymentData.amount,\n    currency: paymentData.data?.currency || paymentData.currency,\n    paymentDate: new Date().toISOString()\n  }\n};"
+      },
+      "id": "extract-orderid",
+      "name": "Extract OrderID from Payment",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-400, 400]
+    },
+    {
+      "parameters": {
+        "query": "={{ $json.orderId }}-questionnaire.json",
+        "driveId": {
+          "__rl": true,
+          "value": "1le7A1ieoPrX0ZSxV7u3qwc_e_oRa5eCs",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1vRP5yGFdvUZnY2DjSgIivSLywoJS2n-6",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "search-questionnaire",
+      "name": "Search Questionnaire File",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [-200, 400],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {
+          "googleFileConversion": {
+            "conversion": {
+              "doNotConvert": true
+            }
+          }
+        }
+      },
+      "id": "download-questionnaire",
+      "name": "Download Questionnaire",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [0, 400],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "value": "1le7A1ieoPrX0ZSxV7u3qwc_e_oRa5eCs",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN",
+          "mode": "id"
+        }
+      },
+      "id": "move-to-inprogress",
+      "name": "Move to in-progress",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [200, 400],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get questionnaire data from downloaded file\nconst fileContent = $node[\"Download Questionnaire\"].json.data;\nconst questionnaireData = JSON.parse(fileContent);\n\n// Get payment data\nconst paymentData = $node[\"Extract OrderID from Payment\"].json;\n\n// Merge data\nreturn {\n  json: {\n    orderId: questionnaireData.orderId,\n    timestamp: questionnaireData.timestamp,\n    companyName: questionnaireData.companyName,\n    email: questionnaireData.email,\n    name: questionnaireData.name,\n    formData: questionnaireData.formData,\n    paymentId: paymentData.paymentId,\n    paymentStatus: paymentData.paymentStatus,\n    amount: paymentData.amount,\n    currency: paymentData.currency,\n    paymentDate: paymentData.paymentDate\n  }\n};"
+      },
+      "id": "merge-data",
+      "name": "Merge Payment + Questionnaire",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $json.formData;\nconst orderId = $json.orderId;\n\n// PART 1: Opportunities & Analysis Prompt\nconst masterPromptPart1 = `# ROLE & CONTEXT\nYou are Ingþór, senior AI & automation consultant at LioraTech. You are creating a personalized 30-day AI implementation roadmap for ${formData.companyName}.\n\n# CLIENT DATA\n${JSON.stringify(formData, null, 2)}\n\n# YOUR TASK - PART 1: OPPORTUNITIES & ANALYSIS\nCreate the first part of a comprehensive AI implementation roadmap in Icelandic (pages 1-11):\n\n## PAGE 1: COVER\n# 30 Daga Framkvæmdaáætlun\n## AI Innleiðing fyrir ${formData.companyName}\n\nGerð af: Ingþór Ari Jónsson, LioraTech\nDagsetning: ${new Date().toLocaleDateString('is-IS')}\nPöntun: ${orderId}\n\n---\n\n## PAGE 2: EXECUTIVE SUMMARY (1 page)\n### Samantekt\n\nProvide 3-4 paragraph overview:\n1. Current state summary\n2. Top 3 opportunities identified\n3. Expected outcomes after 30 days\n4. Total estimated ROI\n\n**Key metrics box:**\n- Áætlaður tímasparnaður: X klst/viku\n- Áætluð kostnaðarlækkun: X kr/mánuði\n- Fjárfesting næstu 30 daga: X kr\n- Áætluð arðsemi (ROI): X%\n\n---\n\n## PAGES 3-4: CURRENT STATE ANALYSIS (2 pages)\n### Núverandi staða\n\nAnalyze based on their responses:\n\n#### Rekstur og tækifæri\n- Industry context: ${formData.industry}\n- Team size: ${formData.employees}\n- Current challenges: ${formData.biggestChallenges}\n- Time-consuming tasks: ${formData.timeTakingTasks}\n\n#### Tæknistaða\n- Current tools: ${formData.currentTools}\n- Data quality: ${formData.dataQuality}/5\n- AI experience: ${formData.previousAiExperience}\n\n#### Markmið og forgangsröðun\n- Primary goal: ${formData.aiGoals}\n- Top priority: ${formData.timeSavingsPriority1}\n- Budget: ${formData.monthlyBudget}\n- Timeline: ${formData.implementationSpeed}\n\n---\n\n## PAGES 5-11: THREE OPPORTUNITIES (2 pages each)\n\nFor each opportunity (total 3 opportunities):\n\n### Tækifæri #X: [Specific Title]\n\n#### Vandamálið\n[1 paragraph: What specific problem does this solve?]\n\n#### Lausnin\n[2 paragraphs: How AI/automation solves this. Be specific about tools and approach]\n\n#### Tæknilausn\n**Verkfæri:**\n- Tool 1: [Specific tool name and purpose]\n- Tool 2: [Specific tool name and purpose]\n\n**Uppsetting:**\n1. [Specific step]\n2. [Specific step]\n3. [Specific step]\n\n#### Framkvæmd\n**Vika 1-2:** [Specific actions]\n**Vika 3-4:** [Specific actions]\n\n#### Ávinningur\n- Tímasparnaður: X klst/viku (X klst/mánuði)\n- Kostnaðarlækkun: X kr/mánuði\n- Aukinn gæði: [Specific quality improvement]\n- Áhætta: [Potential risks]\n\n**ROI útreikningur:**\n- Mánaðarlegur kostnaður: X kr\n- Mánaðarlegur ávinningur: X kr\n- Arðsemi: X%\n- Break-even: X mánuðir\n\n---\n\n# WRITING GUIDELINES\n\n1. **Icelandic language:**\n   - Use gender-neutral forms\n   - Professional but accessible tone\n   - Avoid direct translations - use natural Icelandic\n\n2. **Specificity:**\n   - NEVER use placeholders - always use ${formData.companyName}\n   - Name specific tools (e.g., \"Make.com\" not \"automation tool\")\n   - Give exact time estimates\n\n3. **ROI calculations:**\n   - Use realistic Icelandic labor costs: 5,000-8,000 kr/hour\n   - Show math\n   - Be conservative\n\n4. **Context awareness:**\n   - Small companies (1-10): Focus on no-code tools\n   - Medium (11-50): Balance power and simplicity\n   - Larger (50+): Can suggest complex integrations\n\n# OUTPUT FORMAT\nOutput ONLY the roadmap content in markdown format. No meta-commentary. Start with the cover page and END after Opportunity #3.\n`;\n\n// PART 2: Implementation Plan Prompt\nconst masterPromptPart2 = `# ROLE & CONTEXT\nYou are Ingþór, senior AI & automation consultant at LioraTech. You are creating the implementation plan section (Part 2) of the 30-day roadmap for ${formData.companyName}.\n\n# CLIENT DATA\n${JSON.stringify(formData, null, 2)}\n\n# CONTEXT FROM PART 1\nYou have already created the Executive Summary, Current State Analysis, and three detailed opportunities. Now you need to create the detailed 30-day implementation plan.\n\n# YOUR TASK - PART 2: IMPLEMENTATION PLAN\nCreate the second part of the roadmap (pages 12-16):\n\n## PAGES 12-15: 30 DAY IMPLEMENTATION PLAN (4 pages)\n### 30 Daga Framkvæmdaáætlun\n\n#### Vika 1: [Week theme]\n**Dagur 1-2:** [Specific tasks]\n- [ ] Task 1 (Person responsible: [role])\n- [ ] Task 2\n\n**Dagur 3-5:** [Specific tasks]\n- [ ] Task 1\n- [ ] Task 2\n\n#### Vika 2: [Week theme]\n[Same detailed structure]\n\n#### Vika 3: [Week theme]\n[Same detailed structure]\n\n#### Vika 4: [Week theme]\n[Same detailed structure]\n\n**Heildar yfirlit:**\n[Timeline showing overlapping activities]\n\n---\n\n## PAGE 15: TECH STACK & BUDGET (1 page)\n### Tæknistaða og kostnaður\n\n#### Ráðlögð verkfæri\n| Verkfæri | Tilgangur | Mánaðarlegur kostnaður | Forgangsröð |\n|----------|-----------|------------------------|-------------|\n| [Tool 1] | [Purpose] | X kr                   | Hár         |\n| [Tool 2] | [Purpose] | X kr                   | Miðlungs    |\n\n**Heildarkostnaður fyrstu 30 daga:** X kr\n**Mánaðarlegur rekstrarkostnaður eftir það:** X kr\n\n#### Samþætting við núverandi kerfi\n- [How it integrates with ${formData.currentTools}]\n\n---\n\n## PAGE 16: NEXT STEPS & SUPPORT (1 page)\n### Næstu skref\n\n#### Strax (næstu 48 klst)\n1. [Immediate action]\n2. [Immediate action]\n\n#### Næstu 7 daga\n1. [Week 1 action]\n2. [Week 1 action]\n\n#### Framhaldsaðstoð frá LioraTech\n- **Innleiðingarþjónusta:** [Brief description]\n- **Þjálfun:** [Brief description]\n- **Viðhaldsáskrift:** [Brief description]\n\n#### Áhættur og hvernig á að forðast þær\n1. [Risk]: [Mitigation]\n2. [Risk]: [Mitigation]\n\n---\n\n# WRITING GUIDELINES\nSame as Part 1: Professional Icelandic, specific details, realistic ROI, context-aware.\n\n# OUTPUT FORMAT\nOutput ONLY the implementation plan content in markdown format. Start with \"# 30 DAGA FRAMKVÆMDAÁÆTLUN\" header.\n`;\n\nreturn {\n  json: {\n    ...($json),\n    masterPromptPart1,\n    masterPromptPart2,\n    promptPart1Length: masterPromptPart1.length,\n    promptPart2Length: masterPromptPart2.length\n  }\n};"
+      },
+      "id": "build-master-prompt",
+      "name": "Build Master Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [600, 400]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-haiku-4-5-20251001",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 4.5"
+        },
+        "options": {
+          "maxTokensToSample": 16000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [848, 608],
+      "id": "anthropic-model-1",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "jhXu8cCaS35ENh09",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-haiku-4-5-20251001",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 4.5"
+        },
+        "options": {
+          "maxTokensToSample": 16000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [848, 912],
+      "id": "anthropic-model-2",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "jhXu8cCaS35ENh09",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.masterPromptPart1 }}",
+        "options": {
+          "enableStreaming": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [848, 432],
+      "id": "ai-agent-1",
+      "name": "AI Agent 1 - Opportunities"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.masterPromptPart2 }}",
+        "options": {
+          "enableStreaming": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [848, 752],
+      "id": "ai-agent-2",
+      "name": "AI Agent 2 - Implementation"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [1312, 448],
+      "id": "merge-ai-outputs",
+      "name": "Merge",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// With Append mode, $input.all() gives us array of both items\nconst items = $input.all();\n\nconsole.log('Total items:', items.length);\n\nlet part1 = '';\nlet part2 = '';\n\n// Process each item from the merge\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i].json;\n  console.log(`Item ${i}:`, Object.keys(item));\n\n  // The output from AI Agent is in .output or .text\n  const output = item.output || item.text || '';\n\n  console.log(`Item ${i} output length:`, output.length);\n  console.log(`Item ${i} output preview:`, output.substring(0, 100));\n\n  // Determine which part this is\n  if (output.includes('EXECUTIVE SUMMARY') || output.includes('Tækifæri #1')) {\n    part1 = output;\n    console.log(`Item ${i} is Part 1 (Opportunities)`);\n  } else if (output.includes('30 DAGA') || output.includes('VIKA 1') || output.includes('30 Daga')) {\n    part2 = output;\n    console.log(`Item ${i} is Part 2 (Implementation)`);\n  }\n}\n\n// Combine\nconst completeRoadmap = part1 + '\\n\\n---\\n\\n' + part2;\n\nconsole.log('Part 1 length:', part1.length);\nconsole.log('Part 2 length:', part2.length);\nconsole.log('Complete roadmap length:', completeRoadmap.length);\n\nreturn {\n  json: {\n    roadmap: completeRoadmap,\n    part1Length: part1.length,\n    part2Length: part2.length,\n    totalLength: completeRoadmap.length\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1520, 448],
+      "id": "combine-text",
+      "name": "Combine text"
+    },
+    {
+      "parameters": {
+        "jsCode": "// The roadmap is already merged and ready from Combine Text\nconst roadmap = $json.roadmap;\n\n// Get metadata from Merge Payment + Questionnaire node\nconst orderId = $node[\"Merge Payment + Questionnaire\"].json.orderId;\nconst companyName = $node[\"Merge Payment + Questionnaire\"].json.companyName;\nconst email = $node[\"Merge Payment + Questionnaire\"].json.email;\nconst name = $node[\"Merge Payment + Questionnaire\"].json.name;\n\nreturn {\n  json: {\n    orderId,\n    companyName,\n    email,\n    name,\n    roadmap,\n    generatedAt: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1808, 336],
+      "id": "extract-roadmap",
+      "name": "Extract Roadmap"
+    },
+    {
+      "parameters": {
+        "jsCode": "const roadmap = $input.item.json.roadmap;\nconst orderId = $input.item.json.orderId;\nconst companyName = $input.item.json.companyName;\n\n// Convert roadmap text to binary\nconst binaryData = Buffer.from(roadmap, 'utf-8');\n\nreturn {\n  json: {\n    orderId: orderId,\n    companyName: companyName,\n    roadmap: roadmap\n  },\n  binary: {\n    data: {\n      data: binaryData.toString('base64'),\n      mimeType: 'text/markdown',\n      fileName: `${orderId}-${companyName}.md`\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2016, 336],
+      "id": "convert-roadmap-binary",
+      "name": "Convert Roadmap to Binary"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.orderId }}-{{ $json.companyName }}.md",
+        "driveId": {
+          "__rl": true,
+          "value": "1le7A1ieoPrX0ZSxV7u3qwc_e_oRa5eCs",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN"
+        },
+        "options": {}
+      },
+      "id": "save-roadmap",
+      "name": "Save Roadmap to Drive (in-progress)",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [2288, 416],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ingi@lioratech.is",
+        "subject": "🎯 Ný 30 daga áætlun pöntun: {{ $node[\"Merge Payment + Questionnaire\"].json.companyName }}",
+        "message": "=<h2>Ný pöntun móttekin (PAID)</h2>\n\n<p><strong>Pöntunarnúmer:</strong> {{ $json.orderId }}</p>\n<p><strong>Fyrirtæki:</strong> {{ $json.companyName }}</p>\n<p><strong>Tengiliður:</strong> {{ $json.name }} ({{ $json.email }})</p>\n<p><strong>Greiðsla:</strong> {{ $node[\"Merge Payment + Questionnaire\"].json.amount }} {{ $node[\"Merge Payment + Questionnaire\"].json.currency }} ({{ $node[\"Merge Payment + Questionnaire\"].json.paymentStatus }})</p>\n<p><strong>Tími:</strong> {{ $json.generatedAt }}</p>\n\n<hr>\n\n<h3>Næstu skref:</h3>\n<ol>\n<li>Skoða AI-generated roadmap í Google Drive (in-progress möppu)</li>\n<li>Review og customize roadmap</li>\n<li>Bóka kickoff símtal</li>\n<li>Senda lokagilda PDF til viðskiptavinar</li>\n</ol>\n\n<p><a href=\"https://drive.google.com/drive/folders/1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN\">Opna in-progress möppu í Drive</a></p>",
+        "options": {}
+      },
+      "id": "email-notification",
+      "name": "Email Notification",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [2240, 240],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"Payment received and roadmap generated successfully.\" } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-payment",
+      "name": "Respond - Payment Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2480, 320]
+    },
+    {
+      "parameters": {
+        "content": "## 30-Day Roadmap Workflow (With Payment)\n\n### Folder IDs:\n- **pending-payment:** 1vRP5yGFdvUZnY2DjSgIivSLywoJS2n-6\n- **in-progress:** 1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN  \n- **incoming:** 1SZ2CHqOdntp7jYza2eKmLfF3pczvmlbD\n- **completed:** 1IwgBvSwQqHeswhpwfjlhcIAuMAB5L_hh\n\n### Webhooks:\n1. **Questionnaire Submit:** /webhook/30-day-questionnaire-submit\n2. **Payment Callback:** /webhook/30-day-payment-callback\n\n### Flow:\n1. User fills questionnaire → Saved to pending-payment\n2. User pays via Rapyd → Payment webhook triggers\n3. Fetch questionnaire from pending-payment\n4. Move to in-progress\n5. Generate roadmap with AI\n6. Email CEO\n7. Respond to Rapyd",
+        "height": 464,
+        "width": 403
+      },
+      "id": "sticky-note",
+      "name": "Sticky Note",
+      "typeVersion": 1,
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-720, 600]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook - Questionnaire Submit": {
+      "main": [[{"node": "Generate OrderID", "type": "main", "index": 0}]]
+    },
+    "Generate OrderID": {
+      "main": [[{"node": "Convert to Binary", "type": "main", "index": 0}]]
+    },
+    "Convert to Binary": {
+      "main": [[{"node": "Save to pending-payment", "type": "main", "index": 0}]]
+    },
+    "Save to pending-payment": {
+      "main": [[{"node": "Respond - Questionnaire", "type": "main", "index": 0}]]
+    },
+    "Webhook - Payment Callback": {
+      "main": [[{"node": "Extract OrderID from Payment", "type": "main", "index": 0}]]
+    },
+    "Extract OrderID from Payment": {
+      "main": [[{"node": "Search Questionnaire File", "type": "main", "index": 0}]]
+    },
+    "Search Questionnaire File": {
+      "main": [[{"node": "Download Questionnaire", "type": "main", "index": 0}]]
+    },
+    "Download Questionnaire": {
+      "main": [[{"node": "Move to in-progress", "type": "main", "index": 0}]]
+    },
+    "Move to in-progress": {
+      "main": [[{"node": "Merge Payment + Questionnaire", "type": "main", "index": 0}]]
+    },
+    "Merge Payment + Questionnaire": {
+      "main": [[{"node": "Build Master Prompt", "type": "main", "index": 0}]]
+    },
+    "Build Master Prompt": {
+      "main": [[
+        {"node": "AI Agent 1 - Opportunities", "type": "main", "index": 0},
+        {"node": "AI Agent 2 - Implementation", "type": "main", "index": 0}
+      ]]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [[{"node": "AI Agent 1 - Opportunities", "type": "ai_languageModel", "index": 0}]]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [[{"node": "AI Agent 2 - Implementation", "type": "ai_languageModel", "index": 0}]]
+    },
+    "AI Agent 1 - Opportunities": {
+      "main": [[{"node": "Merge", "type": "main", "index": 0}]]
+    },
+    "AI Agent 2 - Implementation": {
+      "main": [[{"node": "Merge", "type": "main", "index": 1}]]
+    },
+    "Merge": {
+      "main": [[{"node": "Combine text", "type": "main", "index": 0}]]
+    },
+    "Combine text": {
+      "main": [[{"node": "Extract Roadmap", "type": "main", "index": 0}]]
+    },
+    "Extract Roadmap": {
+      "main": [[
+        {"node": "Convert Roadmap to Binary", "type": "main", "index": 0},
+        {"node": "Email Notification", "type": "main", "index": 0}
+      ]]
+    },
+    "Convert Roadmap to Binary": {
+      "main": [[{"node": "Save Roadmap to Drive (in-progress)", "type": "main", "index": 0}]]
+    },
+    "Save Roadmap to Drive (in-progress)": {
+      "main": [[{"node": "Respond - Payment Success", "type": "main", "index": 0}]]
+    },
+    "Email Notification": {
+      "main": [[]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "new",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}
