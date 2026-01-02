@@ -189,7 +189,7 @@ const RoadmapPurchasePage: React.FC = () => {
             </button>
 
             <p className="text-center text-xs text-gray-500 mt-4">
-              🔒 Við deila aldrei upplýsingum þínum
+              🔒 Við deilum aldrei upplýsingum þínum
             </p>
           </div>
         )}

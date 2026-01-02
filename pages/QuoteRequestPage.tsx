@@ -234,7 +234,7 @@ const QuoteRequestPage: React.FC = () => {
               </button>
 
               <p className="text-center text-xs text-gray-500 mt-4">
-                🔒 Við deila aldrei upplýsingum þínum og sendum 0 ruslpóst
+                🔒 Við deilum aldrei upplýsingum þínum og sendum 0 ruslpóst
               </p>
             </form>
           </div>
