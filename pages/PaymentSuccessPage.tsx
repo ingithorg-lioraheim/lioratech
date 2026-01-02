@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Home, Mail, Loader2 } from 'lucide-react';
+import { trackPurchase } from '../utils/analytics';
 
 const PaymentSuccessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -25,16 +26,14 @@ const PaymentSuccessPage: React.FC = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            body: {
-              data: {
-                metadata: {
-                  orderId: orderId
-                },
-                id: checkout || 'manual-trigger',
-                status: 'CLO', // Closed/Completed
-                amount: 69900,
-                currency: 'ISK'
-              }
+            data: {
+              metadata: {
+                orderId: orderId
+              },
+              id: checkout || 'manual-trigger',
+              status: 'CLO', // Closed/Completed
+              amount: 69900,
+              currency: 'ISK'
             }
           }),
         });
@@ -44,6 +43,10 @@ const PaymentSuccessPage: React.FC = () => {
         }
 
         console.log('Roadmap generation triggered successfully');
+
+        // Track purchase in Google Analytics (CONVERSION!)
+        trackPurchase(orderId, 86676, '30 Day AI Roadmap');
+
         setProcessing(false);
       } catch (err: any) {
         console.error('Error triggering roadmap:', err);
@@ -90,17 +93,17 @@ const PaymentSuccessPage: React.FC = () => {
             <CheckCircle2 size={60} className="text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            Grei�sla t�kst!
+            Greiðsla tókst!
           </h1>
           <p className="text-xl text-gray-600">
-            Takk fyrir p�ntunina ��na
+            Takk fyrir pöntunina þína
           </p>
         </div>
 
         {/* Success Details */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-green-200 mb-8">
           <h2 className="text-2xl font-bold text-brand-dark mb-6 text-center">
-            Hva� gerist n�st?
+            Hvað gerist núst?
           </h2>
 
           <div className="space-y-6">
@@ -110,10 +113,10 @@ const PaymentSuccessPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-brand-dark mb-1">
-                  Sta�festing send � netfang
+                  Staðfesting send á netfang
                 </h3>
                 <p className="text-gray-600">
-                  �� f�r� kvittun og sta�festingu � p�ntun �inni strax � netfangi� �itt.
+                  Þú færð kvittun og staðfestingu á pöntun þinni strax á netfangið þitt.
                 </p>
               </div>
             </div>
@@ -124,10 +127,10 @@ const PaymentSuccessPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-brand-dark mb-1">
-                  AI byrjar a� greina
+                  AI byrjar að greina
                 </h3>
                 <p className="text-gray-600">
-                  COO-Agent okkar byrjar strax a� greina fyrirt�ki� �itt og byggja pers�nulega 30 daga framkv�mda��tlun.
+                  COO-Agent okkar byrjar strax að greina fyrirtækið þitt og byggja persónulega 30 daga framkvæmdaáætlun.
                 </p>
               </div>
             </div>
@@ -141,7 +144,7 @@ const PaymentSuccessPage: React.FC = () => {
                   Roadmap sent innan 24 klst
                 </h3>
                 <p className="text-gray-600">
-                  �� f�r� pers�nulega AI-greiningu og n�kv�ma 30 daga ��tlun senda � netfangi� �itt sem fagleg PDF sk�rsla.
+                  Þú færð persónulega AI-greiningu og nákvæma 30 daga áætlun senda á netfangið þitt sem fagleg PDF skýrsla.
                 </p>
               </div>
             </div>
@@ -155,7 +158,7 @@ const PaymentSuccessPage: React.FC = () => {
             <span className="font-medium">Spurningar?</span>
           </div>
           <p className="text-gray-600">
-            Sendu okkur p�st �{' '}
+            Sendu okkur póst á{' '}
             <a
               href="mailto:ingi@lioratech.is"
               className="text-brand-primary hover:text-brand-dark font-medium"
@@ -172,7 +175,7 @@ const PaymentSuccessPage: React.FC = () => {
             className="inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg"
           >
             <Home size={20} />
-            <span>Til baka � fors��u</span>
+            <span>Til baka á forsíðu</span>
           </Link>
         </div>
       </div>
