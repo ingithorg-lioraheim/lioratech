@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from '@netlify/functions';
-import { getRapydAPI } from './utils/rapyd';
+import { getTeyaAPI } from './utils/teya';
 
 interface CheckoutRequest {
   amount: number;
@@ -11,8 +11,8 @@ interface CheckoutRequest {
 }
 
 /**
- * Netlify Function: Create Rapyd Checkout
- * Creates a Rapyd hosted checkout page for the 30-day roadmap product
+ * Netlify Function: Create Teya Checkout
+ * Creates a Teya hosted checkout page for the 30-day roadmap product
  */
 export const handler: Handler = async (
   event: HandlerEvent,
@@ -43,45 +43,60 @@ export const handler: Handler = async (
     // Get site URL for redirect URLs
     const siteUrl = process.env.URL || 'https://lioratech.is';
 
-    // Initialize Rapyd API
-    const rapyd = getRapydAPI();
+    // Initialize Teya API
+    const teya = getTeyaAPI();
 
     // Extract orderId from metadata
     const orderId = requestData.metadata?.orderId;
 
-    // Create checkout session
-    const checkout = await rapyd.createCheckout({
+    if (!orderId) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          error: 'Missing orderId in metadata',
+        }),
+      };
+    }
+
+    // Create Teya Payment
+    const payment = await teya.createPayment({
       amount: requestData.amount,
       currency: requestData.currency,
-      customer_email: requestData.customerEmail,
-      customer_name: requestData.customerName || requestData.customerEmail,
+      orderId: orderId,
+      customerEmail: requestData.customerEmail,
+      customerName: requestData.customerName || requestData.customerEmail,
+      description: `30 Day AI Roadmap - ${requestData.companyName || 'Order'}`,
       metadata: {
         product: '30-day-roadmap',
         company: requestData.companyName,
         orderId: orderId, // Include orderId for webhook callback
         ...requestData.metadata,
       },
-      complete_payment_url: `${siteUrl}/payment-success?orderId=${orderId}`,
-      error_payment_url: `${siteUrl}/payment-error`,
+      successUrl: `${siteUrl}/payment-success?orderId=${orderId}`,
+      cancelUrl: `${siteUrl}/payment-error`,
     });
 
-    console.log('Checkout created:', {
-      id: checkout.id,
+    console.log('Teya payment created:', {
+      paymentId: payment.paymentId,
       email: requestData.customerEmail,
       amount: requestData.amount,
+      url: payment.paymentUrl,
+      status: payment.status,
     });
 
-    // Return checkout URL and ID
+    // Return payment URL and ID
     return {
       statusCode: 200,
       body: JSON.stringify({
         success: true,
-        checkoutId: checkout.id,
-        checkoutUrl: checkout.redirect_url,
+        checkoutId: payment.paymentId,
+        checkoutUrl: payment.paymentUrl,
+        status: payment.status,
       }),
     };
   } catch (error: any) {
     console.error('Error creating checkout:', error);
+    console.error('Error details:', error.message);
 
     return {
       statusCode: 500,

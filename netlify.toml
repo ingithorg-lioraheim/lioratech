@@ -1,6 +1,13 @@
 [build]
   command = "npm run build"
   publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  targetPort = 3001
+
+[functions]
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/*"
