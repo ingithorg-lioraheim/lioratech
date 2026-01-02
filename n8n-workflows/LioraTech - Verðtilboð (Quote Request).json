@@ -1,0 +1,210 @@
+{
+  "name": "LioraTech - Verðtilboð (Quote Request)",
+  "nodes": [
+    {
+      "parameters": {
+        "name": "={{ $json.filename }}",
+        "driveId": {
+          "__rl": true,
+          "value": "13KRF-puOMEuUXMrsDK8a198UEPMHalBV",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -144,
+        160
+      ],
+      "id": "90b44ea7-178b-46bc-8a56-e69b350727c2",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "quote-request",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        160
+      ],
+      "webhookId": "quote-request",
+      "id": "b60b0f8b-54c6-4d25-a011-0a8a1cefa720"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access webhook data directly\nconst webhookData = items[0].json.body || items[0].json;\n\n// Generate unique Order ID\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-');\nconst randomId = Math.random().toString(36).substr(2, 6).toUpperCase();\nconst orderId = `QUOTE-${timestamp.slice(0,10)}-${randomId}`;\n\n// Build complete order object\nconst orderData = {\n  orderId: orderId,\n  timestamp: new Date().toISOString(),\n  status: 'pending',\n  productType: 'quote-request',\n  companyName: webhookData.companyName || '',\n  name: webhookData.name || '',\n  email: webhookData.email || '',\n  phone: webhookData.phone || '',\n  website: webhookData.website || '',\n  employees: webhookData.employees || '',\n  goals: webhookData.goals || '',\n  serviceInterest: webhookData.serviceInterest || '',\n  budget: webhookData.budget || ''\n};\n\n// Create JSON for file (pretty printed)\nconst jsonForFile = JSON.stringify(orderData, null, 2);\n\n// Create filename\nconst filename = `${orderId}.json`;\n\nreturn [{\n  json: {\n    orderData: orderData,\n    jsonForFile: jsonForFile,\n    filename: filename,\n    orderId: orderId\n  }\n}];"
+      },
+      "name": "Generate Order ID & JSON1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        160
+      ],
+      "id": "04a38821-8a10-4a8a-a7c8-b0b4216ea26b"
+    },
+    {
+      "parameters": {
+        "sendTo": "ingi@lioratech.is",
+        "subject": "=💼 Ný Verðtilboðsbeiðni - {{ $json.orderData.companyName }}",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n  <div style=\"max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f8fafc;\">\n    <h1 style=\"color: #1e3a8a; border-bottom: 3px solid #3b82f6; padding-bottom: 10px;\">💼 Nýtt Verðtilboð</h1>\n    \n    <div style=\"background: white; padding: 20px; border-radius: 8px; margin: 20px 0;\">\n      <h2 style=\"color: #1e3a8a; margin-top: 0;\">Fyrirtækjaupplýsingar</h2>\n      <p><strong>Fyrirtæki:</strong> {{ $json.orderData.companyName }}</p>\n      <p><strong>Tengiliður:</strong> {{ $json.orderData.name }}</p>\n      <p><strong>Netfang:</strong> {{ $json.orderData.email }}</p>\n      <p><strong>Símanúmer:</strong> {{ $json.orderData.phone }}</p>\n      <p><strong>Vefsíða:</strong> <a href=\"{{ $json.orderData.website }}\" target=\"_blank\">{{ $json.orderData.website }}</a></p>\n      <p><strong>Fjöldi starfsmanna:</strong> {{ $json.orderData.employees }}</p>\n    </div>\n\n    <div style=\"background: white; padding: 20px; border-radius: 8px; margin: 20px 0;\">\n      <h2 style=\"color: #1e3a8a; margin-top: 0;\">Verkefni</h2>\n      <p><strong>Áhugi:</strong> {{ $json.orderData.serviceInterest }}</p>\n      <p><strong>Budget:</strong> {{ $json.orderData.budget }}</p>\n      <div style=\"background: #f1f5f9; padding: 15px; border-radius: 5px; margin-top: 10px;\">\n        <p style=\"margin: 0;\"><strong>Markmið:</strong></p>\n        <p style=\"margin: 5px 0 0 0;\">{{ $json.orderData.goals }}</p>\n      </div>\n    </div>\n\n    <div style=\"background: #dbeafe; padding: 15px; border-radius: 8px; margin: 20px 0;\">\n      <h3 style=\"color: #1e3a8a; margin-top: 0;\">📋 Næstu skref:</h3>\n      <ol style=\"margin: 10px 0;\">\n        <li>Skoða vefsíðu og LinkedIn</li>\n        <li>Meta umfang verkefnis</li>\n        <li>Útbúa verðtilboð með preliminary roadmap</li>\n        <li>Senda innan 24 klst</li>\n        <li>Bóka fund til að ræða</li>\n      </ol>\n    </div>\n\n    <div style=\"background: #f1f5f9; padding: 15px; border-radius: 5px; margin-top: 20px;\">\n      <p style=\"margin: 0; font-size: 12px; color: #64748b;\"><strong>Pöntunarnúmer:</strong> {{ $json.orderId }}</p>\n      <p style=\"margin: 5px 0 0 0; font-size: 12px; color: #64748b;\"><strong>Tími:</strong> {{ $json.orderData.timestamp }}</p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "name": "Send Email to CEO1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "c61d707f-708a-46bc-b0ee-badac1738514",
+      "webhookId": "50e8be16-230e-42b2-9ba4-b2faf3310fe3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.orderData.email }}",
+        "subject": "=Takk fyrir beiðnina - LioraTech Verðtilboð",
+        "message": "=<!DOCTYPE html>\n<html>\n<body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333;\">\n  <div style=\"max-width: 600px; margin: 0 auto; padding: 20px;\">\n    <div style=\"text-align: center; margin-bottom: 30px;\">\n      <h1 style=\"color: #1e3a8a; margin: 0; font-size: 28px;\">LioraTech</h1>\n      <p style=\"color: #64748b; margin: 5px 0 0 0;\">AI Ráðgjöf & Innleiðing</p>\n    </div>\n\n    <div style=\"background: #f8fafc; padding: 25px; border-radius: 10px;\">\n      <h2 style=\"color: #1e3a8a; margin-top: 0;\">Hæ {{ $json.orderData.name }}! 👋</h2>\n      \n      <p>Takk fyrir að senda inn beiðni um verðtilboð hjá LioraTech.</p>\n      \n      <p>Ég hef móttekið upplýsingarnar þínar og mun fara yfir þarfir <strong>{{ $json.orderData.companyName }}</strong> og senda ykkur sérsniðið verðtilboð innan <strong>24 klst</strong>.</p>\n      \n      <div style=\"background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #3b82f6;\">\n        <h3 style=\"color: #1e3a8a; margin-top: 0; font-size: 16px;\">📄 Hvað er innifalið í verðtilboðinu:</h3>\n        <ul style=\"margin: 10px 0; padding-left: 20px;\">\n          <li style=\"margin: 8px 0;\">✓ Preliminary roadmap sem sýnir hvað er mögulegt</li>\n          <li style=\"margin: 8px 0;\">✓ Áætlaður kostnaður og tímarammi</li>\n          <li style=\"margin: 8px 0;\">✓ Skýrir áfangar og afhendingarmarkmið</li>\n          <li style=\"margin: 8px 0;\">✓ Möguleiki á fundi til að ræða nánar</li>\n        </ul>\n      </div>\n\n      <p>Ef þið hafið einhverjar spurningar í millitíðinni, hafið endilega samband.</p>\n    </div>\n\n    <div style=\"margin-top: 30px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center;\">\n      <p style=\"margin: 5px 0; color: #1e3a8a; font-weight: bold;\">Ingi Þór Guðjónsson</p>\n      <p style=\"margin: 5px 0; color: #64748b;\">LioraTech - AI Ráðgjöf</p>\n      <p style=\"margin: 5px 0;\"><a href=\"mailto:info@lioratech.is\" style=\"color: #3b82f6; text-decoration: none;\">info@lioratech.is</a></p>\n      <p style=\"margin: 5px 0;\"><a href=\"https://lioratech.is\" style=\"color: #3b82f6; text-decoration: none;\">lioratech.is</a></p>\n    </div>\n\n    <div style=\"margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 5px; text-align: center;\">\n      <p style=\"margin: 0; font-size: 12px; color: #64748b;\">🔒 Við deila aldrei upplýsingum þínum og sendum 0 ruslpóst</p>\n      <p style=\"margin: 5px 0 0 0; font-size: 11px; color: #94a3b8;\">Pöntunarnúmer: {{ $json.orderId }}</p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {}
+      },
+      "name": "Send Customer Confirmation1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        48,
+        368
+      ],
+      "id": "bed19808-605a-4a98-9ca2-6680e27bc846",
+      "webhookId": "c39f5a60-3160-4148-a5b2-0ff68dc04bdf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, orderId: $json.orderId, message: 'Quote request received!' }) }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        256,
+        160
+      ],
+      "id": "629dcd65-3c94-42aa-8173-e01bc10cdd5b"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {
+          "fileName": "={{ $json.filename }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -352,
+        160
+      ],
+      "id": "fe526a09-ca76-4097-b706-a0607f2b5fe1",
+      "name": "Convert to File1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Generate Order ID & JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Order ID & JSON1": {
+      "main": [
+        [
+          {
+            "node": "Send Customer Confirmation1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email to CEO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email to CEO1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2093f792-fa26-45a3-956a-229fa50fd1d0",
+  "meta": {
+    "instanceId": "b7f40563bec61343bd96b2dc39bcec86e447b8da8aeac02fee5701e8d6439785"
+  },
+  "id": "N1Kv30JFIb37pJ0d",
+  "tags": []
+}

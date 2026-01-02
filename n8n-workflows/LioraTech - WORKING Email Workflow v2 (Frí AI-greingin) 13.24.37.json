@@ -1,0 +1,211 @@
+{
+  "name": "LioraTech - WORKING Email Workflow v2 (Frí AI-greingin)",
+  "nodes": [
+    {
+      "parameters": {
+        "name": "={{ $json.filename }}",
+        "driveId": {
+          "__rl": true,
+          "value": "1LAL8vJz3PCiTDCL1igTqNtqsO0pI4ap-",
+          "mode": "id"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        304,
+        448
+      ],
+      "id": "e927c3bc-1918-4e02-a004-dd05ad99ab01",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wwpyqnDEeHfqxBt5",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "roadmap-request",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        448
+      ],
+      "webhookId": "roadmap-request",
+      "id": "bd5ca1e4-002d-48b7-8eb5-cdb39de73004"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Access webhook data directly\nconst webhookData = items[0].json.body || items[0].json;\n\n// Generate unique Order ID\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-');\nconst randomId = Math.random().toString(36).substr(2, 6).toUpperCase();\nconst orderId = `AI-${timestamp.slice(0,10)}-${randomId}`;\n\n// Build complete order object\nconst orderData = {\n  orderId: orderId,\n  timestamp: new Date().toISOString(),\n  status: 'pending',\n  productType: 'ai-greining-free',\n  email: webhookData.email || '',\n  companyName: webhookData.companyName || '',\n  website: webhookData.website || '',\n  industry: webhookData.industry || '',\n  employees: webhookData.employees || '',\n  currentChallenges: webhookData.currentChallenges || '',\n  goals: webhookData.goals || '',\n  currentTools: webhookData.currentTools || '',\n  timeline: webhookData.timeline || ''\n};\n\n// Create JSON for file (pretty printed)\nconst jsonForFile = JSON.stringify(orderData, null, 2);\n\n// Create filename\nconst filename = `${orderId}.json`;\n\nreturn [{\n  json: {\n    orderData: orderData,\n    jsonForFile: jsonForFile,\n    filename: filename,\n    orderId: orderId\n  }\n}];"
+      },
+      "name": "Generate Order ID & JSON1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        448
+      ],
+      "id": "a67e9134-829f-494e-ba65-99be13fa11be"
+    },
+    {
+      "parameters": {
+        "sendTo": "ingithorg@gmail.com",
+        "subject": "=🆕 New AI-Greining Request - {{ $json.orderData.companyName }}",
+        "message": "=<!DOCTYPE html><html><body style=\"font-family: Arial;\"><h1>New Request</h1><p><strong>Order ID:</strong> {{ $json.orderId }}</p><p><strong>Company:</strong> {{ $json.orderData.companyName }}</p><p><strong>Email:</strong> {{ $json.orderData.email }}</p><pre>{{ $json.jsonForFile }}</pre></body></html>",
+        "options": {}
+      },
+      "name": "Send Email to CEO1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        448,
+        288
+      ],
+      "id": "92cae04d-7448-4afc-b2f6-27ce513fbeb7",
+      "webhookId": "50e8be16-230e-42b2-9ba4-b2faf3310fe3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.orderData.email }}",
+        "subject": "=Greining þín er í vinnslu - {{ $json.orderData.companyName }}",
+        "message": "=<!DOCTYPE html><html><body style=\"font-family: Arial;\"><h1>Takk fyrir!</h1><p>Við höfum móttekið beiðni þína.</p><p><strong>Pöntunarnúmer:</strong> {{ $json.orderId }}</p></body></html>",
+        "options": {}
+      },
+      "name": "Send Customer Confirmation1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        496,
+        656
+      ],
+      "id": "e5926c17-ac9b-4c19-9e81-28cf5a0007c9",
+      "webhookId": "c39f5a60-3160-4148-a5b2-0ff68dc04bdf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DMOMr6YNj60YMfxL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, orderId: $json.orderId, message: 'Request received!' }) }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        704,
+        448
+      ],
+      "id": "e8bdf524-2061-40d3-9f90-849e7dd6b609"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {
+          "fileName": "={{ $json.filename }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        448
+      ],
+      "id": "8d840992-0d97-4bfd-922a-12a7c8a115cb",
+      "name": "Convert to File1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Generate Order ID & JSON1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Order ID & JSON1": {
+      "main": [
+        [
+          {
+            "node": "Send Customer Confirmation1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Email to CEO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email to CEO1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "52231761-3c99-47f8-adbe-f697dfcb1aa0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b7f40563bec61343bd96b2dc39bcec86e447b8da8aeac02fee5701e8d6439785"
+  },
+  "id": "YC8v5c31SeLFxzN6",
+  "tags": []
+}
