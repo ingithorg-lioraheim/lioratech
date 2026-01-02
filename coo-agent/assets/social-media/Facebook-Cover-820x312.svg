@@ -1,0 +1,55 @@
+<svg width="820" height="312" viewBox="0 0 820 312" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="820" height="312" fill="url(#bgGradient)" />
+
+  <!-- Decorative geometric elements -->
+  <circle cx="700" cy="60" r="80" fill="url(#accentGradient)" />
+  <circle cx="750" cy="250" r="60" fill="url(#accentGradient)" />
+  <rect x="650" y="120" width="120" height="120" rx="20" fill="#3b82f6" opacity="0.15" />
+
+  <!-- Main content area -->
+  <g>
+    <!-- Logo -->
+    <circle cx="100" cy="156" r="50" fill="#f8fafc" />
+    <circle cx="100" cy="156" r="50" fill="none" stroke="#1e3a8a" stroke-width="4" />
+    <text x="100" y="170" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 50px;">
+      <tspan fill="#1e3a8a">L</tspan><tspan fill="#3b82f6">T</tspan>
+    </text>
+
+    <!-- Main headline -->
+    <text x="180" y="130" style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 38px; letter-spacing: -0.5px;" fill="#ffffff">
+      Sparaðu 20+ klst. á viku með AI
+    </text>
+
+    <!-- Subheadline -->
+    <text x="180" y="170" style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 20px;" fill="#60a5fa">
+      Sjálfvirk verkefni · Gagngreining · Hagkvæmar lausnir
+    </text>
+
+    <!-- CTA -->
+    <g transform="translate(180, 200)">
+      <rect width="200" height="45" rx="23" fill="#3b82f6" />
+      <text x="100" y="30" text-anchor="middle" style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 16px;" fill="#ffffff">
+        Fá fría AI-greiningu →
+      </text>
+    </g>
+
+    <!-- Website -->
+    <text x="400" y="230" style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px;" fill="#94a3b8">
+      lioratech.is
+    </text>
+  </g>
+</svg>

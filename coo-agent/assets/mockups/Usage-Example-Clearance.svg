@@ -1,0 +1,7 @@
+<svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <rect x="50" y="50" width="300" height="100" fill="none" stroke="#3b82f6" stroke-dasharray="5,5" />
+  <text x="200" y="110" text-anchor="middle" font-family="Inter" font-size="12" fill="#3b82f6">Lágmarks hvítrými (24px padding)</text>
+  <text x="200" y="105" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 50px;">
+    <tspan fill="#1e3a8a">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+</svg>

@@ -3,7 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LioraTech | AI Ráðgjöf & Innleiðing</title>
+    <title>LioraTech | AI Ráðgjöf & Innleiðing fyrir Íslensk Fyrirtæki</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="LioraTech - AI ráðgjöf og innleiðing fyrir íslensk fyrirtæki. Fáðu 30 daga AI framkvæmdaáætlun fyrir 69.900 kr. Ókeypis greining í boði. Sérhæfum okkur í AI automation og chatbots.">
+    <meta name="keywords" content="AI ráðgjöf, gervigreind, Iceland, íslensk fyrirtæki, AI innleiðing, chatbot, automation, artificial intelligence, AI consultant, AI roadmap, business automation">
+    <link rel="canonical" href="https://lioratech.is">
+    <meta name="author" content="LioraTech">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lioratech.is">
+    <meta property="og:title" content="LioraTech | AI Ráðgjöf & Innleiðing fyrir Íslensk Fyrirtæki">
+    <meta property="og:description" content="AI ráðgjöf og innleiðing fyrir íslensk fyrirtæki. Fáðu 30 daga AI framkvæmdaáætlun fyrir 69.900 kr. Ókeypis greining í boði.">
+    <meta property="og:image" content="https://lioratech.is/og-image.jpg">
+    <meta property="og:locale" content="is_IS">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://lioratech.is">
+    <meta property="twitter:title" content="LioraTech | AI Ráðgjöf & Innleiðing fyrir Íslensk Fyrirtæki">
+    <meta property="twitter:description" content="AI ráðgjöf og innleiðing fyrir íslensk fyrirtæki. Fáðu 30 daga AI framkvæmdaáætlun fyrir 69.900 kr.">
+    <meta property="twitter:image" content="https://lioratech.is/og-image.jpg">
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "LioraTech",
+      "description": "AI ráðgjöf og innleiðing fyrir íslensk fyrirtæki",
+      "url": "https://lioratech.is",
+      "logo": "https://lioratech.is/logo.png",
+      "image": "https://lioratech.is/og-image.jpg",
+      "email": "info@lioratech.is",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IS"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Iceland"
+      },
+      "priceRange": "69900-349000 ISK",
+      "knowsAbout": ["Artificial Intelligence", "Business Automation", "AI Consulting", "Chatbots"],
+      "sameAs": [
+        "https://www.facebook.com/lioratech",
+        "https://www.linkedin.com/company/lioratech"
+      ],
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Ókeypis AI Greining",
+          "description": "Frítt AI tækifæramat fyrir fyrirtækið þitt",
+          "price": "0",
+          "priceCurrency": "ISK"
+        },
+        {
+          "@type": "Offer",
+          "name": "30 Daga AI Framkvæmdaáætlun",
+          "description": "Persónuleg 30 daga AI roadmap með skýrum skrefum",
+          "price": "69900",
+          "priceCurrency": "ISK"
+        },
+        {
+          "@type": "Offer",
+          "name": "12 Mánaða AI Roadmap",
+          "description": "Ítarleg 12 mánaða stefnumótun fyrir stærri fyrirtæki",
+          "price": "349000",
+          "priceCurrency": "ISK"
+        }
+      ]
+    }
+    </script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5MGS0GYZE3"></script>
@@ -65,6 +138,19 @@
         from {
           opacity: 0;
           transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-slide-up {
+        animation: slideUp 0.5s ease-out;
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(100%);
         }
         to {
           opacity: 1;

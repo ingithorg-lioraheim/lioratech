@@ -1,0 +1,282 @@
+{
+  "name": "30-Day Roadmap Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "30-day-roadmap-questionnaire",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook - Form Submit",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "auto-generated"
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $input.item.json;\n\n// Generate unique order ID\nconst timestamp = new Date().toISOString();\nconst orderId = `AI-${timestamp.slice(0,10)}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;\n\n// Extract key fields for email\nconst companyName = formData.companyName || 'Unknown Company';\nconst email = formData.email || 'no-email@example.com';\nconst name = formData.name || 'Unknown';\n\nreturn {\n  json: {\n    orderId,\n    timestamp,\n    companyName,\n    email,\n    name,\n    formData\n  }\n};"
+      },
+      "id": "format-data",
+      "name": "Format Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "file",
+        "operation": "upload",
+        "name": "={{ $json.orderId }}.json",
+        "fileContent": "={{ JSON.stringify($json.formData, null, 2) }}",
+        "mimeType": "application/json",
+        "folderId": {
+          "value": "1SZ2CHqOdntp7jYza2eKmLfF3pczvmlbD"
+        },
+        "options": {}
+      },
+      "id": "save-json",
+      "name": "Save JSON to Drive (incoming)",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [650, 200],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "YOUR_GOOGLE_DRIVE_CREDENTIAL_ID",
+          "name": "Google Drive - LioraTech COO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const formData = $json.formData;\nconst orderId = $json.orderId;\n\n// Build the master prompt with client data\nconst masterPrompt = `# ROLE & CONTEXT\nYou are Ingþór, senior AI & automation consultant at LioraTech. You are creating a personalized 30-day AI implementation roadmap for ${formData.companyName}.\n\n# CLIENT DATA\n${JSON.stringify(formData, null, 2)}\n\n# YOUR TASK\nCreate a comprehensive 12-16 page AI implementation roadmap in Icelandic. The roadmap should be:\n- **Actionable**: Every recommendation must have clear next steps\n- **Specific**: No generic advice - tailor everything to their industry, size, and challenges\n- **Realistic**: Consider their budget (${formData.monthlyBudget}), team size (${formData.employees}), and AI experience\n- **Valuable**: Worth 69,900 kr - provide insights they couldn't get from ChatGPT\n\n# OUTPUT STRUCTURE\n\n## PAGE 1: COVER\n# 30 Daga Framkvæmdaáætlun\n## AI Innleiðing fyrir ${formData.companyName}\n\nGerð af: Ingþór Ari Jónsson, LioraTech\nDagsetning: ${new Date().toLocaleDateString('is-IS')}\nPöntun: ${orderId}\n\n---\n\n## PAGE 2: EXECUTIVE SUMMARY (1 page)\n### Samantekt\n\nProvide 3-4 paragraph overview:\n1. Current state summary\n2. Top 3 opportunities identified\n3. Expected outcomes after 30 days\n4. Total estimated ROI\n\n**Key metrics box:**\n- Áætlaður tímasparnaður: X klst/viku\n- Áætluð kostnaðarlækkun: X kr/mánuði\n- Fjárfesting næstu 30 daga: X kr\n- Áætluð arðsemi (ROI): X%\n\n---\n\n## PAGES 3-4: CURRENT STATE ANALYSIS (2 pages)\n### Núverandi staða\n\nAnalyze based on their responses:\n\n#### Rekstur og tækifæri\n- Industry context: ${formData.industry}\n- Team size: ${formData.employees}\n- Current challenges: ${formData.biggestChallenges}\n- Time-consuming tasks: ${formData.timeTakingTasks}\n\n#### Tæknistaða\n- Current tools: ${formData.currentTools}\n- Data quality: ${formData.dataQuality}/5\n- AI experience: ${formData.previousAiExperience}\n\n#### Markmið og forgangsröðun\n- Primary goal: ${formData.aiGoals}\n- Top priority: ${formData.timeSavingsPriority1}\n- Budget: ${formData.monthlyBudget}\n- Timeline: ${formData.implementationSpeed}\n\n---\n\n## PAGES 5-10: THREE OPPORTUNITIES (2 pages each)\n\nFor each opportunity (total 3 opportunities):\n\n### Tækifæri #X: [Specific Title]\n\n#### Vandamálið\n[1 paragraph: What specific problem does this solve?]\n\n#### Lausnin\n[2 paragraphs: How AI/automation solves this. Be specific about tools and approach]\n\n#### Tæknilausn\n**Verkfæri:**\n- Tool 1: [Specific tool name and purpose]\n- Tool 2: [Specific tool name and purpose]\n\n**Uppsetting:**\n1. [Specific step]\n2. [Specific step]\n3. [Specific step]\n\n#### Framkvæmd\n**Vika 1-2:** [Specific actions]\n**Vika 3-4:** [Specific actions]\n\n#### Ávinningur\n- Tímasparnaður: X klst/viku (X klst/mánuði)\n- Kostnaðarlækkun: X kr/mánuði\n- Aukinn gæði: [Specific quality improvement]\n- Áhætta: [Potential risks]\n\n**ROI útreikningur:**\n- Mánaðarlegur kostnaður: X kr\n- Mánaðarlegur ávinningur: X kr\n- Arðsemi: X%\n- Break-even: X mánuðir\n\n---\n\n## PAGES 11-14: 30 DAY IMPLEMENTATION PLAN (4 pages)\n### 30 Daga Framkvæmdaáætlun\n\n#### Vika 1: [Week theme]\n**Dagur 1-2:** [Specific tasks]\n- [ ] Task 1 (Person responsible: [role])\n- [ ] Task 2\n\n**Dagur 3-5:** [Specific tasks]\n- [ ] Task 1\n- [ ] Task 2\n\n#### Vika 2: [Week theme]\n[Same structure]\n\n#### Vika 3: [Week theme]\n[Same structure]\n\n#### Vika 4: [Week theme]\n[Same structure]\n\n**Heildar yfirlit:**\n[Gantt-style timeline in text format showing overlapping activities]\n\n---\n\n## PAGE 15: TECH STACK & BUDGET (1 page)\n### Tæknistaða og kostnaður\n\n#### Ráðlögð verkfæri\n| Verkfæri | Tilgangur | Mánaðarlegur kostnaður | Forgangsröð |\n|----------|-----------|------------------------|-------------|\n| [Tool 1] | [Purpose] | X kr                   | Hár         |\n| [Tool 2] | [Purpose] | X kr                   | Miðlungs    |\n\n**Heildarkostnaður fyrstu 30 daga:** X kr\n**Mánaðarlegur rekstrarkostnaður eftir það:** X kr\n\n#### Samþætting við núverandi kerfi\n- [How it integrates with their current tools from formData.currentTools]\n\n---\n\n## PAGE 16: NEXT STEPS & SUPPORT (1 page)\n### Næstu skref\n\n#### Strax (næstu 48 klst)\n1. [Immediate action]\n2. [Immediate action]\n\n#### Næstu 7 daga\n1. [Week 1 action]\n2. [Week 1 action]\n\n#### Framhaldsaðstoð frá LioraTech\n- **Innleiðingarþjónusta:** [Brief description]\n- **Þjálfun:** [Brief description]\n- **Viðhaldsáskrift:** [Brief description]\n\n#### Áhættur og hvernig á að forðast þær\n1. [Risk]: [Mitigation]\n2. [Risk]: [Mitigation]\n\n---\n\n# WRITING GUIDELINES\n\n1. **Icelandic language:**\n   - Use gender-neutral forms: \"tilbúin/n\", \"óviss/-ur\"\n   - Professional but accessible tone\n   - Avoid direct translations - use natural Icelandic\n\n2. **Specificity:**\n   - NEVER use placeholders like \"[your company]\" - always use ${formData.companyName}\n   - Name specific tools (e.g., \"Make.com\" not \"automation tool\")\n   - Give exact time estimates (e.g., \"15-20 mínútur\" not \"fljótlegt\")\n\n3. **ROI calculations:**\n   - Use realistic Icelandic labor costs: 5,000-8,000 kr/hour\n   - Show math: \"5 klst/viku × 4 vikur × 6,000 kr/klst = 120,000 kr/mánuði\"\n   - Be conservative - under-promise, over-deliver\n\n4. **Context awareness:**\n   - Small companies (1-10 employees): Focus on no-code tools, ease of use\n   - Medium companies (11-50): Balance between power and simplicity\n   - Larger companies (50+): Can suggest more complex integrations\n   \n5. **Icelandic market context:**\n   - GDPR compliance is mandatory\n   - Icelandic language support matters\n   - Seasonal businesses (tourism): Account for peak/low seasons\n   - Labor shortage: Automation is urgent\n\n# QUALITY CHECKLIST\nBefore outputting, verify:\n- [ ] Every recommendation has clear ROI calculation\n- [ ] All 3 opportunities are distinct and valuable\n- [ ] 30-day plan is realistic given their team size and experience\n- [ ] Budget recommendations fit within their stated budget\n- [ ] Tools recommended integrate with their current stack\n- [ ] Language is professional Icelandic, gender-neutral\n- [ ] No placeholders remain - everything is specific to this client\n\n# OUTPUT FORMAT\nOutput ONLY the roadmap content in markdown format. No meta-commentary. Start with the cover page.\n`;\n\nreturn {\n  json: {\n    ...($json),\n    masterPrompt,\n    promptLength: masterPrompt.length\n  }\n};"
+      },
+      "id": "build-prompt",
+      "name": "Build Master Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "apiKey",
+        "operation": "message",
+        "modelId": "claude-3-5-sonnet-20241022",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "={{ $json.masterPrompt }}"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8000,
+          "temperature": 0.7
+        }
+      },
+      "id": "claude-api",
+      "name": "Claude API - Generate Roadmap",
+      "type": "n8n-nodes-base.anthropic",
+      "typeVersion": 1,
+      "position": [850, 400],
+      "credentials": {
+        "anthropicApi": {
+          "id": "YOUR_CLAUDE_API_CREDENTIAL_ID",
+          "name": "Claude API - LioraTech"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the generated roadmap from Claude's response\nconst claudeResponse = $input.item.json;\n\n// Claude API returns response in 'content' array\nconst roadmapContent = claudeResponse.content?.[0]?.text || claudeResponse.text || 'Error: No content generated';\n\nreturn {\n  json: {\n    orderId: $node[\"Format Data\"].json.orderId,\n    companyName: $node[\"Format Data\"].json.companyName,\n    email: $node[\"Format Data\"].json.email,\n    name: $node[\"Format Data\"].json.name,\n    roadmap: roadmapContent,\n    generatedAt: new Date().toISOString()\n  }\n};"
+      },
+      "id": "extract-roadmap",
+      "name": "Extract Roadmap",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "resource": "file",
+        "operation": "upload",
+        "name": "={{ $json.orderId }}-{{ $json.companyName }}.md",
+        "fileContent": "={{ $json.roadmap }}",
+        "mimeType": "text/markdown",
+        "folderId": {
+          "value": "1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN"
+        },
+        "options": {}
+      },
+      "id": "save-markdown",
+      "name": "Save Roadmap to Drive (in-progress)",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [1250, 400],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "YOUR_GOOGLE_DRIVE_CREDENTIAL_ID",
+          "name": "Google Drive - LioraTech COO"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "sendTo": "YOUR_EMAIL@lioratech.is",
+        "subject": "🎯 Ný 30 daga áætlun pöntun: {{ $json.companyName }}",
+        "emailFormat": "html",
+        "message": "=<h2>Ný pöntun móttekin</h2>\n\n<p><strong>Pöntunarnúmer:</strong> {{ $json.orderId }}</p>\n<p><strong>Fyrirtæki:</strong> {{ $json.companyName }}</p>\n<p><strong>Tengiliður:</strong> {{ $json.name }} ({{ $json.email }})</p>\n<p><strong>Tími:</strong> {{ $json.generatedAt }}</p>\n\n<hr>\n\n<h3>Næstu skref:</h3>\n<ol>\n<li>Skoða AI-generated roadmap í Google Drive (in-progress möppu)</li>\n<li>Review og customize roadmap</li>\n<li>Bóka kickoff símtal</li>\n<li>Senda lokagilda PDF til viðskiptavinar</li>\n</ol>\n\n<p><a href=\"https://drive.google.com/drive/folders/1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN\">Opna in-progress möppu í Drive</a></p>",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Email Notification",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1250, 200],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_GMAIL_CREDENTIAL_ID",
+          "name": "Gmail - LioraTech"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"orderId\": $json.orderId, \"message\": \"Takk fyrir! Við munum hafa samband innan 24 klst.\" } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "respond-success",
+      "name": "Respond - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    },
+    {
+      "parameters": {
+        "height": 464,
+        "width": 403,
+        "content": "## 30-Day Roadmap Workflow\n\n### Folder IDs:\n- **incoming:** 1SZ2CHqOdntp7jYza2eKmLfF3pczvmlbD\n- **in-progress:** 1JVZf9s80Eyo3HOZY-SvFNG_HeG_D6eqN  \n- **completed:** 1IwgBvSwQqHeswhpwfjlhcIAuMAB5L_hh\n\n### Credentials needed:\n1. Google Drive OAuth2 (for file operations)\n2. Claude API (Anthropic API key)\n3. Gmail OAuth2 (for notifications)\n\n### Setup steps:\n1. Update YOUR_EMAIL@lioratech.is in Email node\n2. Configure all credentials\n3. Activate workflow\n4. Copy webhook URL\n5. Update questionnaire page with webhook URL\n\n### Manual steps after automation:\n1. Review AI roadmap in in-progress folder\n2. Customize/improve as needed\n3. Book kickoff call with client\n4. Convert MD to PDF\n5. Move PDF to completed folder\n6. Send final PDF to client"
+      },
+      "id": "sticky-note",
+      "name": "Sticky Note",
+      "typeVersion": 1,
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [240, 460]
+    }
+  ],
+  "connections": {
+    "Webhook - Form Submit": {
+      "main": [
+        [
+          {
+            "node": "Format Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Data": {
+      "main": [
+        [
+          {
+            "node": "Save JSON to Drive (incoming)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Master Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Master Prompt": {
+      "main": [
+        [
+          {
+            "node": "Claude API - Generate Roadmap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude API - Generate Roadmap": {
+      "main": [
+        [
+          {
+            "node": "Extract Roadmap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Roadmap": {
+      "main": [
+        [
+          {
+            "node": "Save Roadmap to Drive (in-progress)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Email Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Roadmap to Drive (in-progress)": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Notification": {
+      "main": [
+        [
+          {
+            "node": "Respond - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-12-19T17:00:00.000Z",
+  "versionId": "1"
+}

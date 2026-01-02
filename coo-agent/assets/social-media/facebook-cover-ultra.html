@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - Ultra Premium</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech - Ultra Premium</h1>
+    <div style="color: #64748b; margin: 20px;">Next level execution</div>
+    <div id="status">Smelltu á takkann til að vista</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        drawCover();
+
+        function drawCover() {
+            // Ultra-premium gradient with more depth
+            const bgGradient = ctx.createRadialGradient(820, 312, 0, 820, 312, 800);
+            bgGradient.addColorStop(0, '#1e3a8a');
+            bgGradient.addColorStop(0.6, '#1e40af');
+            bgGradient.addColorStop(1, '#0f172a');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Ambient lighting from top
+            const ambientGradient = ctx.createLinearGradient(0, 0, 0, 624);
+            ambientGradient.addColorStop(0, 'rgba(59, 130, 246, 0.15)');
+            ambientGradient.addColorStop(1, 'rgba(15, 23, 42, 0.2)');
+            ctx.fillStyle = ambientGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // === LEFT: COMPLEXITY - Organic scattered elements ===
+            ctx.save();
+            const leftX = 250;
+            const leftY = 312;
+
+            // Sophisticated scattered geometric shapes with depth
+            const shapes = [
+                { type: 'circle', x: -40, y: -50, size: 25, opacity: 0.25 },
+                { type: 'square', x: 20, y: -30, size: 18, opacity: 0.2, rotation: 0.3 },
+                { type: 'circle', x: -20, y: 10, size: 30, opacity: 0.18 },
+                { type: 'square', x: 40, y: 20, size: 22, opacity: 0.22, rotation: -0.5 },
+                { type: 'circle', x: -50, y: 40, size: 20, opacity: 0.2 },
+                { type: 'square', x: 10, y: 50, size: 16, opacity: 0.15, rotation: 0.8 },
+                { type: 'circle', x: 50, y: -10, size: 28, opacity: 0.23 },
+                { type: 'square', x: -30, y: -10, size: 20, opacity: 0.18, rotation: -0.2 },
+            ];
+
+            shapes.forEach(shape => {
+                ctx.save();
+                ctx.translate(leftX + shape.x, leftY + shape.y);
+
+                if (shape.type === 'circle') {
+                    // Soft glow
+                    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, shape.size * 1.5);
+                    glow.addColorStop(0, `rgba(147, 197, 253, ${shape.opacity * 0.6})`);
+                    glow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                    ctx.fillStyle = glow;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, shape.size * 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Main circle
+                    ctx.fillStyle = `rgba(255, 255, 255, ${shape.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, shape.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.rotate(shape.rotation);
+
+                    // Soft glow
+                    ctx.fillStyle = `rgba(147, 197, 253, ${shape.opacity * 0.4})`;
+                    ctx.fillRect(-shape.size * 0.6, -shape.size * 0.6, shape.size * 1.2, shape.size * 1.2);
+
+                    // Main square
+                    ctx.fillStyle = `rgba(255, 255, 255, ${shape.opacity})`;
+                    ctx.fillRect(-shape.size / 2, -shape.size / 2, shape.size, shape.size);
+                }
+                ctx.restore();
+            });
+
+            // Connecting lines between shapes (subtle)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < shapes.length - 1; i++) {
+                if (Math.random() > 0.5) {
+                    ctx.beginPath();
+                    ctx.moveTo(leftX + shapes[i].x, leftY + shapes[i].y);
+                    ctx.lineTo(leftX + shapes[i + 1].x, leftY + shapes[i + 1].y);
+                    ctx.stroke();
+                }
+            }
+
+            ctx.restore();
+
+            // === CENTER: TRANSFORMATION - Elegant neural hub ===
+            ctx.save();
+            const centerX = 820;
+            const centerY = 312;
+
+            // Outer glow sphere
+            const outerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 120);
+            outerGlow.addColorStop(0, 'rgba(147, 197, 253, 0.25)');
+            outerGlow.addColorStop(0.5, 'rgba(59, 130, 246, 0.12)');
+            outerGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = outerGlow;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Pulsing rings - more elegant
+            for (let i = 0; i < 4; i++) {
+                const radius = 30 + i * 22;
+                const opacity = 0.2 - i * 0.04;
+
+                ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Core - glowing center
+            const coreGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 20);
+            coreGradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            coreGradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.8)');
+            coreGradient.addColorStop(1, 'rgba(147, 197, 253, 0.3)');
+            ctx.fillStyle = coreGradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Elegant flowing connection from left to center
+            const flowPoints = 20;
+            for (let i = 0; i < flowPoints; i++) {
+                const progress = i / flowPoints;
+                const x = leftX + (centerX - leftX) * progress;
+                const y = leftY + (centerY - leftY) * progress;
+
+                // Add elegant wave
+                const wave = Math.sin(progress * Math.PI * 3) * 15;
+                const finalY = y + wave;
+
+                const size = 2 + Math.sin(progress * Math.PI) * 4;
+                const opacity = 0.15 + Math.sin(progress * Math.PI) * 0.35;
+
+                // Glow
+                const particleGlow = ctx.createRadialGradient(x, finalY, 0, x, finalY, size * 2);
+                particleGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.6})`);
+                particleGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = particleGlow;
+                ctx.beginPath();
+                ctx.arc(x, finalY, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, finalY, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+
+            // === RIGHT: OPTIMIZATION - Beautiful growth visualization ===
+            ctx.save();
+            const rightX = 1390;
+            const rightY = 420;
+
+            // Create elegant exponential curve
+            const curvePoints = [];
+            for (let i = 0; i < 10; i++) {
+                const x = rightX - 180 + i * 40;
+                const y = rightY - Math.pow(i * 0.45, 2.2) * 15;
+                curvePoints.push({ x, y });
+            }
+
+            // Ambient glow under curve
+            const areaGradient = ctx.createLinearGradient(rightX - 180, rightY, rightX + 180, rightY - 220);
+            areaGradient.addColorStop(0, 'rgba(59, 130, 246, 0)');
+            areaGradient.addColorStop(0.5, 'rgba(147, 197, 253, 0.12)');
+            areaGradient.addColorStop(1, 'rgba(147, 197, 253, 0.25)');
+
+            ctx.fillStyle = areaGradient;
+            ctx.beginPath();
+            ctx.moveTo(curvePoints[0].x, rightY);
+            for (let i = 0; i < curvePoints.length - 1; i++) {
+                const xc = (curvePoints[i].x + curvePoints[i + 1].x) / 2;
+                const yc = (curvePoints[i].y + curvePoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(curvePoints[i].x, curvePoints[i].y, xc, yc);
+            }
+            ctx.lineTo(curvePoints[curvePoints.length - 1].x, curvePoints[curvePoints.length - 1].y);
+            ctx.lineTo(curvePoints[curvePoints.length - 1].x, rightY);
+            ctx.lineTo(curvePoints[0].x, rightY);
+            ctx.fill();
+
+            // Smooth gradient line
+            const lineGradient = ctx.createLinearGradient(rightX - 180, rightY, rightX + 180, rightY - 220);
+            lineGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+            lineGradient.addColorStop(1, 'rgba(255, 255, 255, 0.9)');
+            ctx.strokeStyle = lineGradient;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(curvePoints[0].x, curvePoints[0].y);
+            for (let i = 0; i < curvePoints.length - 1; i++) {
+                const xc = (curvePoints[i].x + curvePoints[i + 1].x) / 2;
+                const yc = (curvePoints[i].y + curvePoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(curvePoints[i].x, curvePoints[i].y, xc, yc);
+            }
+            ctx.stroke();
+
+            // Elegant points with glow
+            curvePoints.forEach((point, i) => {
+                const progress = i / (curvePoints.length - 1);
+                const size = 3 + progress * 4;
+                const opacity = 0.4 + progress * 0.5;
+
+                // Glow
+                const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, size * 3);
+                pointGlow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.6})`);
+                pointGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = pointGlow;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Point
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Elegant flowing connection from center to right
+            const rightFlowPoints = 20;
+            for (let i = 0; i < rightFlowPoints; i++) {
+                const progress = i / rightFlowPoints;
+                const x = centerX + (rightX - 100 - centerX) * progress;
+                const y = centerY + (rightY - 80 - centerY) * progress;
+
+                const wave = Math.sin(progress * Math.PI * 2) * 20;
+                const finalY = y + wave;
+
+                const size = 2 + Math.sin(progress * Math.PI) * 4;
+                const opacity = 0.15 + Math.sin(progress * Math.PI) * 0.35;
+
+                // Glow
+                const particleGlow = ctx.createRadialGradient(x, finalY, 0, x, finalY, size * 2);
+                particleGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.6})`);
+                particleGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = particleGlow;
+                ctx.beginPath();
+                ctx.arc(x, finalY, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, finalY, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Ultra-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Ultra-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>

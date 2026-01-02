@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - Auto Export</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: #0f172a; font-weight: 700;">LioraTech Facebook Cover</h1>
+    <div id="status">Smelltu á takkann til að vista myndina</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Wait for fonts to load
+        document.fonts.ready.then(() => {
+            drawCover();
+        });
+
+        function drawCover() {
+            // Create gradient background
+            const bgGradient = ctx.createLinearGradient(0, 0, 1640, 624);
+            bgGradient.addColorStop(0, '#0f172a');
+            bgGradient.addColorStop(1, '#1e3a8a');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Decorative geometric elements
+            const accentGradient1 = ctx.createLinearGradient(1240, 120, 1560, 120);
+            accentGradient1.addColorStop(0, 'rgba(30, 58, 138, 0.3)');
+            accentGradient1.addColorStop(1, 'rgba(59, 130, 246, 0.3)');
+
+            ctx.fillStyle = accentGradient1;
+            ctx.beginPath();
+            ctx.arc(1400, 120, 160, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(1500, 500, 120, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+            ctx.beginPath();
+            ctx.roundRect(1300, 240, 240, 240, 40);
+            ctx.fill();
+
+            // Logo circle background
+            ctx.fillStyle = '#f8fafc';
+            ctx.beginPath();
+            ctx.arc(200, 312, 100, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Logo circle border
+            ctx.strokeStyle = '#1e3a8a';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.arc(200, 312, 100, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Logo text "L"
+            ctx.font = '700 100px "Playfair Display", serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillText('L', 185, 320);
+
+            // Logo text "T"
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillText('T', 215, 320);
+
+            // Main headline
+            ctx.font = '700 76px "Inter", sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Sparaðu 20+ klst. á viku með AI', 360, 260);
+
+            // Subheadline
+            ctx.font = '400 40px "Inter", sans-serif';
+            ctx.fillStyle = '#60a5fa';
+            ctx.fillText('Sjálfvirkni · Gagngagreiningu · Hagkvæmum lausnum', 360, 340);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð í Downloads!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð í Downloads!';
+        }
+    </script>
+</body>
+</html>

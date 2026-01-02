@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 3 - LioraTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .container {
+            width: 1080px;
+            height: 1350px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Decorative elements */
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px);
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+
+        .circle-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6, transparent);
+            top: -200px;
+            right: -200px;
+        }
+
+        .circle-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #60a5fa, transparent);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 80px 70px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 76px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 0;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 40px 45px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            position: relative;
+        }
+
+        .step-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .step-number {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .step-text {
+            flex: 1;
+        }
+
+        .step-text h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 46px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;
+            margin: -15px 0;
+        }
+
+        .connector-line {
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(to bottom,
+                rgba(59, 130, 246, 0.5),
+                rgba(59, 130, 246, 0.8),
+                rgba(59, 130, 246, 0.5)
+            );
+            position: relative;
+        }
+
+        .connector-dot {
+            width: 12px;
+            height: 12px;
+            background: #3b82f6;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-top: 30px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #3b82f6;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 21px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.75);
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        .highlight {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <div class="bg-pattern"></div>
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+
+        <div class="content">
+            <div class="header">
+                <h1>AI þarf ekki<br>að vera flókið</h1>
+                <p class="subtitle">Þrjú einföld skref til árangurs</p>
+            </div>
+
+            <div class="main-content">
+                <div class="process-flow">
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <div class="step-number">1</div>
+                        </div>
+                        <div class="step-text">
+                            <h3>Finna vandamálin</h3>
+                        </div>
+                    </div>
+
+                    <div class="connector">
+                        <div class="connector-line">
+                            <div class="connector-dot"></div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <div class="step-number">2</div>
+                        </div>
+                        <div class="step-text">
+                            <h3>Greina lausnirnar</h3>
+                        </div>
+                    </div>
+
+                    <div class="connector">
+                        <div class="connector-line">
+                            <div class="connector-dot"></div>
+                        </div>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-icon">
+                            <div class="step-number">3</div>
+                        </div>
+                        <div class="step-text">
+                            <h3>Setja upp og keyra</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="logo">
+                    <span class="liora">Liora</span><span class="tech">Tech</span>
+                </div>
+                <div class="tagline">
+                    Einföld byrjun<br><span class="highlight">Raunverulegur árangur</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1080,
+                height: 1350
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-3-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#1e3a8a',
+                logging: false,
+                width: 1080,
+                height: 1350
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-3-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>

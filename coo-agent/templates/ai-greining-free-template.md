@@ -244,7 +244,7 @@ Persónuleg ráðgjöf með sérfræðingi + ítarleg 30 daga framkvæmdaáætlu
 - 📈 Þú vilt hámarkar ROI og forðast dýr mistök
 - ⏰ Þú hefur ekki tíma til að prófa þig áfram sjálfur
 
-👉 **[Panta 30 daga framkvæmdaáætlun](https://lioratech.is/30roadmap)**
+👉 **[Panta 30 daga framkvæmdaáætlun](https://lioratech.is/30dagaplan)**
 
 ---
 
@@ -284,7 +284,7 @@ Við innleiðum allt fyrir þig:
 
 1. **📋 Gera ekkert** – Greiningin situr í skúffu, tækifærin týnast, keppendur komast á undan
 2. **🛠️ Prófa þig áfram sjálfur** – Getur tekið 3-6 mánuði, kostað dýr mistök, en er ókeypis
-3. **🚀 Fá 30 daga framkvæmdaáætlun** – Nákvæm stefna, sparar 2-4 mánuði, forðast mistök → **[Panta hér](https://lioratech.is/30roadmap)**
+3. **🚀 Fá 30 daga framkvæmdaáætlun** – Nákvæm stefna, sparar 2-4 mánuði, forðast mistök → **[Panta hér](https://lioratech.is/30dagaplan)**
 4. **💎 Full innleiðing með okkur** – Done-for-you lausn, hraðasti leiðin → **[Fá tilboð](https://lioratech.is/quote)**
 
 ---

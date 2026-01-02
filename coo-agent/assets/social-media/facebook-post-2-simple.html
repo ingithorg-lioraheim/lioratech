@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Simple & Clean</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Simple & Clean</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Clean brand gradient
+            const bg = ctx.createLinearGradient(0, 0, 1200, 0);
+            bg.addColorStop(0, '#1e3a8a');
+            bg.addColorStop(0.5, '#2563eb');
+            bg.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Simple vignette
+            const vignette = ctx.createRadialGradient(600, 315, 200, 600, 315, 600);
+            vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            vignette.addColorStop(1, 'rgba(0, 0, 0, 0.2)');
+            ctx.fillStyle = vignette;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Center visual concept: Clock showing time waste
+            const centerX = 750;
+            const centerY = 315;
+            const clockRadius = 140;
+
+            // Clock background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, clockRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // 50% filled (wasted time) in red
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, clockRadius, -Math.PI / 2, Math.PI / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // 50% productive time in green
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, clockRadius, Math.PI / 2, -Math.PI / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(34, 197, 94, 0.5)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Dividing line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(centerX - clockRadius, centerY);
+            ctx.lineTo(centerX + clockRadius, centerY);
+            ctx.stroke();
+
+            // Center circle with 50%
+            ctx.fillStyle = 'rgba(30, 58, 138, 0.95)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.font = 'bold 52px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('50%', centerX, centerY);
+
+            // Left text - main message
+            ctx.font = 'bold 68px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.fillText('Helmingur', 80, 200);
+
+            ctx.font = 'bold 56px "Inter", sans-serif';
+            ctx.fillText('dagsins', 80, 280);
+
+            ctx.font = '600 40px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText('fer í að færa gögn', 80, 360);
+
+            ctx.fillStyle = '#fca5a5';
+            ctx.fillText('á milli kerfa', 80, 420);
+
+            // Right side labels
+            ctx.font = '600 24px "Inter", sans-serif';
+            ctx.textAlign = 'right';
+
+            // Top label (productive)
+            ctx.fillStyle = 'rgba(134, 239, 172, 0.9)';
+            ctx.fillText('Virðissköpun', centerX + clockRadius + 180, centerY - 80);
+
+            // Bottom label (waste)
+            ctx.fillStyle = '#fca5a5';
+            ctx.fillText('Handavinna', centerX + clockRadius + 180, centerY + 80);
+
+            // Small icons next to labels
+            // Checkmark for productive
+            ctx.strokeStyle = 'rgba(34, 197, 94, 0.8)';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(centerX + clockRadius + 110, centerY - 80);
+            ctx.lineTo(centerX + clockRadius + 125, centerY - 65);
+            ctx.lineTo(centerX + clockRadius + 155, centerY - 95);
+            ctx.stroke();
+
+            // X for waste
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.8)';
+            ctx.beginPath();
+            ctx.moveTo(centerX + clockRadius + 110, centerY + 70);
+            ctx.lineTo(centerX + clockRadius + 130, centerY + 90);
+            ctx.moveTo(centerX + clockRadius + 130, centerY + 70);
+            ctx.lineTo(centerX + clockRadius + 110, centerY + 90);
+            ctx.stroke();
+
+            // Branding bottom right
+            ctx.font = 'bold 28px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'right';
+            ctx.fillText('Liora', 1140, 580);
+            const lw = ctx.measureText('Liora').width;
+            ctx.fillStyle = '#93c5fd';
+            ctx.fillText('Tech', 1140 + lw/2, 580);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Simple-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Simple-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

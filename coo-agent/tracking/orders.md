@@ -10,6 +10,8 @@
 
 | Order ID | Customer | Product | Completed | Delivery Time | Notes |
 |----------|----------|---------|-----------|---------------|-------|
+| AI-2025-12-17-2SZ6UP | Reiðhjólaverzlunin Berlin | AI-Greining (Free) | 2025-12-17 00:33 | 0.00h | Industry: Smásala / verslun, Pain: 1. Þrýstingur á framlegð
+2. Lager og bundið fjárma... Path: products/completed/AI-2025-12-17-2SZ6UP-Reihjlaverzlunin-Berlin-ai-greining.md |
 | AI-2025-12-16-HNQHCM | Hans & Gréta | AI-Greining (Free) | 2025-12-16 23:27 | 0.00h | Industry: Smásala (retail), Pain: 1. Lágir framlegðarþrýstingur + hár fastur kostnað... Path: products/completed/AI-2025-12-16-HNQHCM-Hans-Grta-ai-greining.md |
 | AI-2025-12-16-E2NKYR | Mímos nuddstofa | AI-Greining (Free) | 2025-12-16 17:19 | 0.00h | Industry: Nudd og snyrtistofa, Pain: Erum ekki viss... Path: products/completed/AI-2025-12-16-E2NKYR-Mmos-nuddstofa-ai-greining.md |
 | AI-2025-12-16-XEMJG2 | Mosfellsbakarí | AI-Greining (Free) | 2025-12-16 16:28 | 0.00h | Industry: Bakarí, Pain: birgðir og hagnaður... Path: products/completed/AI-2025-12-16-XEMJG2-Mosfellsbakar-ai-greining.md |

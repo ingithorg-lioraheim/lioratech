@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 7 Premium V2 - LioraTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 1200px;
+            height: 630px;
+            background: radial-gradient(ellipse at 50% 20%, #1e40af 0%, #1e3a8a 40%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 45px 60px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Main visualization area */
+        .visualization-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-section {
+            text-align: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(96, 165, 250, 0.8);
+            margin-bottom: 12px;
+        }
+
+        .number-hero {
+            font-family: 'Inter', sans-serif;
+            font-size: 180px;
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -10px;
+            background: linear-gradient(180deg, #ffffff 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+            filter: drop-shadow(0 0 60px rgba(96, 165, 250, 0.6));
+        }
+
+        .hero-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            font-style: italic;
+            color: rgba(96, 165, 250, 0.85);
+            margin-top: 6px;
+        }
+
+        .patterns-container {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            margin-top: -10px;
+        }
+
+        .pattern-pill {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(30, 64, 175, 0.3) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(96, 165, 250, 0.4);
+            border-radius: 60px;
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pattern-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .pill-number {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: white;
+            box-shadow:
+                0 4px 12px rgba(59, 130, 246, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+        }
+
+        .pill-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .footer {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #60a5fa;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <!-- SVG Visualization Background -->
+        <svg class="visualization-area" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <!-- Glow filters -->
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+
+                <filter id="strongGlow">
+                    <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+
+                <!-- Gradient for connections -->
+                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgba(96, 165, 250, 0);stop-opacity:0" />
+                    <stop offset="50%" style="stop-color:rgba(96, 165, 250, 0.3);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(96, 165, 250, 0);stop-opacity:0" />
+                </linearGradient>
+            </defs>
+
+            <!-- Background scattered dots representing companies -->
+            <!-- Top left cluster -->
+            <circle cx="120" cy="80" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="145" cy="95" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="95" cy="110" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="170" cy="75" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="130" cy="125" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+
+            <!-- Top right cluster -->
+            <circle cx="1050" cy="90" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="1080" cy="110" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="1020" cy="75" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="1100" cy="85" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="1065" cy="130" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+
+            <!-- Left side cluster -->
+            <circle cx="80" cy="280" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="110" cy="310" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="95" cy="250" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="65" cy="320" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="125" cy="265" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+
+            <!-- Right side cluster -->
+            <circle cx="1120" cy="300" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="1090" cy="330" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="1105" cy="270" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="1135" cy="340" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="1075" cy="285" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+
+            <!-- Bottom clusters -->
+            <circle cx="200" cy="520" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="230" cy="540" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="180" cy="505" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="600" cy="530" r="2" fill="rgba(96, 165, 250, 0.4)" filter="url(#glow)"/>
+            <circle cx="630" cy="550" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+            <circle cx="970" cy="525" r="2" fill="rgba(96, 165, 250, 0.3)" filter="url(#glow)"/>
+            <circle cx="1000" cy="545" r="2.5" fill="rgba(96, 165, 250, 0.5)" filter="url(#glow)"/>
+
+            <!-- Convergence lines - subtle connections flowing toward center -->
+            <path d="M 120 100 Q 300 200, 400 480"
+                  stroke="url(#connectionGradient)"
+                  stroke-width="1"
+                  fill="none"
+                  opacity="0.4"/>
+
+            <path d="M 1050 100 Q 900 200, 800 480"
+                  stroke="url(#connectionGradient)"
+                  stroke-width="1"
+                  fill="none"
+                  opacity="0.4"/>
+
+            <path d="M 90 290 Q 250 350, 400 480"
+                  stroke="url(#connectionGradient)"
+                  stroke-width="1"
+                  fill="none"
+                  opacity="0.3"/>
+
+            <path d="M 1110 310 Q 950 350, 800 480"
+                  stroke="url(#connectionGradient)"
+                  stroke-width="1"
+                  fill="none"
+                  opacity="0.3"/>
+
+            <!-- Central glow area behind the patterns -->
+            <ellipse cx="600" cy="500" rx="450" ry="80"
+                     fill="rgba(59, 130, 246, 0.08)"
+                     filter="url(#strongGlow)"/>
+
+            <!-- Radial lines from center suggesting convergence -->
+            <line x1="600" y1="280" x2="600" y2="460"
+                  stroke="rgba(96, 165, 250, 0.08)"
+                  stroke-width="1"/>
+
+            <line x1="600" y1="280" x2="350" y2="480"
+                  stroke="rgba(96, 165, 250, 0.06)"
+                  stroke-width="1"/>
+
+            <line x1="600" y1="280" x2="850" y2="480"
+                  stroke="rgba(96, 165, 250, 0.06)"
+                  stroke-width="1"/>
+        </svg>
+
+        <div class="content">
+            <div class="hero-section">
+                <div class="eyebrow">REYNSLA</div>
+                <div class="number-hero">300+</div>
+                <div class="hero-label">FYRIRTÆKI</div>
+                <div class="hero-subtitle">Sömu mynstrin aftur og aftur</div>
+            </div>
+
+            <div class="patterns-container">
+                <div class="pattern-pill">
+                    <div class="pill-number">1</div>
+                    <div class="pill-text">Handavinna</div>
+                </div>
+
+                <div class="pattern-pill">
+                    <div class="pill-number">2</div>
+                    <div class="pill-text">Dreifð gögn</div>
+                </div>
+
+                <div class="pattern-pill">
+                    <div class="pill-number">3</div>
+                    <div class="pill-text">Engin yfirsýn</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="logo">
+                    <span class="liora">Liora</span><span class="tech">Tech</span>
+                </div>
+                <div class="tagline">Þessi mynstur eru tækifæri</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-7-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#0f172a',
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-7-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>

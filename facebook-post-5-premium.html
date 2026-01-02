@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 5 - Premium LioraTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 1200px;
+            height: 630px;
+            background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #2563eb 30%, #1e40af 60%, #1e3a8a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 50px 70px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: -20px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .visualization {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SVG Container */
+        .svg-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: -20px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #60a5fa;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <div class="content">
+            <div class="header">
+                <h1>Handvirk vinna → Sjálfvirkt</h1>
+            </div>
+
+            <div class="visualization">
+                <svg class="svg-container" viewBox="0 0 1060 350" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Glow filter -->
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+
+                        <!-- Strong glow -->
+                        <filter id="strongGlow">
+                            <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Left cluster: Handvirk vinna -->
+                    <g transform="translate(120, 175)">
+                        <!-- Concentric circles -->
+                        <circle cx="0" cy="0" r="90" fill="none" stroke="rgba(96, 165, 250, 0.1)" stroke-width="1"/>
+                        <circle cx="0" cy="0" r="75" fill="none" stroke="rgba(96, 165, 250, 0.15)" stroke-width="1"/>
+                        <circle cx="0" cy="0" r="60" fill="none" stroke="rgba(96, 165, 250, 0.2)" stroke-width="1.5"/>
+
+                        <!-- Main node -->
+                        <circle cx="0" cy="0" r="45" fill="rgba(59, 130, 246, 0.15)" stroke="rgba(96, 165, 250, 0.8)" stroke-width="3" filter="url(#strongGlow)"/>
+
+                        <!-- Inner glow -->
+                        <circle cx="0" cy="0" r="35" fill="rgba(255, 255, 255, 0.05)"/>
+
+                        <!-- Center dot -->
+                        <circle cx="0" cy="0" r="8" fill="white" opacity="0.9" filter="url(#glow)"/>
+
+                        <!-- Orbital dots -->
+                        <circle cx="30" cy="0" r="4" fill="rgba(255, 255, 255, 0.7)" filter="url(#glow)"/>
+                        <circle cx="-30" cy="0" r="4" fill="rgba(255, 255, 255, 0.7)" filter="url(#glow)"/>
+                        <circle cx="0" cy="30" r="4" fill="rgba(255, 255, 255, 0.7)" filter="url(#glow)"/>
+                        <circle cx="0" cy="-30" r="4" fill="rgba(255, 255, 255, 0.7)" filter="url(#glow)"/>
+
+                        <!-- Label -->
+                        <text x="0" y="75" text-anchor="middle" fill="white" font-family="Inter" font-size="18" font-weight="600" opacity="0.9">Handvirkt</text>
+                        <text x="0" y="95" text-anchor="middle" fill="rgba(255, 255, 255, 0.7)" font-family="Inter" font-size="14" font-weight="500">5+ klst/viku</text>
+                    </g>
+
+                    <!-- Wave connection 1 -->
+                    <path d="M 210 175 Q 280 150, 350 175"
+                          fill="none"
+                          stroke="rgba(96, 165, 250, 0.5)"
+                          stroke-width="2"
+                          stroke-dasharray="8,8"
+                          filter="url(#glow)"/>
+
+                    <!-- Dots on wave 1 -->
+                    <circle cx="230" cy="170" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                    <circle cx="270" cy="160" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                    <circle cx="310" cy="165" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+
+                    <!-- Middle cluster: Tvöföld vinna -->
+                    <g transform="translate(420, 175)">
+                        <!-- Concentric circles -->
+                        <circle cx="0" cy="0" r="85" fill="none" stroke="rgba(96, 165, 250, 0.12)" stroke-width="1"/>
+                        <circle cx="0" cy="0" r="65" fill="none" stroke="rgba(96, 165, 250, 0.18)" stroke-width="1.5"/>
+
+                        <!-- Main node -->
+                        <circle cx="0" cy="0" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="rgba(96, 165, 250, 0.9)" stroke-width="3" filter="url(#strongGlow)"/>
+
+                        <!-- Inner elements -->
+                        <circle cx="0" cy="0" r="30" fill="rgba(255, 255, 255, 0.08)"/>
+                        <circle cx="0" cy="0" r="6" fill="white" opacity="0.95" filter="url(#glow)"/>
+
+                        <!-- Orbital ring -->
+                        <circle cx="0" cy="0" r="50" fill="none" stroke="rgba(96, 165, 250, 0.3)" stroke-width="1" stroke-dasharray="3,6"/>
+
+                        <!-- Label -->
+                        <text x="0" y="70" text-anchor="middle" fill="white" font-family="Inter" font-size="18" font-weight="600" opacity="0.9">Ósamstillt</text>
+                        <text x="0" y="88" text-anchor="middle" fill="rgba(255, 255, 255, 0.7)" font-family="Inter" font-size="14" font-weight="500">2× vinna</text>
+                    </g>
+
+                    <!-- Wave connection 2 -->
+                    <path d="M 505 175 Q 575 200, 645 175"
+                          fill="none"
+                          stroke="rgba(96, 165, 250, 0.5)"
+                          stroke-width="2"
+                          stroke-dasharray="8,8"
+                          filter="url(#glow)"/>
+
+                    <!-- Dots on wave 2 -->
+                    <circle cx="530" cy="183" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                    <circle cx="575" cy="193" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                    <circle cx="615" cy="185" r="3" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+
+                    <!-- Right cluster: AI Sjálfvirkt -->
+                    <g transform="translate(730, 175)">
+                        <!-- Large concentric circles -->
+                        <circle cx="0" cy="0" r="110" fill="none" stroke="rgba(96, 165, 250, 0.08)" stroke-width="1"/>
+                        <circle cx="0" cy="0" r="95" fill="none" stroke="rgba(96, 165, 250, 0.12)" stroke-width="1"/>
+                        <circle cx="0" cy="0" r="80" fill="none" stroke="rgba(96, 165, 250, 0.15)" stroke-width="1.5"/>
+                        <circle cx="0" cy="0" r="65" fill="none" stroke="rgba(96, 165, 250, 0.25)" stroke-width="2"/>
+
+                        <!-- Main node (larger) -->
+                        <circle cx="0" cy="0" r="50" fill="rgba(59, 130, 246, 0.25)" stroke="rgba(96, 165, 250, 1)" stroke-width="4" filter="url(#strongGlow)"/>
+
+                        <!-- Inner glow layers -->
+                        <circle cx="0" cy="0" r="40" fill="rgba(255, 255, 255, 0.1)"/>
+                        <circle cx="0" cy="0" r="28" fill="rgba(255, 255, 255, 0.05)"/>
+
+                        <!-- Center bright dot -->
+                        <circle cx="0" cy="0" r="10" fill="white" opacity="1" filter="url(#strongGlow)"/>
+
+                        <!-- Multiple orbital dots -->
+                        <circle cx="35" cy="0" r="5" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                        <circle cx="-35" cy="0" r="5" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                        <circle cx="0" cy="35" r="5" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                        <circle cx="0" cy="-35" r="5" fill="rgba(255, 255, 255, 0.8)" filter="url(#glow)"/>
+                        <circle cx="25" cy="25" r="4" fill="rgba(255, 255, 255, 0.6)" filter="url(#glow)"/>
+                        <circle cx="-25" cy="-25" r="4" fill="rgba(255, 255, 255, 0.6)" filter="url(#glow)"/>
+                        <circle cx="25" cy="-25" r="4" fill="rgba(255, 255, 255, 0.6)" filter="url(#glow)"/>
+                        <circle cx="-25" cy="25" r="4" fill="rgba(255, 255, 255, 0.6)" filter="url(#glow)"/>
+
+                        <!-- Orbital rings -->
+                        <circle cx="0" cy="0" r="55" fill="none" stroke="rgba(96, 165, 250, 0.4)" stroke-width="1" stroke-dasharray="4,8"/>
+
+                        <!-- Label -->
+                        <text x="0" y="80" text-anchor="middle" fill="white" font-family="Inter" font-size="20" font-weight="700" opacity="1">AI Sjálfvirkt</text>
+                        <text x="0" y="100" text-anchor="middle" fill="rgba(96, 255, 165, 0.9)" font-family="Inter" font-size="15" font-weight="600">✓ Lagað</text>
+                    </g>
+
+                    <!-- Accent particles -->
+                    <circle cx="900" cy="80" r="2" fill="rgba(255, 255, 255, 0.4)" filter="url(#glow)"/>
+                    <circle cx="150" cy="320" r="2" fill="rgba(255, 255, 255, 0.4)" filter="url(#glow)"/>
+                    <circle cx="950" cy="300" r="2.5" fill="rgba(255, 255, 255, 0.5)" filter="url(#glow)"/>
+                    <circle cx="200" cy="50" r="2.5" fill="rgba(255, 255, 255, 0.5)" filter="url(#glow)"/>
+                </svg>
+            </div>
+
+            <div class="footer">
+                <div class="logo">
+                    <span class="liora">Liora</span><span class="tech">Tech</span>
+                </div>
+                <div class="tagline">Þetta er hægt að laga</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#1e3a8a',
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>

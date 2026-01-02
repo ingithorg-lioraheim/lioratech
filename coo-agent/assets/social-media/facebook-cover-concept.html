@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - Concept</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech - Creative Concept</h1>
+    <div style="color: #64748b; margin: 20px;">Sjálfvirkni → Gagnagreining → Hagkvæmar lausnir</div>
+    <div id="status">Smelltu á takkann til að vista myndina</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        drawCover();
+
+        function drawCover() {
+            // Brand blue gradient background
+            const bgGradient = ctx.createLinearGradient(0, 0, 1640, 0);
+            bgGradient.addColorStop(0, '#1e40af');
+            bgGradient.addColorStop(0.5, '#2563eb');
+            bgGradient.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // VISUAL STORY: Chaos → Automation → Results
+
+            // ===== LEFT: CHAOS (Manual work - scattered, messy) =====
+            ctx.save();
+            // Scattered dots representing manual/chaotic work
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            const chaosPoints = 30;
+            for (let i = 0; i < chaosPoints; i++) {
+                const x = 100 + Math.random() * 300;
+                const y = 150 + Math.random() * 300;
+                const size = 3 + Math.random() * 5;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // ===== CENTER: AUTOMATION (Gear/process - organized flow) =====
+            ctx.save();
+            const centerX = 820;
+            const centerY = 312;
+
+            // Main automation gear
+            const gearRadius = 100;
+            const teeth = 12;
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 3;
+
+            // Draw gear
+            ctx.beginPath();
+            for (let i = 0; i < teeth; i++) {
+                const angle = (i / teeth) * Math.PI * 2;
+                const nextAngle = ((i + 0.5) / teeth) * Math.PI * 2;
+
+                const outerX = centerX + Math.cos(angle) * gearRadius;
+                const outerY = centerY + Math.sin(angle) * gearRadius;
+                const innerX = centerX + Math.cos(nextAngle) * (gearRadius - 15);
+                const innerY = centerY + Math.sin(nextAngle) * (gearRadius - 15);
+
+                if (i === 0) ctx.moveTo(outerX, outerY);
+                else ctx.lineTo(outerX, outerY);
+                ctx.lineTo(innerX, innerY);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Inner circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 40, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fill();
+            ctx.stroke();
+
+            // Flowing arrows from chaos to automation
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 5; i++) {
+                const startX = 400;
+                const startY = 200 + i * 50;
+                const endX = centerX - gearRadius - 30;
+                const endY = centerY - 50 + i * 25;
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.quadraticCurveTo(
+                    (startX + endX) / 2, startY,
+                    endX, endY
+                );
+                ctx.stroke();
+
+                // Arrow head
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - 10, endY - 5);
+                ctx.lineTo(endX - 10, endY + 5);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            ctx.restore();
+
+            // ===== RIGHT: RESULTS (Graph showing growth - organized success) =====
+            ctx.save();
+            const graphX = 1200;
+            const graphY = 450;
+            const graphWidth = 300;
+            const graphHeight = 200;
+
+            // Graph bars showing increasing efficiency/results
+            const bars = [
+                { x: 0, height: 60 },
+                { x: 60, height: 90 },
+                { x: 120, height: 130 },
+                { x: 180, height: 170 },
+                { x: 240, height: 200 }
+            ];
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            bars.forEach(bar => {
+                ctx.fillRect(
+                    graphX + bar.x,
+                    graphY - bar.height,
+                    40,
+                    bar.height
+                );
+            });
+
+            // Trend line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            bars.forEach((bar, i) => {
+                const x = graphX + bar.x + 20;
+                const y = graphY - bar.height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // Upward arrow
+            const lastBar = bars[bars.length - 1];
+            const arrowX = graphX + lastBar.x + 20;
+            const arrowY = graphY - lastBar.height - 30;
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.beginPath();
+            ctx.moveTo(arrowX, arrowY);
+            ctx.lineTo(arrowX - 15, arrowY + 25);
+            ctx.lineTo(arrowX + 15, arrowY + 25);
+            ctx.closePath();
+            ctx.fill();
+
+            // Arrows from automation to results
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 5; i++) {
+                const startX = centerX + gearRadius + 30;
+                const startY = centerY - 50 + i * 25;
+                const endX = graphX - 30;
+                const endY = 250 + i * 40;
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.quadraticCurveTo(
+                    (startX + endX) / 2, endY,
+                    endX, endY
+                );
+                ctx.stroke();
+
+                // Arrow head
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - 10, endY - 5);
+                ctx.lineTo(endX - 10, endY + 5);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Concept-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Concept-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Facebook Post #1 - Positioning</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Facebook Post #1 - Positioning</h1>
+    <div style="color: #1e3a8a; margin: 20px; font-weight: 600;">1200x630px - Link Share Format</div>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Load fonts
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            // Fallback to system fonts if loading fails
+            drawPost();
+        });
+
+        function drawPost() {
+            // Clean gradient background
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0f172a');
+            bg.addColorStop(0.5, '#1e3a8a');
+            bg.addColorStop(1, '#2563eb');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle overlay for depth
+            const overlay = ctx.createRadialGradient(600, 315, 100, 600, 315, 600);
+            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle pattern elements in background
+            ctx.globalAlpha = 0.1;
+            for (let i = 0; i < 15; i++) {
+                const x = 100 + i * 80;
+                const y = 100 + (i % 3) * 200;
+                const size = 30 + (i % 4) * 10;
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+
+            // LioraTech logo at top
+            ctx.font = 'bold 32px "Playfair Display", serif';
+            ctx.textAlign = 'center';
+
+            // "Liora" in primary color
+            const lioraText = 'Liora';
+            const techText = 'Tech';
+            const lioraWidth = ctx.measureText(lioraText).width;
+            const techWidth = ctx.measureText(techText).width;
+            const totalWidth = lioraWidth + techWidth;
+            const startX = (1200 - totalWidth) / 2;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(lioraText, startX + lioraWidth / 2, 80);
+
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillText(techText, startX + lioraWidth + techWidth / 2, 80);
+
+            // Main headline
+            ctx.font = 'bold 56px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+
+            const headline1 = 'AI og sjálfvirkni';
+            const headline2 = 'sem vinnur fyrir þig';
+
+            ctx.fillText(headline1, 600, 220);
+            ctx.fillText(headline2, 600, 290);
+
+            // Divider line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(350, 340);
+            ctx.lineTo(850, 340);
+            ctx.stroke();
+
+            // Key benefits
+            ctx.font = '600 28px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+
+            const benefits = [
+                'Minni handavinna',
+                'Betri flæði',
+                'Stöðugri starfsemi'
+            ];
+
+            const benefitY = 420;
+            const benefitSpacing = 240;
+            const centerX = 600; // Center of canvas
+
+            benefits.forEach((benefit, i) => {
+                // Position benefits centered: left at center-spacing, middle at center, right at center+spacing
+                const x = centerX + (i - 1) * benefitSpacing;
+
+                // Icon circle - larger and brighter
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.beginPath();
+                ctx.arc(x, benefitY, 12, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#60a5fa';
+                ctx.beginPath();
+                ctx.arc(x, benefitY, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Bright core
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(x, benefitY, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Benefit text - larger and brighter
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 24px "Inter", sans-serif';
+                ctx.fillText(benefit, x, benefitY + 50);
+            });
+
+            // Connecting line between benefits - thicker and more visible
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.5)';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 6]);
+            ctx.beginPath();
+            ctx.moveTo(centerX - benefitSpacing, benefitY);
+            ctx.lineTo(centerX, benefitY);
+            ctx.moveTo(centerX, benefitY);
+            ctx.lineTo(centerX + benefitSpacing, benefitY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Bottom credential - larger and more visible
+            ctx.font = '600 22px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.textAlign = 'center';
+            ctx.fillText('Byggt á 10+ ára reynslu  •  300+ íslensk fyrirtæki', 600, 570);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Post-1-Positioning-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Post-1-Positioning-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

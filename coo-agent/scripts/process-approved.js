@@ -137,27 +137,42 @@ async function processApproved() {
     const auth = await authorize(config);
     const drive = google.drive({ version: 'v3', auth });
 
-    const approvedFolderId = config.folders.approved;
-    const mdFilesFolderId = config.folders['md-files'];
-    const pdfFilesFolderId = config.folders['pdf-files'];
+    // Define workflows
+    const workflows = [
+      {
+        name: 'AI Greining (frítt)',
+        approvedFolderId: config.folders.approved,
+        mdFilesFolderId: config.folders['md-files'],
+        pdfFilesFolderId: config.folders['pdf-files']
+      },
+      {
+        name: '30 Daga Roadmap',
+        approvedFolderId: config.folders['30-day-approved'],
+        mdFilesFolderId: config.folders['30-day-md-files'],
+        pdfFilesFolderId: config.folders['30-day-pdf-files']
+      }
+    ];
 
-    // Get files from approved folder
-    const approvedFiles = await listFiles(drive, approvedFolderId);
+    let totalProcessed = 0;
+    const allErrors = [];
 
-    if (approvedFiles.length === 0) {
-      console.log('✅ No approved files to process.\n');
-      return { processed: 0, errors: [] };
-    }
+    // Process each workflow
+    for (const workflow of workflows) {
+      console.log(`\n📂 Checking: ${workflow.name}`);
+      console.log(`   Approved folder: ${workflow.approvedFolderId}`);
 
-    console.log(`📋 Found ${approvedFiles.length} approved file(s)\n`);
+      // Get files from approved folder
+      const approvedFiles = await listFiles(drive, workflow.approvedFolderId);
 
-    const results = {
-      processed: 0,
-      errors: []
-    };
+      if (approvedFiles.length === 0) {
+        console.log(`   ✅ No files to process\n`);
+        continue;
+      }
 
-    // Process each file
-    for (const file of approvedFiles) {
+      console.log(`   📋 Found ${approvedFiles.length} file(s)\n`);
+
+      // Process each file
+      for (const file of approvedFiles) {
       try {
         console.log(`📄 Processing: ${file.name}`);
 
@@ -193,33 +208,34 @@ async function processApproved() {
           drive,
           pdfFileName,
           pdfBuffer,
-          pdfFilesFolderId,
+          workflow.pdfFilesFolderId,
           'application/pdf'
         );
 
         // Move MD file from approved/ to completed/md-files/
         console.log('  📦 Moving MD to completed/md-files/...');
-        await moveFile(drive, file.id, mdFilesFolderId, approvedFolderId);
+        await moveFile(drive, file.id, workflow.mdFilesFolderId, workflow.approvedFolderId);
 
         console.log(`  ✅ Complete: ${file.name}\n`);
-        results.processed++;
+        totalProcessed++;
 
       } catch (error) {
         console.error(`  ❌ Error processing ${file.name}:`, error.message);
-        results.errors.push({ file: file.name, error: error.message });
+        allErrors.push({ file: file.name, error: error.message, workflow: workflow.name });
       }
+    }
     }
 
     // Summary
-    console.log('═══════════════════════════════════════');
-    console.log(`✅ Processed: ${results.processed} file(s)`);
-    if (results.errors.length > 0) {
-      console.log(`❌ Errors: ${results.errors.length}`);
-      results.errors.forEach(e => console.log(`   - ${e.file}: ${e.error}`));
+    console.log('\n═══════════════════════════════════════');
+    console.log(`✅ Total processed: ${totalProcessed} file(s)`);
+    if (allErrors.length > 0) {
+      console.log(`❌ Errors: ${allErrors.length}`);
+      allErrors.forEach(e => console.log(`   - [${e.workflow}] ${e.file}: ${e.error}`));
     }
     console.log('═══════════════════════════════════════\n');
 
-    return results;
+    return { processed: totalProcessed, errors: allErrors };
 
   } catch (error) {
     console.error('❌ Fatal error:', error);

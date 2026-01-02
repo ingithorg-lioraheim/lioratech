@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 6 V3 - LioraTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+
+        .circle-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6, transparent);
+            top: -200px;
+            right: -150px;
+        }
+
+        .circle-2 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #60a5fa, transparent);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 60px 70px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 58px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .comparison {
+            display: flex;
+            gap: 60px;
+            align-items: stretch;
+            justify-content: center;
+        }
+
+        .box {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .box-yes {
+            border: 3px solid #22c55e;
+        }
+
+        .box-no {
+            border: 3px solid #ef4444;
+        }
+
+        .box-header {
+            text-align: center;
+        }
+
+        .box-icon {
+            font-size: 80px;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .icon-yes {
+            color: #22c55e;
+        }
+
+        .icon-no {
+            color: #ef4444;
+        }
+
+        .box-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .box-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .box-item {
+            font-family: 'Inter', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 50px;
+            left: 70px;
+            right: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <div class="bg-pattern"></div>
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+
+        <div class="content">
+            <div class="header">
+                <h1>Fyrir hverja er þetta?</h1>
+            </div>
+
+            <div class="comparison">
+                <div class="box box-yes">
+                    <div class="box-header">
+                        <div class="box-icon icon-yes">✓</div>
+                        <div class="box-title">Já</div>
+                    </div>
+                    <div class="box-items">
+                        <div class="box-item">Handvirk vinna eyðir tíma</div>
+                        <div class="box-item">Kerfi tala ekki saman</div>
+                    </div>
+                </div>
+
+                <div class="box box-no">
+                    <div class="box-header">
+                        <div class="box-icon icon-no">✗</div>
+                        <div class="box-title">Nei</div>
+                    </div>
+                    <div class="box-items">
+                        <div class="box-item">Leitar að tilbúinni lausn</div>
+                        <div class="box-item">Vill ekki breyta neinu</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="logo">
+                <span class="liora">Liora</span><span class="tech">Tech</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-6-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#1e3a8a',
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-6-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>

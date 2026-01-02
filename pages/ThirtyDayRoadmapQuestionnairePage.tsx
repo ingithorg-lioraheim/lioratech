@@ -78,7 +78,7 @@ const ThirtyDayRoadmapQuestionnairePage: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ body: formData }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {

@@ -2,7 +2,7 @@
 
 ## Yfirlit
 
-Þetta system tekur inn data frá `/roadmap` purchase form og býr til sérsniðið 30 daga AI roadmap sem PDF.
+Þetta system tekur inn data frá `/greining` purchase form og býr til sérsniðið 30 daga AI roadmap sem PDF.
 
 ---
 
@@ -138,7 +138,7 @@ Fyrir testing, þú getur einfaldlega:
 ### **Workflow Diagram:**
 
 ```
-1. Webhook Trigger (POST from /roadmap)
+1. Webhook Trigger (POST from /greining)
    ↓
 2. Code Node: Prepare data for Claude
    ↓
@@ -382,7 +382,7 @@ info@lioratech.is
 
 3. **Test n8n webhook:**
    ```bash
-   curl -X POST http://localhost:5678/webhook-test/roadmap-request \
+   curl -X POST http://localhost:5678/webhook-test/greining-request \
      -H "Content-Type: application/json" \
      -d '{
        "email": "test@example.com",
@@ -397,7 +397,7 @@ info@lioratech.is
    ```
 
 4. **End-to-end test:**
-   - Do a test purchase on `/roadmap` (with test payment)
+   - Do a test purchase on `/greining` (with test payment)
    - Check email inbox
    - Open PDF
    - Validate quality

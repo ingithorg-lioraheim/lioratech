@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Precise Spec</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Precise Specification</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+
+        Promise.all([inter.load(), playfair.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // 2. BACKGROUND - Dark blue gradient (horizontal, left to right)
+            const bg = ctx.createLinearGradient(0, 315, 1200, 315);
+            bg.addColorStop(0, '#0B1C3A');   // Very dark navy (left)
+            bg.addColorStop(1, '#1E3A8A');   // Slightly lighter deep blue (right)
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Grid overlay - fine technical grid (subtle)
+            ctx.strokeStyle = 'rgba(96, 165, 250, 0.05)';  // Very subtle blue
+            ctx.lineWidth = 0.5;
+
+            // Vertical grid lines
+            const gridSpacing = 60;
+            for (let x = 0; x < 1200; x += gridSpacing) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, 630);
+                ctx.stroke();
+            }
+
+            // Horizontal grid lines
+            for (let y = 0; y < 630; y += gridSpacing) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(1200, y);
+                ctx.stroke();
+            }
+
+            // 3. TEXT - Left side (left third, left-aligned)
+            const textX = 80;
+            ctx.textAlign = 'left';
+
+            // Line 1: "Helmingur dagsins" - Headline (largest) - Playfair Display
+            ctx.font = 'bold 72px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Helmingur dagsins', textX, 200);
+
+            // Line 2: "fer í að færa gögn" - Medium (60-70% of headline) - Playfair Display
+            ctx.font = '400 48px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('fer í að færa gögn', textX, 270);
+
+            // Line 3: "á milli kerfa" - Accent color (red) - Playfair Display
+            ctx.font = '400 48px "Playfair Display", serif';
+            ctx.fillStyle = '#ef4444';  // Red
+            ctx.fillText('á milli kerfa', textX, 340);
+
+            // 4. MAIN GRAPHIC - Right side (donut chart)
+            const donutX = 850;    // Right half, centered
+            const donutY = 315;    // Vertically centered
+            const outerRadius = 140;  // Thicker, more futuristic
+            const innerRadius = 90;   // Bigger hole
+
+            // Network/molecular diagram around donut
+            const nodes = [
+                // Top area
+                { x: donutX - 80, y: donutY - 180, size: 8 },
+                { x: donutX + 20, y: donutY - 200, size: 12 },
+                { x: donutX + 100, y: donutY - 170, size: 6 },
+                { x: donutX + 140, y: donutY - 190, size: 10 },
+
+                // Right area
+                { x: donutX + 180, y: donutY - 80, size: 7 },
+                { x: donutX + 200, y: donutY + 10, size: 11 },
+                { x: donutX + 190, y: donutY + 90, size: 8 },
+
+                // Bottom area
+                { x: donutX + 120, y: donutY + 180, size: 9 },
+                { x: donutX + 30, y: donutY + 200, size: 6 },
+                { x: donutX - 60, y: donutY + 190, size: 10 },
+
+                // Left area
+                { x: donutX - 180, y: donutY + 70, size: 8 },
+                { x: donutX - 200, y: donutY - 20, size: 12 },
+                { x: donutX - 170, y: donutY - 100, size: 7 }
+            ];
+
+            // Draw connections between nearby nodes
+            ctx.strokeStyle = 'rgba(147, 197, 253, 0.15)';
+            ctx.lineWidth = 1.5;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = Math.sqrt(Math.pow(nodes[j].x - nodes[i].x, 2) + Math.pow(nodes[j].y - nodes[i].y, 2));
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Draw nodes with glow
+            nodes.forEach(node => {
+                // Glow
+                const nodeGlow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.size * 2.5);
+                nodeGlow.addColorStop(0, 'rgba(147, 197, 253, 0.4)');
+                nodeGlow.addColorStop(0.5, 'rgba(147, 197, 253, 0.2)');
+                nodeGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = nodeGlow;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.size * 2.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Node
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Highlight
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.beginPath();
+                ctx.arc(node.x - node.size * 0.3, node.y - node.size * 0.3, node.size * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // 6. DONUT CHART - 50/50 split with futuristic gradients
+
+            // Left half (Handavinna) - Red gradient with glow
+            ctx.shadowColor = 'rgba(239, 68, 68, 0.6)';
+            ctx.shadowBlur = 30;
+
+            const redGradient = ctx.createLinearGradient(donutX - outerRadius, donutY, donutX, donutY);
+            redGradient.addColorStop(0, '#ef4444');
+            redGradient.addColorStop(0.5, '#dc2626');
+            redGradient.addColorStop(1, '#b91c1c');
+            ctx.fillStyle = redGradient;
+
+            ctx.beginPath();
+            ctx.arc(donutX, donutY, outerRadius, Math.PI / 2, -Math.PI / 2, false);
+            ctx.arc(donutX, donutY, innerRadius, -Math.PI / 2, Math.PI / 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Right half (Virðissköpun) - Green gradient with glow
+            ctx.shadowColor = 'rgba(34, 197, 94, 0.6)';
+            ctx.shadowBlur = 30;
+
+            const greenGradient = ctx.createLinearGradient(donutX, donutY, donutX + outerRadius, donutY);
+            greenGradient.addColorStop(0, '#10b981');
+            greenGradient.addColorStop(0.5, '#22c55e');
+            greenGradient.addColorStop(1, '#34d399');
+            ctx.fillStyle = greenGradient;
+
+            ctx.beginPath();
+            ctx.arc(donutX, donutY, outerRadius, -Math.PI / 2, Math.PI / 2, false);
+            ctx.arc(donutX, donutY, innerRadius, Math.PI / 2, -Math.PI / 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            // Dividing line with glow
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 3;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.moveTo(donutX, donutY - outerRadius);
+            ctx.lineTo(donutX, donutY - innerRadius);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(donutX, donutY + innerRadius);
+            ctx.lineTo(donutX, donutY + outerRadius);
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Center circle - dark with subtle glow
+            const centerGradient = ctx.createRadialGradient(donutX, donutY, 0, donutX, donutY, innerRadius);
+            centerGradient.addColorStop(0, '#0f172a');
+            centerGradient.addColorStop(1, '#1e293b');
+            ctx.fillStyle = centerGradient;
+            ctx.beginPath();
+            ctx.arc(donutX, donutY, innerRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Center ring glow
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(donutX, donutY, innerRadius - 5, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Center text: "50%"
+            ctx.font = 'bold 64px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
+            ctx.shadowBlur = 15;
+            ctx.fillText('50%', donutX, donutY);
+            ctx.shadowBlur = 0;
+
+            // 5. LABELS (merkingar) - Clean and professional
+
+            // "Virðissköpun" - Right side, green (connects to right half)
+            const virkniLabelX = donutX + outerRadius + 100;
+            const virkniLabelY = donutY;
+
+            // Clean connector line from right half of donut
+            ctx.strokeStyle = 'rgba(34, 197, 94, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(donutX + outerRadius, donutY);
+            ctx.lineTo(virkniLabelX - 35, virkniLabelY);
+            ctx.stroke();
+
+            // Dot with glow
+            ctx.shadowColor = 'rgba(34, 197, 94, 0.6)';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#22c55e';
+            ctx.beginPath();
+            ctx.arc(virkniLabelX - 35, virkniLabelY, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Label text
+            ctx.font = '600 20px "Inter", sans-serif';
+            ctx.fillStyle = '#4ade80';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Virðissköpun', virkniLabelX - 25, virkniLabelY);
+
+            // "Handavinna" - Left side, red (connects to left half)
+            const handavinnaLabelX = donutX - outerRadius - 100;
+            const handavinnaLabelY = donutY;
+
+            // Clean connector line from left half of donut
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.5)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(donutX - outerRadius, donutY);
+            ctx.lineTo(handavinnaLabelX + 35, handavinnaLabelY);
+            ctx.stroke();
+
+            // Dot with glow
+            ctx.shadowColor = 'rgba(239, 68, 68, 0.6)';
+            ctx.shadowBlur = 12;
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(handavinnaLabelX + 35, handavinnaLabelY, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Label text
+            ctx.font = '600 20px "Inter", sans-serif';
+            ctx.fillStyle = '#f87171';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Handavinna', handavinnaLabelX + 25, handavinnaLabelY);
+
+            // 7. LOGO - Bottom right, light version for dark background
+            ctx.globalAlpha = 1.0;
+            ctx.font = 'bold 32px "Playfair Display", serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'bottom';
+
+            // First draw "Tech" in light blue (rightmost at 1140)
+            ctx.fillStyle = '#60a5fa';  // Light blue for dark backgrounds
+            ctx.fillText('Tech', 1140, 590);
+
+            const techW = ctx.measureText('Tech').width;
+
+            // Then draw "Liora" in white (to the left of Tech)
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Liora', 1140 - techW, 590);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Precise-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Precise-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

@@ -11,14 +11,50 @@ const __dirname = path.dirname(__filename);
 const BASE_DIR = path.join(__dirname, '..');
 
 function parseMetadata(content) {
-  const orderIdMatch = content.match(/\*\*Order ID:\*\* (.*)/);
-  const companyMatch = content.match(/\*\*Customer:\*\* (.*)/);
-  const dateMatch = content.match(/\*\*Generated:\*\* (.*)/);
+  // Detect document type by looking for patterns
+  const is30DayRoadmap = content.includes('## AI Innleiðing fyrir') || content.includes('30 DAGA FRAMKVÆMDAÁÆTLUN');
+
+  let orderId = '';
+  let companyName = '';
+  let date = new Date().toISOString().split('T')[0];
+  let documentType = 'ai-greining'; // default
+
+  if (is30DayRoadmap) {
+    // 30-day roadmap format
+    documentType = '30-day-roadmap';
+
+    // Extract company name from "## AI Innleiðing fyrir [Company Name]"
+    const companyMatch = content.match(/## AI Innleiðing fyrir (.+?)(?:\n|$)/);
+    if (companyMatch) {
+      companyName = companyMatch[1].trim();
+    }
+
+    // Extract order ID from "**Pöntun:** AI-2025-12-21-HBXG5J"
+    const orderMatch = content.match(/\*\*Pöntun:\*\* (AI-\d{4}-\d{2}-\d{2}-[A-Z0-9]+)/);
+    if (orderMatch) {
+      orderId = orderMatch[1];
+      // Extract date from order ID
+      const dateMatch = orderId.match(/AI-(\d{4}-\d{2}-\d{2})/);
+      if (dateMatch) {
+        date = dateMatch[1];
+      }
+    }
+  } else {
+    // AI Greining format (original)
+    const orderIdMatch = content.match(/\*\*Order ID:\*\* (.*)/);
+    const companyMatch = content.match(/\*\*Customer:\*\* (.*)/);
+    const dateMatch = content.match(/\*\*Generated:\*\* (.*)/);
+
+    orderId = orderIdMatch ? orderIdMatch[1] : '';
+    companyName = companyMatch ? companyMatch[1] : '';
+    date = dateMatch ? dateMatch[1] : date;
+  }
 
   return {
-    orderId: orderIdMatch ? orderIdMatch[1] : '',
-    companyName: companyMatch ? companyMatch[1] : '',
-    date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0]
+    orderId,
+    companyName,
+    date,
+    documentType
   };
 }
 
@@ -58,7 +94,18 @@ const contentHTML = marked.parse(cleanedContent);
 const templatePath = path.join(BASE_DIR, 'templates', 'simple-pdf-template-v2.html');
 let template = fs.readFileSync(templatePath, 'utf8');
 
+// Set dynamic content based on document type
+const coverTitle = metadata.documentType === '30-day-roadmap'
+  ? '30 Daga Framkvæmdaáætlun'
+  : 'AI Greining';
+
+const coverSubtitle = metadata.documentType === '30-day-roadmap'
+  ? 'Ítarlegur vegvísir fyrir AI innleiðingu'
+  : '3-5 Tækifæri til úrbóta með gervigreind';
+
 // Replace placeholders
+template = template.replace(/{{coverTitle}}/g, coverTitle);
+template = template.replace(/{{coverSubtitle}}/g, coverSubtitle);
 template = template.replace(/{{companyName}}/g, metadata.companyName);
 template = template.replace(/{{orderId}}/g, metadata.orderId);
 template = template.replace(/{{date}}/g, metadata.date);

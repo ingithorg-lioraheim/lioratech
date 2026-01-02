@@ -28,3 +28,7 @@ coo-agent/.env
 *.njsproj
 *.sln
 *.sw?
+
+# Local Netlify folder
+.netlify
+coo-agent/.google-drive-config.json

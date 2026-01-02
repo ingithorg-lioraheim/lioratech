@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 5 V4 - LioraTech</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+
+        .circle-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6, transparent);
+            top: -200px;
+            right: -150px;
+        }
+
+        .circle-2 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, #60a5fa, transparent);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 60px 70px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .main-visual {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Network visualization */
+        .network {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+        .node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), rgba(59,130,246,0.3));
+            border: 3px solid #3b82f6;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .node-large {
+            width: 120px;
+            height: 120px;
+            font-size: 48px;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.8);
+        }
+
+        /* Positions */
+        .node-1 { top: 110px; left: 100px; }
+        .node-2 { top: 110px; left: 280px; }
+        .node-3 { top: 110px; left: 460px; }
+        .node-center { top: 90px; left: 570px; }
+        .node-result { top: 110px; right: 100px; }
+
+        /* Connection lines */
+        .connection {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(to right,
+                rgba(59, 130, 246, 0.3),
+                rgba(59, 130, 246, 0.6),
+                rgba(59, 130, 246, 0.3)
+            );
+        }
+
+        .connection::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to right,
+                transparent,
+                transparent 10px,
+                rgba(59, 130, 246, 0.5) 10px,
+                rgba(59, 130, 246, 0.5) 20px
+            );
+        }
+
+        .conn-1 { top: 150px; left: 180px; width: 100px; }
+        .conn-2 { top: 150px; left: 360px; width: 100px; }
+        .conn-3 { top: 150px; left: 540px; width: 90px; }
+        .conn-4 { top: 150px; right: 180px; width: 120px; }
+
+        .label {
+            position: absolute;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        .label-1 { top: 210px; left: 100px; width: 80px; }
+        .label-2 { top: 210px; left: 280px; width: 80px; }
+        .label-3 { top: 210px; left: 460px; width: 80px; }
+        .label-result { top: 220px; right: 90px; width: 100px; }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #3b82f6;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <div class="bg-pattern"></div>
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+
+        <div class="content">
+            <div class="header">
+                <h1>Algeng tækifæri í rekstri</h1>
+                <p class="subtitle">Handvirk vinna sem má sjálfvirknivæða</p>
+            </div>
+
+            <div class="main-visual">
+                <div class="network">
+                    <!-- Nodes -->
+                    <div class="node node-1">A</div>
+                    <div class="node node-2">B</div>
+                    <div class="node node-3">C</div>
+                    <div class="node node-large node-center">AI</div>
+                    <div class="node node-result">✓</div>
+
+                    <!-- Connections -->
+                    <div class="connection conn-1"></div>
+                    <div class="connection conn-2"></div>
+                    <div class="connection conn-3"></div>
+                    <div class="connection conn-4"></div>
+
+                    <!-- Labels -->
+                    <div class="label label-1">Excel</div>
+                    <div class="label label-2">CRM</div>
+                    <div class="label label-3">Email</div>
+                    <div class="label label-result">Sjálfvirkt</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="logo">
+                    <span class="liora">Liora</span><span class="tech">Tech</span>
+                </div>
+                <div class="tagline">Sparar 5+ klst á viku</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#1e3a8a',
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>

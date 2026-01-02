@@ -167,25 +167,11 @@ const QuoteRequestPage: React.FC = () => {
                     <input
                       type="radio"
                       name="serviceInterest"
-                      value="30-day-plan"
-                      checked={formData.serviceInterest === '30-day-plan'}
-                      onChange={(e) => setFormData({...formData, serviceInterest: e.target.value})}
-                      className="mt-1"
-                      required
-                    />
-                    <div>
-                      <div className="font-semibold text-brand-dark">AI rekstrargreining + 30 daga plan</div>
-                      <div className="text-sm text-gray-600">Sérsniðin greining á rekstri, ferlum og tækifærum með ítarlegri 30 daga framkvæmdaáætlun</div>
-                    </div>
-                  </label>
-                  <label className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-brand-primary transition-colors">
-                    <input
-                      type="radio"
-                      name="serviceInterest"
                       value="12-month-roadmap"
                       checked={formData.serviceInterest === '12-month-roadmap'}
                       onChange={(e) => setFormData({...formData, serviceInterest: e.target.value})}
                       className="mt-1"
+                      required
                     />
                     <div>
                       <div className="font-semibold text-brand-dark">12 mánaða AI-roadmap</div>

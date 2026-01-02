@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Graphic</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Graphic Style</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Brand gradient background
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0a1628');
+            bg.addColorStop(0.3, '#1e3a8a');
+            bg.addColorStop(0.7, '#2563eb');
+            bg.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Radial overlay
+            const radial = ctx.createRadialGradient(600, 315, 0, 600, 315, 600);
+            radial.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
+            radial.addColorStop(1, 'rgba(15, 23, 42, 0.15)');
+            ctx.fillStyle = radial;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // VISUAL CONCEPT: Time pie chart showing 50% waste
+            // Large circular visualization in center
+
+            const centerX = 600;
+            const centerY = 315;
+            const radius = 180;
+
+            // Outer glow
+            const outerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius + 40);
+            outerGlow.addColorStop(0, 'rgba(147, 197, 253, 0.3)');
+            outerGlow.addColorStop(0.5, 'rgba(59, 130, 246, 0.15)');
+            outerGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = outerGlow;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius + 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Productive time - 50% (top half) - green
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, -Math.PI / 2, Math.PI / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(34, 197, 94, 0.6)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Wasted time - 50% (bottom half) - red
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.arc(centerX, centerY, radius, Math.PI / 2, -Math.PI / 2);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Dividing line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX - radius, centerY);
+            ctx.lineTo(centerX + radius, centerY);
+            ctx.stroke();
+
+            // Center circle
+            ctx.fillStyle = 'rgba(30, 58, 138, 0.9)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 50% in center
+            ctx.font = 'bold 48px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('50%', centerX, centerY);
+
+            // Labels with icons - top (productive)
+            const topLabelY = centerY - radius - 60;
+
+            // Small icon - checkmark circle
+            ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
+            ctx.beginPath();
+            ctx.arc(centerX - 80, topLabelY, 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.strokeStyle = 'rgba(34, 197, 94, 0.7)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centerX - 90, topLabelY);
+            ctx.lineTo(centerX - 82, topLabelY + 8);
+            ctx.lineTo(centerX - 70, topLabelY - 5);
+            ctx.stroke();
+
+            ctx.font = '600 20px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Virðissköpun', centerX - 50, topLabelY);
+
+            // Labels with icons - bottom (wasted)
+            const bottomLabelY = centerY + radius + 60;
+
+            // Manual work icon - person between arrows
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+            ctx.lineWidth = 3;
+
+            // Left arrow
+            ctx.beginPath();
+            ctx.moveTo(centerX - 110, bottomLabelY);
+            ctx.lineTo(centerX - 80, bottomLabelY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(centerX - 85, bottomLabelY - 5);
+            ctx.lineTo(centerX - 80, bottomLabelY);
+            ctx.lineTo(centerX - 85, bottomLabelY + 5);
+            ctx.stroke();
+
+            // Person icon
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.4)';
+            ctx.beginPath();
+            ctx.arc(centerX - 65, bottomLabelY - 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillRect(centerX - 70, bottomLabelY, 10, 15);
+
+            // Right arrow
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+            ctx.beginPath();
+            ctx.moveTo(centerX - 50, bottomLabelY);
+            ctx.lineTo(centerX - 20, bottomLabelY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(centerX - 25, bottomLabelY - 5);
+            ctx.lineTo(centerX - 20, bottomLabelY);
+            ctx.lineTo(centerX - 25, bottomLabelY + 5);
+            ctx.stroke();
+
+            ctx.font = '600 20px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Handavinna á milli kerfa', centerX + 10, bottomLabelY);
+
+            // Small branding - top left
+            ctx.font = 'bold 24px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText('Liora', 50, 50);
+            const lioraWidth = ctx.measureText('Liora').width;
+            ctx.fillStyle = '#93c5fd';
+            ctx.fillText('Tech', 50 + lioraWidth, 50);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Graphic-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Graphic-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

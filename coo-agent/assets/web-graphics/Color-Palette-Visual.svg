@@ -1,0 +1,16 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <rect x="50" y="50" width="120" height="120" fill="#0f172a" rx="10" />
+  <text x="110" y="190" text-anchor="middle" font-family="Inter" font-size="12">Dark</text>
+
+  <rect x="200" y="50" width="120" height="120" fill="#1e3a8a" rx="10" />
+  <text x="260" y="190" text-anchor="middle" font-family="Inter" font-size="12">Primary</text>
+
+  <rect x="350" y="50" width="120" height="120" fill="#3b82f6" rx="10" />
+  <text x="410" y="190" text-anchor="middle" font-family="Inter" font-size="12">Accent</text>
+
+  <rect x="500" y="50" width="120" height="120" fill="#f8fafc" stroke="#e2e8f0" rx="10" />
+  <text x="560" y="190" text-anchor="middle" font-family="Inter" font-size="12">Light</text>
+
+  <rect x="650" y="50" width="120" height="120" fill="#64748b" rx="10" />
+  <text x="710" y="190" text-anchor="middle" font-family="Inter" font-size="12">Gray</text>
+</svg>

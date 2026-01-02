@@ -1,0 +1,13 @@
+<svg width="2000" height="1000" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1000" height="500" fill="none" />
+
+  <text x="500" y="220" dominant-baseline="middle" text-anchor="middle"
+        style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 160px; letter-spacing: -0.05em;">
+    <tspan fill="#1e3a8a">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+
+  <text x="500" y="340" dominant-baseline="middle" text-anchor="middle"
+        style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 42px; letter-spacing: 0.1em; text-transform: uppercase;">
+    <tspan fill="#64748b">AI Ráðgjöf &amp; Innleiðing</tspan>
+  </text>
+</svg>

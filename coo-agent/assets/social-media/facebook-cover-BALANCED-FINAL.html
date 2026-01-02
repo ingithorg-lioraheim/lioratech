@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - PERFECTLY BALANCED</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech - PERFECTLY BALANCED</h1>
+    <div style="color: #15803d; margin: 20px; font-weight: 600;">Final balanced version</div>
+    <div id="status">Smelltu á takkann til að vista</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        drawCover();
+
+        function drawCover() {
+            // Premium gradient
+            const bgGradient = ctx.createLinearGradient(0, 0, 1640, 624);
+            bgGradient.addColorStop(0, '#0a1628');
+            bgGradient.addColorStop(0.3, '#1e3a8a');
+            bgGradient.addColorStop(0.7, '#2563eb');
+            bgGradient.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Radial overlay
+            const radialOverlay = ctx.createRadialGradient(820, 312, 0, 820, 312, 700);
+            radialOverlay.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
+            radialOverlay.addColorStop(1, 'rgba(15, 23, 42, 0.15)');
+            ctx.fillStyle = radialOverlay;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // === LEFT: CHAOS (evenly spaced, balanced size) ===
+            ctx.save();
+            const leftX = 410;
+            const leftY = 312;
+
+            const elements = [
+                { type: 'circle', x: -50, y: -55, size: 34, opacity: 0.28 },
+                { type: 'square', x: 35, y: -60, size: 26, opacity: 0.24, rotation: 0.4 },
+                { type: 'circle', x: -30, y: -10, size: 38, opacity: 0.26 },
+                { type: 'square', x: 50, y: -20, size: 28, opacity: 0.26, rotation: -0.6 },
+                { type: 'circle', x: 0, y: 20, size: 36, opacity: 0.25 },
+                { type: 'square', x: -45, y: 30, size: 27, opacity: 0.23, rotation: 0.8 },
+                { type: 'circle', x: -10, y: 60, size: 32, opacity: 0.24 },
+                { type: 'square', x: 40, y: 50, size: 25, opacity: 0.22, rotation: -0.3 },
+                { type: 'circle', x: 60, y: 5, size: 35, opacity: 0.25 },
+                { type: 'square', x: -25, y: -35, size: 24, opacity: 0.21, rotation: 0.5 },
+            ];
+
+            elements.forEach(el => {
+                ctx.save();
+                ctx.translate(leftX + el.x, leftY + el.y);
+
+                if (el.type === 'circle') {
+                    const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, el.size * 2);
+                    glow.addColorStop(0, `rgba(147, 197, 253, ${el.opacity * 0.7})`);
+                    glow.addColorStop(0.5, `rgba(147, 197, 253, ${el.opacity * 0.3})`);
+                    glow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                    ctx.fillStyle = glow;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, el.size * 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${el.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, el.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${el.opacity * 0.5})`;
+                    ctx.beginPath();
+                    ctx.arc(-el.size * 0.2, -el.size * 0.2, el.size * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.rotate(el.rotation);
+                    ctx.fillStyle = `rgba(147, 197, 253, ${el.opacity * 0.5})`;
+                    ctx.fillRect(-el.size * 0.7, -el.size * 0.7, el.size * 1.4, el.size * 1.4);
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${el.opacity})`;
+                    ctx.fillRect(-el.size / 2, -el.size / 2, el.size, el.size);
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${el.opacity * 0.4})`;
+                    ctx.fillRect(-el.size * 0.3, -el.size * 0.3, el.size * 0.3, el.size * 0.3);
+                }
+                ctx.restore();
+            });
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1.5;
+            for (let i = 0; i < elements.length - 1; i++) {
+                if (i % 2 === 0) {
+                    ctx.beginPath();
+                    ctx.moveTo(leftX + elements[i].x, leftY + elements[i].y);
+                    ctx.lineTo(leftX + elements[i + 1].x, leftY + elements[i + 1].y);
+                    ctx.stroke();
+                }
+            }
+
+            ctx.restore();
+
+            // === CENTER: TRANSFORMATION ===
+            ctx.save();
+            const centerX = 820;
+            const centerY = 312;
+
+            const ambientGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 130);
+            ambientGlow.addColorStop(0, 'rgba(147, 197, 253, 0.28)');
+            ambientGlow.addColorStop(0.4, 'rgba(59, 130, 246, 0.14)');
+            ambientGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = ambientGlow;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 130, 0, Math.PI * 2);
+            ctx.fill();
+
+            const rings = [30, 48, 66, 84, 102];
+            rings.forEach((radius, i) => {
+                ctx.strokeStyle = `rgba(255, 255, 255, ${0.23 - i * 0.035})`;
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+
+            const coreGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 22);
+            coreGradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            coreGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.9)');
+            coreGradient.addColorStop(1, 'rgba(147, 197, 253, 0.4)');
+            ctx.fillStyle = coreGradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 22, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.beginPath();
+            ctx.arc(centerX - 4, centerY - 4, 7, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Flow: LEFT → CENTER
+            for (let i = 0; i < 22; i++) {
+                const t = i / 22;
+                const x = leftX + (centerX - leftX) * t;
+                const y = leftY + (centerY - leftY) * t + Math.sin(t * Math.PI * 3) * 16;
+                const size = 2.5 + Math.sin(t * Math.PI) * 4;
+                const opacity = 0.2 + Math.sin(t * Math.PI) * 0.35;
+
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 2.2);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.7})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+
+            // === RIGHT: SUCCESS (evenly spaced, balanced size) ===
+            ctx.save();
+            const rightX = 1230;
+            const rightY = 440;
+
+            const dataPoints = [];
+            for (let i = 0; i < 9; i++) {
+                const x = rightX - 130 + i * 32;
+                const y = rightY - Math.pow(i * 0.36, 2.1) * 11;
+                dataPoints.push({ x, y });
+            }
+
+            const areaGrad = ctx.createLinearGradient(rightX - 130, rightY, rightX + 130, rightY - 160);
+            areaGrad.addColorStop(0, 'rgba(59, 130, 246, 0.05)');
+            areaGrad.addColorStop(0.6, 'rgba(147, 197, 253, 0.15)');
+            areaGrad.addColorStop(1, 'rgba(147, 197, 253, 0.28)');
+
+            ctx.fillStyle = areaGrad;
+            ctx.beginPath();
+            ctx.moveTo(dataPoints[0].x, rightY);
+            for (let i = 0; i < dataPoints.length - 1; i++) {
+                const xc = (dataPoints[i].x + dataPoints[i + 1].x) / 2;
+                const yc = (dataPoints[i].y + dataPoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(dataPoints[i].x, dataPoints[i].y, xc, yc);
+            }
+            ctx.lineTo(dataPoints[dataPoints.length - 1].x, dataPoints[dataPoints.length - 1].y);
+            ctx.lineTo(dataPoints[dataPoints.length - 1].x, rightY);
+            ctx.lineTo(dataPoints[0].x, rightY);
+            ctx.fill();
+
+            const curveGrad = ctx.createLinearGradient(rightX - 130, rightY, rightX + 130, rightY - 160);
+            curveGrad.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
+            curveGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
+            ctx.strokeStyle = curveGrad;
+            ctx.lineWidth = 3.2;
+            ctx.lineCap = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
+            for (let i = 0; i < dataPoints.length - 1; i++) {
+                const xc = (dataPoints[i].x + dataPoints[i + 1].x) / 2;
+                const yc = (dataPoints[i].y + dataPoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(dataPoints[i].x, dataPoints[i].y, xc, yc);
+            }
+            ctx.stroke();
+
+            dataPoints.forEach((point, i) => {
+                const progress = i / (dataPoints.length - 1);
+                const size = 3.5 + progress * 4.5;
+                const opacity = 0.5 + progress * 0.5;
+
+                const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, size * 3.2);
+                pointGlow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.8})`);
+                pointGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = pointGlow;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size * 3.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.beginPath();
+                ctx.arc(point.x - size * 0.25, point.y - size * 0.25, size * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Flow: CENTER → RIGHT
+            for (let i = 0; i < 22; i++) {
+                const t = i / 22;
+                const x = centerX + (rightX - 80 - centerX) * t;
+                const y = centerY + (rightY - 100 - centerY) * t - Math.sin(t * Math.PI * 2) * 18;
+                const size = 2.5 + Math.sin(t * Math.PI) * 4;
+                const opacity = 0.2 + Math.sin(t * Math.PI) * 0.35;
+
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 2.2);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.7})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-FINAL-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ FINAL PNG vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-FINAL-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.98);
+            link.click();
+            document.getElementById('status').textContent = '✅ FINAL JPG vistuð!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>

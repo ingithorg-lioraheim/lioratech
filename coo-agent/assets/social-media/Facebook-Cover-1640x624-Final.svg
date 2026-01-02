@@ -1,0 +1,42 @@
+<svg width="1640" height="624" viewBox="0 0 1640 624" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a8a;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1640" height="624" fill="url(#bgGradient)" />
+
+  <!-- Decorative geometric elements -->
+  <circle cx="1400" cy="120" r="160" fill="url(#accentGradient)" />
+  <circle cx="1500" cy="500" r="120" fill="url(#accentGradient)" />
+  <rect x="1300" y="240" width="240" height="240" rx="40" fill="#3b82f6" opacity="0.15" />
+
+  <!-- Main content area -->
+  <g>
+    <!-- Logo -->
+    <circle cx="200" cy="312" r="100" fill="#f8fafc" />
+    <circle cx="200" cy="312" r="100" fill="none" stroke="#1e3a8a" stroke-width="8" />
+    <text x="200" y="340" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 100px;">
+      <tspan fill="#1e3a8a">L</tspan><tspan fill="#3b82f6">T</tspan>
+    </text>
+
+    <!-- Main headline -->
+    <text x="360" y="260" style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 76px; letter-spacing: -1px;" fill="#ffffff">
+      Sparaðu 20+ klst. á viku með AI
+    </text>
+
+    <!-- Subheadline -->
+    <text x="360" y="340" style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 40px;" fill="#60a5fa">
+      Sjálfvirkni · Gagngagreiningu · Hagkvæmum lausnum
+    </text>
+  </g>
+</svg>

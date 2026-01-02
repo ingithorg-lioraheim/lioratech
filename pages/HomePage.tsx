@@ -162,7 +162,7 @@ const Hero: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
             <Link
-              to="/roadmap"
+              to="/greining"
               className="px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all flex items-center justify-center text-lg hover:scale-105 transform"
             >
               Fá AI-greiningu <ArrowRight className="ml-2 w-5 h-5" />
@@ -268,8 +268,12 @@ const WhyUsSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id={SectionId.WHY_US} className="py-24 bg-white relative">
-      <div className="container mx-auto px-6">
+    <section id={SectionId.WHY_US} className="py-20 bg-white relative overflow-hidden">
+      {/* Subtle background decorations */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-blue-50/30 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-slate-50/50 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">Hvers vegna LioraTech?</h2>
           <p className="text-gray-500 max-w-2xl mx-auto">Reynsla, skýrleiki og árangur sem þú getur treyst.</p>
@@ -314,12 +318,123 @@ const WhyUsSection: React.FC = () => {
   );
 };
 
+const ProvenResultsSection: React.FC = () => {
+  const { ref, isVisible } = useScrollAnimation();
+
+  return (
+    <section className="py-28 bg-gradient-to-br from-white to-blue-50/30 relative">
+      {/* Gradient divider at top */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-200/30 to-transparent"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">Árangur sem skiptir máli</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Raunverulegur árangur sem íslensk fyrirtæki ná með réttri AI innleiðingu</p>
+        </div>
+
+        <div ref={ref} className={`grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {/* Result 1 */}
+          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Clock className="text-brand-primary" size={32} />
+              </div>
+              <div className="text-4xl font-bold text-brand-primary mb-2">5-15 klst</div>
+              <div className="text-sm text-gray-500 mb-3">á viku</div>
+              <p className="text-gray-700 font-semibold mb-2">Tímasparnaður</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Dæmigerður sparnaður í handavinnu með sjálfvirkni og AI lausnum
+              </p>
+            </div>
+          </div>
+
+          {/* Result 2 */}
+          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="text-brand-primary" size={32} />
+              </div>
+              <div className="text-4xl font-bold text-brand-primary mb-2">60-80%</div>
+              <div className="text-sm text-gray-500 mb-3">minna handavinna</div>
+              <p className="text-gray-700 font-semibold mb-2">Skilvirkni</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Minni handavinna í endurteknum verkefnum og ferlum
+              </p>
+            </div>
+          </div>
+
+          {/* Result 3 */}
+          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Target className="text-brand-primary" size={32} />
+              </div>
+              <div className="text-4xl font-bold text-brand-primary mb-2">30 dagar</div>
+              <div className="text-sm text-gray-500 mb-3">að meðaltali</div>
+              <p className="text-gray-700 font-semibold mb-2">Innleiðingartími</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Frá greiningu til fyrstu mælanlegra niðurstaðna
+              </p>
+            </div>
+          </div>
+
+          {/* Result 4 */}
+          <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="text-brand-primary" size={32} />
+              </div>
+              <div className="text-4xl font-bold text-brand-primary mb-2">3-6 mán</div>
+              <div className="text-sm text-gray-500 mb-3">ROI tími</div>
+              <p className="text-gray-700 font-semibold mb-2">Arðsemi</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Dæmigerður tími þar til fjárfestingin skilar sér til baka
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust indicators */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+            <div className="grid md:grid-cols-3 gap-8 text-center">
+              <div className="transform hover:scale-105 transition-transform">
+                <div className="text-3xl font-bold text-brand-primary mb-2">300+</div>
+                <p className="text-gray-600 text-sm">Íslensk fyrirtæki sem ég hef unnið með</p>
+              </div>
+              <div className="transform hover:scale-105 transition-transform">
+                <div className="text-3xl font-bold text-brand-primary mb-2">10+</div>
+                <p className="text-gray-600 text-sm">Ára reynsla í stafrænni þróun & AI</p>
+              </div>
+              <div className="transform hover:scale-105 transition-transform">
+                <div className="text-3xl font-bold text-brand-primary mb-2">15+</div>
+                <p className="text-gray-600 text-sm">Atvinnugreinar með reynslu</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const ServicesSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id={SectionId.SERVICES} className="py-20 bg-white">
-      <div className="container mx-auto px-6">
+    <section id={SectionId.SERVICES} className="py-20 bg-brand-light relative overflow-hidden">
+      {/* Wave divider at top */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none">
+        <svg className="relative block w-full h-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="fill-brand-light opacity-50"></path>
+        </svg>
+      </div>
+
+      {/* Subtle background decorations */}
+      <div className="absolute top-10 right-10 w-96 h-96 bg-blue-100/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-200/10 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">Þjónusta</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -328,7 +443,7 @@ const ServicesSection: React.FC = () => {
         </div>
 
         <div ref={ref} className={`grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Service 1 */}
+          {/* Service 1: Free AI Analysis */}
           <div className="bg-brand-light p-8 rounded-xl border-2 border-blue-400 hover:shadow-lg hover:shadow-blue-200 transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300 relative overflow-hidden">
             <div className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-md">
               100% ÓKEYPIS
@@ -338,58 +453,41 @@ const ServicesSection: React.FC = () => {
             </div>
             <h3 className="text-xl font-bold text-brand-dark mb-3">Sjálfvirk AI-greining</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Fljótleg sjálfvirk greining sem metur stöðu rekstrarins og skilar 3–5 skýrum tækifærum til úrbóta. Engin skuldbinding.
+              Fljótleg sjálfvirk greining sem metur stöðu rekstrarins og dregur fram 3–5 skýr tækifæri þar sem AI og sjálfvirkni geta sparað tíma eða aukið afköst. Engin skuldbinding — bara skýr sýn á næstu skref.
             </p>
             <Link
-              to="/roadmap"
+              to="/greining"
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá AI-greiningu <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
 
-          {/* Service 2 */}
+          {/* Service 2: 30 Day Plan */}
           <div className="bg-brand-light p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300">
             <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
               <Target className="text-brand-primary" size={24} />
             </div>
             <h3 className="text-xl font-bold text-brand-dark mb-3">AI rekstrargreining + 30 daga plan</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Sérsniðin greining á rekstri, ferlum og tækifærum. Þú færð ítarlega 30 daga framkvæmdaáætlun sem hægt er að hrinda í framkvæmd strax.
+              Sérsniðin greining á rekstri, ferlum og gögnum með ítarlegu 30 daga framkvæmda­plani. Þú færð nákvæmar tillögur um hvað á að gera, í hvaða röð og af hverju, svo hægt sé að hefja innleiðingu strax.
             </p>
             <Link
-              to="/roadmap"
+              to="/30dagaplan"
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá 30 daga plan <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
 
-          {/* Service 3 */}
+          {/* Service 3: 12 Month Roadmap */}
           <div className="bg-brand-light p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300">
             <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
               <BarChart3 className="text-brand-primary" size={24} />
             </div>
             <h3 className="text-xl font-bold text-brand-dark mb-3">12 mánaða AI-roadmap</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Heildstæð greining og framkvæmdaáætlun sem sýnir hvað á að gera, í hvaða röð og hvers vegna. Hentar stjórnendum sem vilja skýra og arðbæra innleiðingu á AI.
-            </p>
-            <Link
-              to="/quote"
-              className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
-            >
-              Spyrja um roadmap <ArrowRight className="ml-1 w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Service 4 */}
-          <div className="bg-brand-light p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300">
-            <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
-              <Zap className="text-brand-primary" size={24} />
-            </div>
-            <h3 className="text-xl font-bold text-brand-dark mb-3">Smíði AI- og sjálfvirknilausna</h3>
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Smíði hagnýtra lausna: n8n vinnuflæði, API-tengingar, AI agentar, þjónustuverflæði, CRM sjálfvirkni og aðrir lykilferlar.
+              Heildstæð 12 mánaða framkvæmdaáætlun fyrir AI og sjálfvirkni í rekstrinum. Inniheldur Executive Overview, forgangsröðun, áfangaskiptingu og mælanleg markmið. Hentar stjórnendum sem vilja skýra, örugga og arðbæra AI-innleiðingu yfir heilt ár.
             </p>
             <Link
               to="/quote"
@@ -399,14 +497,31 @@ const ServicesSection: React.FC = () => {
             </Link>
           </div>
 
-          {/* Service 5 */}
+          {/* Service 4: Custom Implementation */}
+          <div className="bg-brand-light p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300">
+            <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
+              <Zap className="text-brand-primary" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-brand-dark mb-3">Smíði AI- og sjálfvirknilausna</h3>
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              Sérsmíði hagnýtra AI-lausna fyrir raunveruleg vandamál í rekstri. n8n vinnuflæði, API-tengingar, AI agentar, þjónustuferlar, CRM sjálfvirkni og fleira — allt byggt út frá roadmapi eða greiningu.
+            </p>
+            <Link
+              to="/quote"
+              className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
+            >
+              Fá verðtilboð <ArrowRight className="ml-1 w-4 h-4" />
+            </Link>
+          </div>
+
+          {/* Service 5: Monthly Operations */}
           <div className="bg-brand-light p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300">
             <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
               <Clock className="text-brand-primary" size={24} />
             </div>
             <h3 className="text-xl font-bold text-brand-dark mb-3">AI rekstrarhald – mánaðarleg þjónusta</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Við sjáum um daglega virkni, fínstillingar og endurbætur á AI- og sjálfvirkniferlum þannig að lausnirnar þróist með rekstrinum. Fyrirtækið þitt fær varanlegt AI & automation stuðningsteymi – án fasts launakostnaðar.
+              Mánaðarleg AI & automation þjónusta sem sér um daglega virkni, viðhald, fínstillingar og stöðugar umbætur. Þú færð varanlegt AI-stuðningsteymi án þess að ráða starfsmann.
             </p>
             <Link
               to="/quote"
@@ -416,17 +531,17 @@ const ServicesSection: React.FC = () => {
             </Link>
           </div>
 
-          {/* Service 6 */}
+          {/* Service 6: AI Playbook */}
           <div className="bg-gradient-to-br from-brand-primary/5 to-brand-accent/5 p-8 rounded-xl border-2 border-brand-primary/20 hover:shadow-lg transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300 relative overflow-hidden">
             <div className="absolute top-2 right-2 px-2 py-1 bg-brand-primary/10 text-brand-primary text-xs font-bold uppercase rounded-full">
-              Kemur bráðum
+              Kemur bráðlega
             </div>
             <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
               <CheckCircle2 className="text-brand-primary" size={24} />
             </div>
             <h3 className="text-xl font-bold text-brand-dark mb-3">AI Playbook fyrir íslensk fyrirtæki</h3>
             <p className="text-gray-600 mb-6 leading-relaxed">
-              Hagnýtt playbook með dæmum, flæðimódelum, prompts og 30 daga áætlun fyrir teymi sem vilja byrja sjálf.
+              Hagnýtt AI-playbook með dæmum, flæðimódelum, prompts og 30 daga áætlun fyrir teymi sem vilja byrja sjálf. Ekki kenningar — heldur íslenskt samhengi, raunveruleg dæmi og skýr skref.
             </p>
             <button
               disabled
@@ -434,131 +549,6 @@ const ServicesSection: React.FC = () => {
             >
               Skrá á biðlista <ArrowRight className="ml-1 w-4 h-4" />
             </button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ComparisonSection: React.FC = () => {
-  const { ref, isVisible } = useScrollAnimation();
-
-  return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-brand-dark mb-4">Hvort hentar þér?</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Berðu saman lausnirnar okkar og veldu þá leið sem hentar þínum rekstri best</p>
-        </div>
-
-        <div ref={ref} className={`grid md:grid-cols-2 gap-8 max-w-5xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          {/* Tier 0 - Free AI Analysis */}
-          <div className="bg-gradient-to-br from-blue-50 to-white border-2 border-blue-200 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-            <div className="text-center mb-6">
-              <div className="inline-block px-4 py-1 bg-green-500 text-white text-xs font-bold rounded-full mb-4">
-                100% ÓKEYPIS
-              </div>
-              <h3 className="text-2xl font-bold text-brand-dark mb-2">Sjálfvirk AI-greining</h3>
-              <p className="text-gray-600 text-sm">Fljótleg og sjálfvirk greining</p>
-            </div>
-
-            <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Sjálfvirk greining</p>
-                  <p className="text-sm text-gray-600">AI greinir reksturinn þinn á 5-10 mínútum</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">3-5 tækifæri til úrbóta</p>
-                  <p className="text-sm text-gray-600">Skýr innsýn í hvar þú getur sparað tíma</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">PDF skýrsla</p>
-                  <p className="text-sm text-gray-600">Tilbúin til að deila með teyminu</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Engin skuldbinding</p>
-                  <p className="text-sm text-gray-600">Reyndu áhættulaust</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-t border-blue-200 pt-6 mb-6">
-              <p className="text-center text-sm text-gray-600 mb-2">Hentar fyrir:</p>
-              <p className="text-center text-brand-dark font-semibold">Þá sem vilja byrja strax og ókeypis</p>
-            </div>
-
-            <Link
-              to="/roadmap"
-              className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg flex justify-center items-center group"
-            >
-              Fá AI-greiningu <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-
-          {/* Tier 1 - Professional Analysis + 30-day Plan */}
-          <div className="bg-gradient-to-br from-gray-50 to-white border-2 border-gray-300 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all">
-            <div className="text-center mb-6">
-              <div className="inline-block px-4 py-1 bg-brand-primary text-white text-xs font-bold rounded-full mb-4">
-                FAGLEGT
-              </div>
-              <h3 className="text-2xl font-bold text-brand-dark mb-2">AI rekstrargreining + 30 daga plan</h3>
-              <p className="text-gray-600 text-sm">Sérsniðin og fagleg áætlun</p>
-            </div>
-
-            <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-brand-primary flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Persónuleg ráðgjöf</p>
-                  <p className="text-sm text-gray-600">Ég greini reksturinn í samstarfi við þig</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-brand-primary flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Ítarleg 30 daga framkvæmdaáætlun</p>
-                  <p className="text-sm text-gray-600">Skref fyrir skref hvað á að gera og hvenær</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-brand-primary flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Forgangsröðun og tímasetning</p>
-                  <p className="text-sm text-gray-600">Hvað á að gera fyrst og hvernig</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="text-brand-primary flex-shrink-0 mt-0.5" size={20} />
-                <div>
-                  <p className="font-semibold text-brand-dark">Fagleg niðurstaða</p>
-                  <p className="text-sm text-gray-600">Tilbúið til að hrinda í framkvæmd</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-t border-gray-300 pt-6 mb-6">
-              <p className="text-center text-sm text-gray-600 mb-2">Hentar fyrir:</p>
-              <p className="text-center text-brand-dark font-semibold">Þá sem vilja sérfræðiráðgjöf og innleiðingu</p>
-            </div>
-
-            <Link
-              to="/quote"
-              className="w-full py-4 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition-all shadow-lg flex justify-center items-center group"
-            >
-              Fá verðtilboð <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
           </div>
         </div>
       </div>
@@ -627,30 +617,31 @@ const ProductsSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="roadmap-section" className="py-24 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-12">
+    <section id="roadmap-section" className="py-24 bg-white relative overflow-hidden">
+      {/* Gradient divider at top */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-100/0 via-blue-100/50 to-blue-100/0"></div>
+
+      {/* Subtle background decorations */}
+      <div className="absolute top-20 left-1/4 w-72 h-72 bg-blue-50/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-1/4 w-80 h-80 bg-slate-100/30 rounded-full blur-3xl"></div>
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            Tilbúinn að byrja?
+            Tilbúin/n að byrja?
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-8">
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Veldu þá leið sem hentar þér best
           </p>
-          <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto mb-8">
-            <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
-              <p className="font-semibold text-brand-dark">← Fyrir þá sem vilja byrja strax og ókeypis</p>
-            </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="font-semibold text-brand-dark">Fyrir þá sem vilja sérfræðiráðgjöf og innleiðingu →</p>
-            </div>
-          </div>
         </div>
 
         <div ref={ref} className={`grid md:grid-cols-2 gap-8 max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Quick Start Option */}
-          <div className="bg-gradient-to-br from-brand-primary to-blue-600 text-white p-10 rounded-2xl shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-            <div className="relative z-10">
+          <div>
+            <p className="text-center text-sm font-medium text-gray-500 mb-3">Fyrir þá sem vilja byrja strax og ókeypis</p>
+            <div className="bg-gradient-to-br from-brand-primary to-blue-600 text-white p-10 rounded-2xl shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+              <div className="relative z-10">
               <div className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider bg-white/20 rounded-full border border-white/30">
                 FLJÓTT & AUÐVELT
               </div>
@@ -677,53 +668,57 @@ const ProductsSection: React.FC = () => {
               </div>
 
               <Link
-                to="/roadmap"
+                to="/greining"
                 className="w-full py-4 bg-white text-brand-primary font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg flex justify-center items-center group"
               >
                 Fá AI-greiningu <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
+              </div>
             </div>
           </div>
 
           {/* Custom Solution Option */}
-          <div className="bg-white border-2 border-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-            <div className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-brand-primary bg-blue-50 rounded-full border border-blue-200">
-              SÉRSNIÐIÐ
+          <div>
+            <p className="text-center text-sm font-medium text-gray-500 mb-3">Fyrir þá sem vilja sérfræðiráðgjöf og innleiðingu</p>
+            <div className="bg-white border-2 border-gray-200 p-10 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+              <div className="inline-block px-3 py-1 mb-4 text-xs font-bold tracking-wider text-brand-primary bg-blue-50 rounded-full border border-blue-200">
+                SÉRSNIÐIÐ
+              </div>
+              <h3 className="text-3xl font-serif font-bold text-brand-dark mb-4">Sérsniðin lausn</h3>
+              <p className="text-gray-600 mb-6">Við vinnum saman</p>
+
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Fáðu persónulega ráðgjöf, sérsniðna greiningu og aðstoð við innleiðingu. Allt frá einföldum sjálfvirknilausnum til heildarumbreytinga.
+              </p>
+
+              <div className="space-y-3 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 size={18} className="text-brand-primary" />
+                  </div>
+                  <span className="text-gray-700">Persónuleg ráðgjöf</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 size={18} className="text-brand-primary" />
+                  </div>
+                  <span className="text-gray-700">Sérsniðnar lausnir</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 size={18} className="text-brand-primary" />
+                  </div>
+                  <span className="text-gray-700">Framkvæmd og viðhald</span>
+                </div>
+              </div>
+
+              <Link
+                to="/quote"
+                className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg flex justify-center items-center group mb-4"
+              >
+                Fá verðtilboð <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </div>
-            <h3 className="text-3xl font-serif font-bold text-brand-dark mb-4">Sérsniðin lausn</h3>
-            <p className="text-gray-600 mb-6">Við vinnum saman</p>
-
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              Fáðu persónulega ráðgjöf, sérsniðna greiningu og aðstoð við innleiðingu. Allt frá einföldum sjálfvirknilausnum til heildarumbreytinga.
-            </p>
-
-            <div className="space-y-3 mb-8">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 size={18} className="text-brand-primary" />
-                </div>
-                <span className="text-gray-700">Persónuleg ráðgjöf</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 size={18} className="text-brand-primary" />
-                </div>
-                <span className="text-gray-700">Sérsniðnar lausnir</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-brand-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 size={18} className="text-brand-primary" />
-                </div>
-                <span className="text-gray-700">Framkvæmd og viðhald</span>
-              </div>
-            </div>
-
-            <Link
-              to="/quote"
-              className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg flex justify-center items-center group mb-4"
-            >
-              Fá verðtilboð <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </Link>
           </div>
         </div>
       </div>
@@ -896,11 +891,11 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-brand-dark mb-4">Þjónusta</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><button onClick={() => scrollTo(SectionId.SERVICES)} className="hover:text-brand-primary transition-colors">AI-greining + 30 daga plan</button></li>
-              <li><button onClick={() => scrollTo(SectionId.SERVICES)} className="hover:text-brand-primary transition-colors">Sérsniðið 30 daga plan</button></li>
-              <li><button onClick={() => scrollTo(SectionId.SERVICES)} className="hover:text-brand-primary transition-colors">12 mánaða roadmap</button></li>
-              <li><button onClick={() => scrollTo(SectionId.SERVICES)} className="hover:text-brand-primary transition-colors">Smíði lausna</button></li>
-              <li><button onClick={() => scrollTo(SectionId.SERVICES)} className="hover:text-brand-primary transition-colors">AI rekstrarhald</button></li>
+              <li><Link to="/greining" className="hover:text-brand-primary transition-colors">Ókeypis AI-greining</Link></li>
+              <li><Link to="/30dagaplan" className="hover:text-brand-primary transition-colors">30 daga AI plan</Link></li>
+              <li><Link to="/quote" className="hover:text-brand-primary transition-colors">12 mánaða roadmap</Link></li>
+              <li><Link to="/quote" className="hover:text-brand-primary transition-colors">Smíði lausna</Link></li>
+              <li><Link to="/quote" className="hover:text-brand-primary transition-colors">AI rekstrarhald</Link></li>
             </ul>
           </div>
 
@@ -911,6 +906,7 @@ const Footer: React.FC = () => {
               <li><button onClick={() => scrollTo(SectionId.ABOUT)} className="hover:text-brand-primary transition-colors">Um okkur</button></li>
               <li><button onClick={() => scrollTo(SectionId.PROCESS)} className="hover:text-brand-primary transition-colors">Hvernig það virkar</button></li>
               <li><button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="hover:text-brand-primary transition-colors">Fréttabréf</button></li>
+              <li><Link to="/skilmalar" className="hover:text-brand-primary transition-colors">Skilmálar</Link></li>
             </ul>
           </div>
 
@@ -989,8 +985,8 @@ const HomePage: React.FC = () => {
         <main>
           <Hero />
           <ServicesSection />
-          <ComparisonSection />
           <WhyUsSection />
+          <ProvenResultsSection />
           <ProcessSection />
           <ProductsSection />
           <AboutSection />

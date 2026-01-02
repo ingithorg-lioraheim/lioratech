@@ -1,0 +1,11 @@
+<svg width="600" height="800" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <rect x="150" y="50" width="300" height="600" rx="40" fill="#1e293b" />
+  <rect x="165" y="65" width="270" height="570" rx="30" fill="#0f172a" />
+
+  <rect x="200" y="150" width="60" height="60" rx="12" fill="#1e3a8a" />
+  <text x="230" y="190" text-anchor="middle" font-family="Playfair Display" font-weight="700" font-size="35" fill="white">LT</text>
+  <text x="230" y="230" text-anchor="middle" font-family="Inter" font-size="10" fill="#94a3b8">LioraTech</text>
+
+  <rect x="185" y="260" width="230" height="15" rx="5" fill="#1e3a8a" opacity="0.3" />
+  <rect x="185" y="290" width="180" height="15" rx="5" fill="#1e3a8a" opacity="0.2" />
+</svg>

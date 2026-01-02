@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30-Day Roadmap Test Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2563eb;
+      margin-bottom: 20px;
+    }
+    .success {
+      background: #10b981;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      display: none;
+    }
+    .error {
+      background: #ef4444;
+      color: white;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      display: none;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .info {
+      background: #dbeafe;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border-left: 4px solid #2563eb;
+    }
+    .response {
+      background: #f3f4f6;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      display: none;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 30-Day Roadmap Test</h1>
+
+    <div class="info">
+      <strong>Test Data:</strong> Pre-filled með test gögnum<br>
+      <strong>Webhook:</strong> Production n8n workflow
+    </div>
+
+    <button id="submitBtn" onclick="submitTest()">
+      🚀 Senda Test Pöntun
+    </button>
+
+    <div id="success" class="success"></div>
+    <div id="error" class="error"></div>
+    <div id="response" class="response"></div>
+  </div>
+
+  <script>
+    const testData = {
+      // Section 1: Contact Info
+      companyName: "Test Fyrirtæki ehf.",
+      name: "Ingþór Test",
+      email: "test@lioratech.is",
+      phone: "555-1234",
+      website: "https://test-fyrirtaeki.is",
+
+      // Section 2: Company & Operations
+      industry: "Tækni og hugbúnaðarþróun",
+      employees: "6-20",
+      operationsDepartment: "Já",
+      targetAudience: "Smá og meðalstór fyrirtæki á Íslandi",
+      revenueStream: ["Endurteknar tekjur", "Ein-skiptis þjónusta"],
+      dataQuality: "Í meðallagi",
+
+      // Section 3: AI Experience
+      previousAiExperience: "Höfum prófað ChatGPT fyrir content creation",
+      whatTriggeredInterest: "Of mikill tími fer í handvirk verk og vildum sjá hvað AI gæti gert",
+      competitorsUsingAi: "Já",
+
+      // Section 4: Challenges
+      biggestChallenges: "1) Mikill tími fer í viðskiptavinafyrirspurnir 2) Handvirk gagnaskráning 3) Markaðssetning tekur of langan tíma",
+      timeTakingTasks: ["Þjónustuborð / fyrirspurnir", "Markaðssetning", "Reikningar / bókhald"],
+      timeSavingsPriority1: "Þjónusta",
+      timeSavingsPriority2: "Markaðssetning",
+      timeSavingsPriority3: "Innri ferlar",
+
+      // Section 5: Tools & Data
+      currentTools: "Google Workspace, Slack, Excel, Mailchimp",
+      dataStorage: ["Google Drive", "Excel / Sheets"],
+      crmName: "",
+      aiGoals: "Spara 10+ klst/viku í þjónustu, sjálfvirka markaðssetningu og bæta gagnaskráningu",
+      implementationSpeed: "Innan 1-3 mánaða",
+      successMetrics: ["Tímasparnaður (klst/viku)", "Styttri svörunartími", "Hagræðing (kr/mán)"],
+      monthlyBudget: "50.000 - 150.000 kr",
+      supportLevel: "Samvinna",
+
+      // Section 6: Team
+      teamOpenness: "Já - mjög opið",
+
+      // Section 7: Scheduling
+      preferredDays: ["Þriðjudagur", "Miðvikudagur", "Fimmtudagur"],
+      preferredTime: "Fyrirmiðdag"
+    };
+
+    async function submitTest() {
+      const btn = document.getElementById('submitBtn');
+      const successDiv = document.getElementById('success');
+      const errorDiv = document.getElementById('error');
+      const responseDiv = document.getElementById('response');
+
+      // Reset
+      successDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+      responseDiv.style.display = 'none';
+
+      // Disable button
+      btn.disabled = true;
+      btn.textContent = '⏳ Sendi...';
+
+      try {
+        const response = await fetch('https://lioratech.app.n8n.cloud/webhook/30-day-roadmap-questionnaire', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(testData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          successDiv.textContent = '✅ Success! Workflow keyrði. Athugaðu Google Drive og email.';
+          successDiv.style.display = 'block';
+
+          responseDiv.textContent = JSON.stringify(data, null, 2);
+          responseDiv.style.display = 'block';
+        } else {
+          throw new Error(`HTTP ${response.status}: ${JSON.stringify(data)}`);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorDiv.textContent = '❌ Villa: ' + error.message;
+        errorDiv.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Senda Test Pöntun';
+      }
+    }
+
+    // Show test data on page load
+    console.log('Test data:', testData);
+  </script>
+</body>
+</html>

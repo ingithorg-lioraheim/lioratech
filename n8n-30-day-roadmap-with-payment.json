@@ -17,7 +17,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const formData = $input.item.json.body;\n\n// Generate unique order ID\nconst timestamp = new Date().toISOString();\nconst orderId = `AI-${timestamp.slice(0,10)}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;\n\n// Extract key fields\nconst companyName = formData.companyName || 'Unknown Company';\nconst email = formData.email || 'no-email@example.com';\nconst name = formData.name || 'Unknown';\n\nreturn {\n  json: {\n    orderId,\n    timestamp,\n    companyName,\n    email,\n    name,\n    formData\n  }\n};"
+        "jsCode": "const formData = $input.item.json;\n\n// Generate unique order ID\nconst timestamp = new Date().toISOString();\nconst orderId = `AI-${timestamp.slice(0,10)}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;\n\n// Extract key fields\nconst companyName = formData.companyName || 'Unknown Company';\nconst email = formData.email || 'no-email@example.com';\nconst name = formData.name || 'Unknown';\n\nreturn {\n  json: {\n    orderId,\n    timestamp,\n    companyName,\n    email,\n    name,\n    formData\n  }\n};"
       },
       "id": "generate-orderid",
       "name": "Generate OrderID",
@@ -92,7 +92,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Extract orderId from Rapyd payment webhook\nconst paymentData = $input.item.json.body;\n\n// Rapyd sends payment data with metadata\nconst metadata = paymentData.data?.metadata || paymentData.metadata || {};\nconst orderId = metadata.orderId || metadata.order_id;\n\nif (!orderId) {\n  throw new Error('No orderId found in payment webhook data');\n}\n\nreturn {\n  json: {\n    orderId: orderId,\n    paymentId: paymentData.data?.id || paymentData.id,\n    paymentStatus: paymentData.data?.status || paymentData.status,\n    amount: paymentData.data?.amount || paymentData.amount,\n    currency: paymentData.data?.currency || paymentData.currency,\n    paymentDate: new Date().toISOString()\n  }\n};"
+        "jsCode": "// Extract orderId from Rapyd payment webhook\nconst paymentData = $input.item.json;\n\n// Rapyd sends payment data with metadata\nconst metadata = paymentData.data?.metadata || paymentData.metadata || {};\nconst orderId = metadata.orderId || metadata.order_id;\n\nif (!orderId) {\n  throw new Error('No orderId found in payment webhook data');\n}\n\nreturn {\n  json: {\n    orderId: orderId,\n    paymentId: paymentData.data?.id || paymentData.id,\n    paymentStatus: paymentData.data?.status || paymentData.status,\n    amount: paymentData.data?.amount || paymentData.amount,\n    currency: paymentData.data?.currency || paymentData.currency,\n    paymentDate: new Date().toISOString()\n  }\n};"
       },
       "id": "extract-orderid",
       "name": "Extract OrderID from Payment",
@@ -102,30 +102,50 @@
     },
     {
       "parameters": {
-        "query": "={{ $json.orderId }}-questionnaire.json",
-        "driveId": {
-          "__rl": true,
-          "value": "1le7A1ieoPrX0ZSxV7u3qwc_e_oRa5eCs",
-          "mode": "id"
-        },
-        "folderId": {
-          "__rl": true,
-          "value": "1vRP5yGFdvUZnY2DjSgIivSLywoJS2n-6",
-          "mode": "id"
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "method": "GET",
+        "url": "https://www.googleapis.com/drive/v3/files",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "=name = '{{ $json.orderId }}-questionnaire.json' and '1vRP5yGFdvUZnY2DjSgIivSLywoJS2n-6' in parents"
+            },
+            {
+              "name": "fields",
+              "value": "files(id, name, mimeType)"
+            },
+            {
+              "name": "pageSize",
+              "value": "1"
+            }
+          ]
         },
         "options": {}
       },
-      "id": "search-questionnaire",
-      "name": "Search Questionnaire File",
-      "type": "n8n-nodes-base.googleDrive",
-      "typeVersion": 3,
-      "position": [-200, 400],
+      "id": "http-search-file",
+      "name": "HTTP - Search Questionnaire File",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-280, 400],
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "wwpyqnDEeHfqxBt5",
           "name": "Google Drive account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract file ID from Google Drive API response\nconst files = $json.files || [];\n\nif (files.length === 0) {\n  const orderId = $node[\"Extract OrderID from Payment\"].json.orderId;\n  throw new Error(`Questionnaire file not found for orderId: ${orderId}`);\n}\n\n// Return the first file's data\nreturn {\n  json: {\n    id: files[0].id,\n    name: files[0].name,\n    mimeType: files[0].mimeType\n  }\n};"
+      },
+      "id": "extract-file-id",
+      "name": "Extract File ID",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-100, 400]
     },
     {
       "parameters": {
@@ -156,10 +176,21 @@
     },
     {
       "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse the downloaded JSON file from binary data\nconst binaryData = $binary.data;\n\nif (!binaryData) {\n  throw new Error('No binary data found from Download Questionnaire node');\n}\n\n// The binary data contains the file content\n// Access it and convert to string\nlet fileContent;\n\nif (typeof binaryData.data === 'string') {\n  // If data is base64 string, decode it\n  fileContent = Buffer.from(binaryData.data, 'base64').toString('utf-8');\n} else if (Buffer.isBuffer(binaryData.data)) {\n  // If data is already a Buffer\n  fileContent = binaryData.data.toString('utf-8');\n} else {\n  throw new Error('Unexpected binary data format');\n}\n\n// Parse JSON\nconst questionnaireData = JSON.parse(fileContent);\n\n// Return parsed data along with file metadata for Move operation\nreturn {\n  json: {\n    ...questionnaireData,\n    fileId: $json.id,\n    fileName: $json.name\n  }\n};"
+      },
+      "id": "parse-questionnaire",
+      "name": "Parse Questionnaire JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [100, 400]
+    },
+    {
+      "parameters": {
         "operation": "move",
         "fileId": {
           "__rl": true,
-          "value": "={{ $json.id }}",
+          "value": "={{ $json.fileId }}",
           "mode": "id"
         },
         "driveId": {
@@ -177,7 +208,7 @@
       "name": "Move to in-progress",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
-      "position": [200, 400],
+      "position": [250, 400],
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "wwpyqnDEeHfqxBt5",
@@ -187,7 +218,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Get questionnaire data from downloaded file\nconst fileContent = $node[\"Download Questionnaire\"].json.data;\nconst questionnaireData = JSON.parse(fileContent);\n\n// Get payment data\nconst paymentData = $node[\"Extract OrderID from Payment\"].json;\n\n// Merge data\nreturn {\n  json: {\n    orderId: questionnaireData.orderId,\n    timestamp: questionnaireData.timestamp,\n    companyName: questionnaireData.companyName,\n    email: questionnaireData.email,\n    name: questionnaireData.name,\n    formData: questionnaireData.formData,\n    paymentId: paymentData.paymentId,\n    paymentStatus: paymentData.paymentStatus,\n    amount: paymentData.amount,\n    currency: paymentData.currency,\n    paymentDate: paymentData.paymentDate\n  }\n};"
+        "jsCode": "// Get questionnaire data (already parsed by Parse Questionnaire JSON node)\nconst questionnaireData = $node[\"Parse Questionnaire JSON\"].json;\n\n// Get payment data\nconst paymentData = $node[\"Extract OrderID from Payment\"].json;\n\n// Merge data\nreturn {\n  json: {\n    orderId: questionnaireData.orderId,\n    timestamp: questionnaireData.timestamp,\n    companyName: questionnaireData.companyName,\n    email: questionnaireData.email,\n    name: questionnaireData.name,\n    formData: questionnaireData.formData,\n    paymentId: paymentData.paymentId,\n    paymentStatus: paymentData.paymentStatus,\n    amount: paymentData.amount,\n    currency: paymentData.currency,\n    paymentDate: paymentData.paymentDate\n  }\n};"
       },
       "id": "merge-data",
       "name": "Merge Payment + Questionnaire",
@@ -413,12 +444,18 @@
       "main": [[{"node": "Extract OrderID from Payment", "type": "main", "index": 0}]]
     },
     "Extract OrderID from Payment": {
-      "main": [[{"node": "Search Questionnaire File", "type": "main", "index": 0}]]
+      "main": [[{"node": "HTTP - Search Questionnaire File", "type": "main", "index": 0}]]
     },
-    "Search Questionnaire File": {
+    "HTTP - Search Questionnaire File": {
+      "main": [[{"node": "Extract File ID", "type": "main", "index": 0}]]
+    },
+    "Extract File ID": {
       "main": [[{"node": "Download Questionnaire", "type": "main", "index": 0}]]
     },
     "Download Questionnaire": {
+      "main": [[{"node": "Parse Questionnaire JSON", "type": "main", "index": 0}]]
+    },
+    "Parse Questionnaire JSON": {
       "main": [[{"node": "Move to in-progress", "type": "main", "index": 0}]]
     },
     "Move to in-progress": {

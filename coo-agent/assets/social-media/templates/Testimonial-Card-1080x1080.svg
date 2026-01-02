@@ -1,0 +1,18 @@
+<svg width="1080" height="1080" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1080" fill="#f8fafc" />
+
+  <text x="100" y="250" font-family="Playfair Display" font-size="200" fill="#3b82f6" opacity="0.2">"</text>
+
+  <text x="100" y="350" width="880" style="font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 52px;" fill="#0f172a">
+    <tspan x="100" dy="1.2em">AI lausnirnar frá LioraTech breyttu</tspan>
+    <tspan x="100" dy="1.2em">öllu okkar vinnuflæði. Við spörum</tspan>
+    <tspan x="100" dy="1.2em">nú tugi klukkustunda í hverri viku.</tspan>
+  </text>
+
+  <text x="100" y="700" style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 32px;" fill="#1e3a8a">Forstjóri Íslensks Fyrirtækis</text>
+  <text x="100" y="745" style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 24px;" fill="#64748b">Viðskiptavinur hjá LioraTech</text>
+
+  <text x="800" y="980" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 40px;">
+    <tspan fill="#1e3a8a">L</tspan><tspan fill="#3b82f6">T</tspan>
+  </text>
+</svg>

@@ -42,7 +42,8 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
     }
   }, [searchParams]);
 
-  const PRICE_ISK = 69900; // Price in ISK (Icelandic Kr�na)
+  const PRICE_ISK = 69900; // Price in ISK (Icelandic Króna) - for display
+  const PRICE_EUR = 49000; // Price in EUR cents (490.00 EUR) for Rapyd
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,14 +52,15 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
 
     try {
       // Call Netlify Function to create Rapyd checkout
+      // Using EUR because Rapyd doesn't support ISK (need Saltpay for ISK)
       const response = await fetch('/.netlify/functions/create-checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: PRICE_ISK,
-          currency: 'ISK',
+          amount: PRICE_EUR,
+          currency: 'EUR',
           customerEmail: formData.email,
           customerName: formData.name,
           companyName: formData.companyName,
@@ -82,7 +84,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
       window.location.href = data.checkoutUrl;
     } catch (err: any) {
       console.error('Payment error:', err);
-      setError(err.message || 'Eitthva� f�r �rskei�is. Vinsamlegast reyndu aftur.');
+      setError(err.message || 'Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.');
       setLoading(false);
     }
   };
@@ -111,18 +113,18 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
       <div className="container mx-auto px-6 py-12 max-w-2xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            Grei�sla
+            Greiðsla
           </h1>
           <p className="text-gray-600 text-lg">
-            Skr��u uppl�singar ��nar og haltu �fram � grei�slu
+            Skráðu upplýsingar þínar og haltu áfram í greiðslu
           </p>
         </div>
 
         {/* Order Summary */}
         <div className="bg-brand-primary/5 border-2 border-brand-primary/20 rounded-2xl p-6 mb-8">
-          <h2 className="font-bold text-brand-dark mb-4">P�ntun ��n</h2>
+          <h2 className="font-bold text-brand-dark mb-4">Pöntun þín</h2>
           <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-700">30 Daga Framkv�mda��tlun</span>
+            <span className="text-gray-700">30 Daga Framkvæmdaáætlun</span>
             <span className="font-bold text-brand-dark">{PRICE_ISK.toLocaleString('is-IS')} kr</span>
           </div>
           <div className="flex justify-between items-center text-sm text-gray-600">
@@ -148,7 +150,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
                 required
                 type="text"
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                placeholder="J�n J�nsson"
+                placeholder="Jón Jónsson"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
@@ -166,18 +168,18 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
-              <p className="text-xs text-gray-500 mt-1">Roadmap-i� ver�ur sent hinga�</p>
+              <p className="text-xs text-gray-500 mt-1">Roadmap-ið verður sent hingað</p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fyrirt�ki *
+                Fyrirtæki *
               </label>
               <input
                 required
                 type="text"
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                placeholder="Fyrirt�ki ehf."
+                placeholder="Fyrirtæki ehf."
                 value={formData.companyName}
                 onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
               />
@@ -185,7 +187,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Vefs��a fyrirt�kis
+                Vefsíða fyrirtækis
               </label>
               <input
                 type="url"
@@ -198,7 +200,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                S�man�mer
+                Símanúmer
               </label>
               <input
                 type="tel"
@@ -223,28 +225,28 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 size={20} className="animate-spin" />
-                  <span>Vinsamlegast b��i�...</span>
+                  <span>Vinsamlegast bíðið...</span>
                 </>
               ) : (
                 <>
                   <CreditCard size={20} />
-                  <span>Halda �fram � grei�slu</span>
+                  <span>Halda áfram í greiðslu</span>
                 </>
               )}
             </button>
 
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
               <Lock size={16} />
-              <span>�ruggar grei�slur me� Rapyd</span>
+              <span>Öruggar greiðslur með Rapyd</span>
             </div>
           </form>
         </div>
 
         {/* Trust Signals */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Vi� notum Rapyd fyrir �ruggar grei�slur.</p>
+          <p>Við notum Rapyd fyrir öruggar greiðslur.</p>
           <p className="mt-2">
-            �� munt f� kvittun strax og grei�sla hefur veri� sta�fest.
+            Þú munt fá kvittun strax og greiðsla hefur verið staðfest.
           </p>
         </div>
       </div>

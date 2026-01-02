@@ -141,7 +141,7 @@ cd /Users/ingithor/Downloads/lioratech---ai-ráðgjöf
 npm run dev
 
 # Open browser
-open http://localhost:3000/roadmap
+open http://localhost:3000/greining
 
 # Fill out form and submit
 ```

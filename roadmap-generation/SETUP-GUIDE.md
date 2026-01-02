@@ -2,7 +2,7 @@
 
 ## 🎯 Overview
 
-Þetta system býr sjálfkrafa til sérsniðin 30 daga AI roadmap fyrir viðskiptavini sem kaupa á `/roadmap`.
+Þetta system býr sjálfkrafa til sérsniðin 30 daga AI roadmap fyrir viðskiptavini sem kaupa á `/greining`.
 
 **Flow:**
 ```
@@ -86,7 +86,7 @@ npx n8n
 
 **B) Fáðu webhook URL**
 - Smelltu á "Webhook" node
-- Copy webhook URL (t.d. `https://xxx.app.n8n.cloud/webhook/roadmap-request`)
+- Copy webhook URL (t.d. `https://xxx.app.n8n.cloud/webhook/greining-request`)
 
 **C) Uppfæra í website kóðanum**
 
@@ -94,7 +94,7 @@ Opnaðu `/pages/RoadmapPurchasePage.tsx`:
 
 ```typescript
 // Línu ~35
-const response = await fetch('https://YOUR-N8N-URL/webhook/roadmap-request', {
+const response = await fetch('https://YOUR-N8N-URL/webhook/greining-request', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ cd roadmap-generation
 
 **Option B: Test manually**
 ```bash
-curl -X POST https://YOUR-N8N-URL/webhook/roadmap-request \
+curl -X POST https://YOUR-N8N-URL/webhook/greining-request \
   -H "Content-Type: application/json" \
   -d '{
     "email": "your@email.com",
@@ -132,7 +132,7 @@ curl -X POST https://YOUR-N8N-URL/webhook/roadmap-request \
 ```
 
 **Option C: Test í gegnum website**
-1. Farðu á `http://localhost:3000/roadmap`
+1. Farðu á `http://localhost:3000/greining`
 2. Fylltu út formið
 3. "Submit"
 4. Athugaðu email
@@ -303,7 +303,7 @@ Auto-schedule 20 mín follow-up:
 - [ ] Calendly link correct
 - [ ] Terms & conditions added
 - [ ] GDPR compliance checked
-- [ ] Stripe payment integration (fyrir /roadmap)
+- [ ] Stripe payment integration (fyrir /greining)
 - [ ] Error handling tested
 - [ ] Backup plan ef n8n er down
 

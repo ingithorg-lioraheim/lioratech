@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Post 5 - LioraTech Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .download-btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .download-btn:hover {
+            background: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 50%, #1e3a8a 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Subtle grid pattern */
+        .grid-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.5;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 60px 80px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .visualization {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Data flow visualization */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .node-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .node {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(96, 165, 250, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow:
+                0 0 30px rgba(96, 165, 250, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .node::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        .node-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .node-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Connection with dots */
+        .connection {
+            width: 100px;
+            height: 3px;
+            position: relative;
+            margin: 0 20px;
+        }
+
+        .connection svg {
+            position: absolute;
+            top: -10px;
+            left: 0;
+        }
+
+        .stat-badge {
+            position: absolute;
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(59, 130, 246, 0.9);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo .liora {
+            color: white;
+        }
+
+        .logo .tech {
+            color: #60a5fa;
+        }
+
+        .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="download-btn" onclick="downloadPNG()">📥 Downloada sem PNG</button>
+        <button class="download-btn" onclick="downloadJPG()">📥 Downloada sem JPG</button>
+    </div>
+
+    <div class="container" id="post-container">
+        <div class="grid-pattern"></div>
+
+        <div class="content">
+            <div class="header">
+                <h1>Handvirk vinna → Sjálfvirkt</h1>
+            </div>
+
+            <div class="visualization">
+                <div class="flow-container">
+                    <!-- Node 1 -->
+                    <div class="node-group">
+                        <div class="node">
+                            <div class="node-text">Excel</div>
+                        </div>
+                        <div class="node-label">Handvirkt</div>
+                    </div>
+
+                    <!-- Connection 1 -->
+                    <div class="connection">
+                        <svg width="140" height="20" style="overflow: visible;">
+                            <line x1="0" y1="10" x2="140" y2="10"
+                                  stroke="rgba(96, 165, 250, 0.6)"
+                                  stroke-width="2"
+                                  stroke-dasharray="5,5"/>
+                            <circle cx="20" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="50" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="80" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="110" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                        </svg>
+                        <div class="stat-badge">5+ klst</div>
+                    </div>
+
+                    <!-- Node 2 -->
+                    <div class="node-group">
+                        <div class="node">
+                            <div class="node-text">CRM</div>
+                        </div>
+                        <div class="node-label">Tvöföld vinna</div>
+                    </div>
+
+                    <!-- Connection 2 -->
+                    <div class="connection">
+                        <svg width="140" height="20" style="overflow: visible;">
+                            <line x1="0" y1="10" x2="140" y2="10"
+                                  stroke="rgba(96, 165, 250, 0.6)"
+                                  stroke-width="2"
+                                  stroke-dasharray="5,5"/>
+                            <circle cx="20" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="50" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="80" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                            <circle cx="110" cy="10" r="3" fill="rgba(96, 165, 250, 0.8)"/>
+                        </svg>
+                        <div class="stat-badge">2× arbeiði</div>
+                    </div>
+
+                    <!-- Node 3 -->
+                    <div class="node-group">
+                        <div class="node">
+                            <div class="node-text">AI</div>
+                        </div>
+                        <div class="node-label">Sjálfvirkt</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="logo">
+                    <span class="liora">Liora</span><span class="tech">Tech</span>
+                </div>
+                <div class="tagline">Þetta er hægt að laga</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function downloadPNG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: null,
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.png';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        async function downloadJPG() {
+            const container = document.getElementById('post-container');
+            const canvas = await html2canvas(container, {
+                scale: 2,
+                backgroundColor: '#1e3a8a',
+                logging: false,
+                width: 1200,
+                height: 630
+            });
+
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = 'facebook-post-5-lioratech.jpg';
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+            }, 'image/jpeg', 0.95);
+        }
+    </script>
+</body>
+</html>
