@@ -110,7 +110,8 @@ const Navbar: React.FC = () => {
           <button onClick={() => scrollTo(SectionId.SERVICES)} className="text-gray-600 hover:text-brand-primary transition-colors">Þjónusta</button>
           <button onClick={() => scrollTo(SectionId.PROCESS)} className="text-gray-600 hover:text-brand-primary transition-colors">Hvernig það virkar</button>
           <button onClick={() => scrollTo(SectionId.ABOUT)} className="text-gray-600 hover:text-brand-primary transition-colors">Um okkur</button>
-          <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-gray-600 hover:text-brand-primary transition-colors">Fréttabréf</button>
+          {/* Hidden until newsletter is ready */}
+          {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-gray-600 hover:text-brand-primary transition-colors">Fréttabréf</button> */}
           <Link
             to="/quote"
             className="px-6 py-2.5 bg-brand-primary text-white rounded-lg hover:bg-brand-dark transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
@@ -134,7 +135,8 @@ const Navbar: React.FC = () => {
             <button onClick={() => scrollTo(SectionId.SERVICES)} className="text-left text-gray-600 font-medium">Þjónusta</button>
             <button onClick={() => scrollTo(SectionId.PROCESS)} className="text-left text-gray-600 font-medium">Hvernig það virkar</button>
             <button onClick={() => scrollTo(SectionId.ABOUT)} className="text-left text-gray-600 font-medium">Um okkur</button>
-            <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-left text-gray-600 font-medium">Fréttabréf</button>
+            {/* Hidden until newsletter is ready */}
+            {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-left text-gray-600 font-medium">Fréttabréf</button> */}
             <Link to="/quote" className="text-brand-primary font-bold">Fá verðtilboð</Link>
           </div>
         </div>
@@ -819,6 +821,8 @@ const NewsletterSection: React.FC = () => {
   };
 
   return (
+    {/* NEWSLETTER SECTION - Hidden until email system is ready */}
+    {/*
     <section id={SectionId.NEWSLETTER} className="py-20 bg-gray-900 text-white">
       <div className="container mx-auto px-6 text-center">
         <div className="max-w-2xl mx-auto">
@@ -862,6 +866,7 @@ const NewsletterSection: React.FC = () => {
         </div>
       </div>
     </section>
+    */}
   );
 };
 
