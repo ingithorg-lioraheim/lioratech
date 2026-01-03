@@ -913,7 +913,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm text-gray-600">
               <li><button onClick={() => scrollTo(SectionId.ABOUT)} className="hover:text-brand-primary transition-colors">Um okkur</button></li>
               <li><button onClick={() => scrollTo(SectionId.PROCESS)} className="hover:text-brand-primary transition-colors">Hvernig það virkar</button></li>
-              <li><button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="hover:text-brand-primary transition-colors">Fréttabréf</button></li>
+              {/* <li><button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="hover:text-brand-primary transition-colors">Fréttabréf</button></li> */}
               <li><Link to="/skilmalar" className="hover:text-brand-primary transition-colors">Skilmálar</Link></li>
             </ul>
           </div>
