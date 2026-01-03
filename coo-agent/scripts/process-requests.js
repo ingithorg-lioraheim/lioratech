@@ -373,7 +373,7 @@ info@lioratech.is
 - ❌ ROI útreikninga
 - ❌ Tímasetningar og milestones
 
-*👉 [Þetta er allt innifalið í 30-daga roadmap-inu](/30roadmap)*
+*👉 [Þetta er allt innifalið í 30-daga plan-inu](https://lioratech.is/30dagaplan)*
 
 ---
 
@@ -414,19 +414,19 @@ Byggt á þinni stöðu, mælum við með að byrja hér:
 - Hvers vegna: Mest áhrif á skammtíma markmiðin þín
 - Áætlaður tími: 2-4 vikur
 - Þú þarft: Teymi sem getur tekið að sér innleiðingu
-- 👉 [Nákvæm útfærsla í 30-daga roadmap](/30roadmap)
+- 👉 [Nákvæm útfærsla í 30-daga plan](https://lioratech.is/30dagaplan)
 
 **Skref 2: ${opportunities[1]?.name || 'Tækifæri #2'}**
 - Hvers vegna: Byggir á fyrsta tækifæri
 - Áætlaður tími: 3-6 vikur
 - Þú þarft: Samþætting við núverandi kerfi
-- 👉 [Nákvæm útfærsla í 30-daga roadmap](/30roadmap)
+- 👉 [Nákvæm útfærsla í 30-daga plan](https://lioratech.is/30dagaplan)
 
 **Skref 3: Meta árangur og halda áfram**
 - Mæla árangur af #1 og #2
 - Ákveða hvort halda áfram með #3
 - Eða finna ný tækifæri
-- 👉 [Fá aðstoð við mælingar í 30-daga roadmap](/30roadmap)
+- 👉 [Fá aðstoð við mælingar í 30-daga plan](https://lioratech.is/30dagaplan)
 
 ---
 
@@ -463,7 +463,7 @@ Við búum til nákvæman, step-by-step implementation plan:
 
 **Delivery:** Innan 24 klst
 
-👉 **[Panta 30-daga roadmap](https://lioratech.is/quote)**
+👉 **[Panta 30-daga plan](https://lioratech.is/30dagaplan)**
 
 ---
 
@@ -493,7 +493,7 @@ Við vonumst til að þessi greining hafi gefið þér skýrari mynd af því hv
 - Website: lioratech.is
 
 **Viltu eitthvað meira?**
-- 30-daga roadmap: Nákvæmur plan → [Panta hér](https://lioratech.is/roadmap)
+- 30-daga plan: Nákvæmur plan → [Panta hér](https://lioratech.is/30dagaplan)
 - Full innleiðing: Done-for-you → [Bóka samtal](https://lioratech.is/quote)
 
 ---
@@ -506,7 +506,7 @@ info@lioratech.is
 
 ---
 
-*Þessi greining var búin til með AI tækni og yfirfarin af sérfræðingi. Fyrir nákvæmar tillögur og innleiðingaraðstoð, skoðaðu* 👉 **[30-daga AI Roadmap](/30roadmap)**
+*Þessi greining var búin til með AI tækni og yfirfarin af sérfræðingi. Fyrir nákvæmar tillögur og innleiðingaraðstoð, skoðaðu* 👉 **[30-daga AI Plan](https://lioratech.is/30dagaplan)**
 `;
 
   return analysis;
@@ -637,7 +637,7 @@ ${opp.benefits.map(b => `- ${b}`).join('\n')}
 **Næstu skref ef þú vilt innleiða:**
 ${opp.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}
 
-*👉 [Nákvæm innleiðingaráætlun í 30-daga roadmap](/30roadmap)*
+*👉 [Nákvæm innleiðingaráætlun í 30-daga plan](https://lioratech.is/30dagaplan)*
 `).join('\n---\n');
 }
 
