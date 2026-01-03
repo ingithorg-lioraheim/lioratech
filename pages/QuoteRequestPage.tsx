@@ -22,7 +22,7 @@ const QuoteRequestPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://lioratech.app.n8n.cloud/webhook-test/quote-request', {
+      const response = await fetch('https://lioratech.app.n8n.cloud/webhook/quote-request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
