@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, ArrowLeft, CreditCard, Sparkles } from 'lucide-react';
+import { trackPageView, trackFormSubmit, trackLead, trackCTAClick } from '../utils/analytics';
 
 type Step = 'intro' | 'questionnaire' | 'payment' | 'success';
 
@@ -19,7 +20,13 @@ const RoadmapPurchasePage: React.FC = () => {
     timeline: ''
   });
 
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('/greining', 'Ókeypis AI Greining');
+  }, []);
+
   const handleIntro = () => {
+    trackCTAClick('Halda áfram', 'intro_section');
     setCurrentStep('questionnaire');
   };
 
@@ -32,6 +39,9 @@ const RoadmapPurchasePage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
+      // Track form submission
+      trackFormSubmit('Ókeypis AI Greining', 'free_analysis');
+
       // Send data to n8n
       const response = await fetch('https://lioratech.app.n8n.cloud/webhook/roadmap-request', {
         method: 'POST',
@@ -42,6 +52,9 @@ const RoadmapPurchasePage: React.FC = () => {
       });
 
       if (response.ok) {
+        // Track successful lead generation (FREE - high value!)
+        trackLead('free_analysis', 0);
+
         setCurrentStep('success');
       } else {
         alert('Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.');

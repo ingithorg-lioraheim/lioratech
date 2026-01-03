@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, ArrowLeft } from 'lucide-react';
+import { trackPageView, trackFormSubmit, trackLead } from '../utils/analytics';
 
 const QuoteRequestPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,11 @@ const QuoteRequestPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Track page view on mount
+  useEffect(() => {
+    trackPageView('/quote', 'Fá Verðtilboð');
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -26,6 +32,9 @@ const QuoteRequestPage: React.FC = () => {
     setLoading(true);
 
     try {
+      // Track form submission
+      trackFormSubmit('Verðtilboð', 'quote_request');
+
       const response = await fetch('https://lioratech.app.n8n.cloud/webhook/quote-request', {
         method: 'POST',
         headers: {
@@ -35,6 +44,9 @@ const QuoteRequestPage: React.FC = () => {
       });
 
       if (response.ok) {
+        // Track successful lead generation
+        trackLead('quote_request', 0);
+
         setSubmitted(true);
       } else {
         alert('Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.');
