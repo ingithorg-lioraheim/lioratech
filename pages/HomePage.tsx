@@ -820,9 +820,12 @@ const NewsletterSection: React.FC = () => {
     }
   };
 
+  // NEWSLETTER SECTION - Hidden until email system is ready
+  // To re-enable: uncomment the section below and restore the full JSX
+  return null;
+
+  /*
   return (
-    {/* NEWSLETTER SECTION - Hidden until email system is ready */}
-    {/*
     <section id={SectionId.NEWSLETTER} className="py-20 bg-gray-900 text-white">
       <div className="container mx-auto px-6 text-center">
         <div className="max-w-2xl mx-auto">
@@ -866,8 +869,8 @@ const NewsletterSection: React.FC = () => {
         </div>
       </div>
     </section>
-    */}
   );
+  */
 };
 
 const Footer: React.FC = () => {
