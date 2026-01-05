@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Lock, Loader2 } from 'lucide-react';
 
@@ -14,6 +14,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
     website: '',
     phone: '',
   });
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Load Order ID and pre-fill form data from questionnaire
   useEffect(() => {
@@ -42,8 +43,8 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
     }
   }, [searchParams]);
 
-  const PRICE_ISK = 69900; // Price in ISK (Icelandic Króna) - for display
-  const PRICE_EUR = 49000; // Price in EUR cents (490.00 EUR) for Rapyd
+  const PRICE_ISK = 69900; // Price in ISK (without VSK)
+  const TOTAL_WITH_VSK = Math.round(PRICE_ISK * 1.24); // Total with 24% VSK
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,37 +52,55 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
     setError('');
 
     try {
-      // Call Netlify Function to create Rapyd checkout
-      // Using EUR because Rapyd doesn't support ISK (need Saltpay for ISK)
-      const response = await fetch('/.netlify/functions/create-checkout', {
+      // Call Netlify Function to generate SecurePay form data with HMAC signature
+      const response = await fetch('/.netlify/functions/create-payment-form', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: PRICE_EUR,
-          currency: 'EUR',
-          customerEmail: formData.email,
+          amount: TOTAL_WITH_VSK, // Send total with VSK
+          currency: 'ISK',
           customerName: formData.name,
+          customerEmail: formData.email,
           companyName: formData.companyName,
-          metadata: {
-            product: '30-day-roadmap',
-            orderId: orderId, // Include Order ID to link with questionnaire
-            company: formData.companyName,
-            website: formData.website,
-            phone: formData.phone,
-          },
+          itemDescription: `30 daga AI roadmap fyrir ${formData.companyName}`,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create checkout');
+        throw new Error(data.message || 'Failed to create payment form');
       }
 
-      // Redirect to Rapyd hosted checkout page
-      window.location.href = data.checkoutUrl;
+      console.log('Payment form data received:', {
+        orderId: data.orderId,
+        endpoint: data.formData.actionUrl,
+      });
+
+      // Store orderId for success page
+      localStorage.setItem('payment_order_id', data.orderId);
+
+      // Create hidden form and populate with all fields
+      const hiddenForm = document.createElement('form');
+      hiddenForm.method = 'POST';
+      hiddenForm.action = data.formData.actionUrl;
+
+      // Add all form fields
+      Object.entries(data.formData).forEach(([key, value]) => {
+        if (key !== 'actionUrl' && value !== null && value !== undefined) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = String(value);
+          hiddenForm.appendChild(input);
+        }
+      });
+
+      // Append form to body and submit
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
     } catch (err: any) {
       console.error('Payment error:', err);
       setError(err.message || 'Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.');
@@ -134,14 +153,14 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
           <div className="border-t border-brand-primary/20 mt-4 pt-4 flex justify-between items-center">
             <span className="font-bold text-lg text-brand-dark">Samtals</span>
             <span className="font-bold text-2xl text-brand-primary">
-              {Math.round(PRICE_ISK * 1.24).toLocaleString('is-IS')} kr
+              {TOTAL_WITH_VSK.toLocaleString('is-IS')} kr
             </span>
           </div>
         </div>
 
         {/* Payment Form */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-gray-100">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Fullt nafn *
@@ -225,7 +244,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 size={20} className="animate-spin" />
-                  <span>Vinsamlegast bíðið...</span>
+                  <span>Sendir þig í greiðslu...</span>
                 </>
               ) : (
                 <>
@@ -237,16 +256,20 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
 
             <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
               <Lock size={16} />
-              <span>Öruggar greiðslur með Rapyd</span>
+              <span>Öruggar greiðslur með Teya (SaltPay)</span>
             </div>
           </form>
         </div>
 
         {/* Trust Signals */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Við notum Rapyd fyrir öruggar greiðslur.</p>
+          <p>Við notum Teya fyrir öruggar greiðslur.</p>
           <p className="mt-2">
             Þú munt fá kvittun strax og greiðsla hefur verið staðfest.
+          </p>
+          <p className="mt-2 flex items-center justify-center gap-1">
+            <Lock size={14} />
+            <span>256-bit SSL dulkóðun · 3D Secure staðfesting</span>
           </p>
         </div>
       </div>

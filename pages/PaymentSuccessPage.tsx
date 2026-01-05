@@ -9,53 +9,32 @@ const PaymentSuccessPage: React.FC = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const triggerRoadmapGeneration = async () => {
+    const trackSuccess = async () => {
       try {
-        // Get orderId from URL
-        const orderId = searchParams.get('orderId');
-        const checkout = searchParams.get('checkout'); // Rapyd checkout ID
+        // Get orderId from URL or localStorage
+        const orderId = searchParams.get('orderid') || localStorage.getItem('payment_order_id');
 
         if (!orderId) {
-          throw new Error('Missing orderId in URL');
+          console.warn('No orderId found');
+          setProcessing(false);
+          return;
         }
 
-        // Call n8n webhook to trigger roadmap generation
-        const response = await fetch('https://lioratech.app.n8n.cloud/webhook/30-day-payment-callback', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: {
-              metadata: {
-                orderId: orderId
-              },
-              id: checkout || 'manual-trigger',
-              status: 'CLO', // Closed/Completed
-              amount: 69900,
-              currency: 'ISK'
-            }
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to trigger roadmap generation');
-        }
-
-        console.log('Roadmap generation triggered successfully');
+        console.log('Payment successful for order:', orderId);
 
         // Track purchase in Google Analytics (CONVERSION!)
+        // Note: COO agent trigger is handled by payment-callback function
         trackPurchase(orderId, 86676, '30 Day AI Roadmap');
 
         setProcessing(false);
       } catch (err: any) {
-        console.error('Error triggering roadmap:', err);
+        console.error('Error:', err);
         setError(err.message);
         setProcessing(false);
       }
     };
 
-    triggerRoadmapGeneration();
+    trackSuccess();
   }, [searchParams]);
 
   if (processing) {

@@ -12,41 +12,41 @@ const PaymentErrorPage: React.FC = () => {
             <XCircle size={60} className="text-white" />
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            Greiðsla mistókst
+            Greiï¿½sla mistï¿½kst
           </h1>
           <p className="text-xl text-gray-600">
-            Eitthvað fór úrskeiðis við greiðsluna
+            Eitthvaï¿½ fï¿½r ï¿½rskeiï¿½is viï¿½ greiï¿½sluna
           </p>
         </div>
 
         {/* Error Details */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-red-200 mb-8">
           <h2 className="text-xl font-bold text-brand-dark mb-4">
-            Hvað gæti hafa farið úrskeiðis?
+            Hvaï¿½ gï¿½ti hafa fariï¿½ ï¿½rskeiï¿½is?
           </h2>
 
           <ul className="space-y-3 text-gray-600 mb-6">
             <li className="flex items-start gap-2">
               <span className="text-red-500">"</span>
-              <span>Kortaupplýsingar voru rangar eða ófullnægjandi</span>
+              <span>Kortaupplï¿½singar voru rangar eï¿½a ï¿½fullnï¿½gjandi</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-red-500">"</span>
-              <span>Ekki nægilegt fé á kortinu</span>
+              <span>Ekki nï¿½gilegt fï¿½ ï¿½ kortinu</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-red-500">"</span>
-              <span>Kortið þitt hefur verið læst eða útrunnið</span>
+              <span>Kortiï¿½ ï¿½itt hefur veriï¿½ lï¿½st eï¿½a ï¿½trunniï¿½</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-red-500">"</span>
-              <span>Tímabundin villa í greiðslukerfi</span>
+              <span>Tï¿½mabundin villa ï¿½ greiï¿½slukerfi</span>
             </li>
           </ul>
 
           <div className="bg-brand-light rounded-lg p-4">
             <p className="text-brand-dark font-medium">
-              Engar upplýsingar voru vistaðar og ekkert var rukkað af kortinu þínu.
+              Engar upplï¿½singar voru vistaï¿½ar og ekkert var rukkaï¿½ af kortinu ï¿½ï¿½nu.
             </p>
           </div>
         </div>
@@ -54,7 +54,7 @@ const PaymentErrorPage: React.FC = () => {
         {/* Actions */}
         <div className="space-y-4 mb-8">
           <Link
-            to="/payment/30dagaplan"
+            to="/30dagaplan/payment"
             className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg"
           >
             <RefreshCw size={20} />
@@ -74,17 +74,17 @@ const PaymentErrorPage: React.FC = () => {
         <div className="bg-brand-light rounded-xl p-6 text-center">
           <div className="flex items-center justify-center gap-2 text-brand-dark mb-2">
             <Mail size={20} />
-            <span className="font-medium">Þarftu aðstoð?</span>
+            <span className="font-medium">ï¿½arftu aï¿½stoï¿½?</span>
           </div>
           <p className="text-gray-600">
-            Sendu okkur póst á{' '}
+            Sendu okkur pï¿½st ï¿½{' '}
             <a
               href="mailto:ingi@lioratech.is"
               className="text-brand-primary hover:text-brand-dark font-medium"
             >
               ingi@lioratech.is
             </a>
-            {' '}og við leysum þetta fyrir þig
+            {' '}og viï¿½ leysum ï¿½etta fyrir ï¿½ig
           </p>
         </div>
       </div>
