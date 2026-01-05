@@ -25,6 +25,7 @@
 - ✅ GA4 purchase tracking
 - ✅ COO agent integration
 - ✅ Built og deployed til Netlify
+- ✅ **Netlify Environment Variables configured (12 variables)**
 - ⏳ **Testing með test korti (NÆSTA SKREF)**
 
 ⚠️ **MIKILVÆGT:** Uppgjör eru EKKI greidd fyrr en verification er samþykkt.
@@ -148,11 +149,37 @@ POST https://test.borgun.is/rpgapi/api/payment
 
 ### Phase 2: Production (Eftir verification)
 
-1. ✅ Fá production endpoint URL frá Teya
-2. ✅ Skipta um credentials í .env
-3. ✅ Gera test transaction í production
-4. ✅ Bakfæra test transaction
-5. ✅ Fara live!
+**MIKILVÆGT: Þetta er EINFALT - bara 2 variables!**
+
+#### Skref 1: Fá Production Endpoint URL
+- Sendu email á: `Inbound@teya.com` eða `greidslusida@borgun.is`
+- Spurðu: "Hvernig er production endpoint URL fyrir SecurePay?"
+- Þú færð URL á forminu: `https://[something].borgun.is/SecurePay/default.aspx`
+
+#### Skref 2: Uppfæra Netlify Environment Variables
+Farðu í Netlify Dashboard → Project Settings → Environment Variables
+
+**Breyta BARA 2 VARIABLES:**
+
+1. **VITE_TEYA_MODE**
+   - Núverandi value: `test`
+   - Nýtt value: `production`
+
+2. **VITE_TEYA_PROD_ENDPOINT**
+   - Núverandi value: `PENDING_VERIFICATION`
+   - Nýtt value: `[URL sem þú fékkst frá Teya]`
+
+**ALLT ANNAÐ ER ÞEGAR RÉTT!**
+- Production credentials eru already configured
+- Callback URLs eru already réttir
+- n8n webhook er already rétt
+
+#### Skref 3: Testing
+1. ✅ Netlify mun auto-redeploy eftir að þú vistar
+2. ✅ Gera test transaction með raunkorti
+3. ✅ Staðfesta að uppgjör birtist í Teya portal
+4. ✅ Bakfæra test transaction (ef þú vilt)
+5. ✅ **PRODUCTION LIVE!**
 
 ---
 
@@ -291,16 +318,18 @@ OrderId|Amount|Currency
 
 ---
 
-## 💾 Environment Variables (.env)
+## 💾 Environment Variables
+
+### Local Development (.env file)
 
 ```bash
 # Teya Payment Gateway - Test
-VITE_TEYA_TEST_MERCHANT_ID=test_merchant_id
+TEYA_TEST_MERCHANT_ID=test_merchant_id
 TEYA_TEST_SECRET_KEY=cdedfbb6ecab4a4994ac880144dd92dc
 
 # Teya Payment Gateway - Production
-VITE_TEYA_MERCHANT_ID=5135296
-VITE_TEYA_GATEWAY_ID=97601
+TEYA_MERCHANT_ID=5135296
+TEYA_GATEWAY_ID=97601
 TEYA_SECRET_KEY=8b22f5be7648db800c56f0ba2e109a68
 
 # Teya Endpoints
@@ -312,9 +341,36 @@ VITE_PAYMENT_SUCCESS_URL=https://lioratech.is/payment-success
 VITE_PAYMENT_ERROR_URL=https://lioratech.is/payment-error
 VITE_PAYMENT_CALLBACK_URL=https://lioratech.is/.netlify/functions/payment-callback
 
+# n8n Webhook
+N8N_ROADMAP_WEBHOOK=https://lioratech.app.n8n.cloud/webhook/30-day-payment-callback
+
 # Mode
 VITE_TEYA_MODE=test  # Skipta í 'production' þegar live
 ```
+
+### Netlify Dashboard (Production - CONFIGURED ✅)
+
+**Staðsetning:** Netlify Dashboard → Project Settings → Environment Variables
+
+✅ **Öll 12 variables configured (2026-01-05):**
+
+1. `N8N_ROADMAP_WEBHOOK` = `https://lioratech.app.n8n.cloud/webhook/30-day-payment-callback`
+2. `TEYA_GATEWAY_ID` = `97601`
+3. `TEYA_MERCHANT_ID` = `5135296`
+4. `TEYA_SECRET_KEY` = `8b22f5be7648db800c56f0ba2e109a68`
+5. `TEYA_TEST_MERCHANT_ID` = `test_merchant_id`
+6. `TEYA_TEST_SECRET_KEY` = `cdedfbb6ecab4a4994ac880144dd92dc`
+7. `VITE_PAYMENT_CALLBACK_URL` = `https://lioratech.is/.netlify/functions/payment-callback`
+8. `VITE_PAYMENT_ERROR_URL` = `https://lioratech.is/payment-error`
+9. `VITE_PAYMENT_SUCCESS_URL` = `https://lioratech.is/payment-success`
+10. `VITE_TEYA_MODE` = `test` ⚠️ **BREYTA Í 'production' ÞEGAR LIVE**
+11. `VITE_TEYA_PROD_ENDPOINT` = `PENDING_VERIFICATION` ⚠️ **UPPFÆRA ÞEGAR FENGIÐ FRÁ TEYA**
+12. `VITE_TEYA_TEST_ENDPOINT` = `https://test.borgun.is/SecurePay/default.aspx`
+
+**Athugasemd um URL variable:**
+- Netlify blokkerar að búa til `URL` variable (reserved)
+- Þetta er EKKI vandamál - kóðinn hefur fallback: `process.env.URL || 'https://lioratech.is'`
+- Explicit callback URLs eru already configured
 
 ---
 
@@ -426,6 +482,6 @@ VITE_TEYA_MODE=test  # Skipta í 'production' þegar live
 
 ---
 
-**Síðast uppfært:** 2026-01-05 14:30
-**Status:** Ready for testing
-**Næsta skref:** Test payment flow með test korti
+**Síðast uppfært:** 2026-01-05 16:00
+**Status:** Environment variables configured, ready for testing
+**Næsta skref:** Test payment flow með test korti á https://lioratech.is/30dagaplan/payment
