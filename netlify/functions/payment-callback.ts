@@ -101,12 +101,18 @@ export const handler: Handler = async (
     if (step === 'Payment') {
       console.log('[PaymentCallback] Processing server callback...');
 
-      // Prepare order data for COO Agent / n8n
+      // Prepare order data for n8n (matching expected format from workflow)
       const orderData = {
-        orderId,
-        paymentStatus: 'completed',
-        amount: parseFloat(amount),
-        currency,
+        data: {
+          metadata: {
+            orderId, // n8n looks for data.metadata.orderId
+          },
+          id: orderId, // Payment ID
+          status: 'CLO', // Closed/Completed
+          amount: parseFloat(amount),
+          currency,
+        },
+        orderId, // Also at root level for backwards compatibility
         authorizationCode,
         creditCardNumber,
         paymentDate: new Date().toISOString(),
