@@ -10,10 +10,22 @@
 
 ## 📋 Staða
 
-- ✅ Vefsamningur stofnaður
+**Teya Account:**
+- ✅ Vefsamningur stofnaður (Samningur #5135296)
 - ✅ Áreiðanleikakönnun lokið
 - ⏳ Bíður eftir verification staðfestingu
 - ⏳ Production endpoint URL (fæst eftir verification)
+
+**Implementation:**
+- ✅ Backend functions búnar (create-payment-form, payment-callback)
+- ✅ Frontend pages uppfærðar (Payment, Success, Error)
+- ✅ n8n integration matching workflow format
+- ✅ HMAC-SHA256 signature implementation
+- ✅ OrderHash validation
+- ✅ GA4 purchase tracking
+- ✅ COO agent integration
+- ✅ Built og deployed til Netlify
+- ⏳ **Testing með test korti (NÆSTA SKREF)**
 
 ⚠️ **MIKILVÆGT:** Uppgjör eru EKKI greidd fyrr en verification er samþykkt.
 
@@ -325,5 +337,95 @@ VITE_TEYA_MODE=test  # Skipta í 'production' þegar live
 
 ---
 
-**Síðast uppfært:** 2026-01-05
-**Næsta skref:** Implementa payment integration í test mode
+---
+
+## ✅ **IMPLEMENTATION STATUS (2026-01-05)**
+
+### **Completed:**
+
+**Backend (Netlify Functions):**
+- ✅ `netlify/functions/create-payment-form.ts`
+  - Generates HMAC-SHA256 signed form data
+  - Returns all fields needed for SecurePay POST
+  - Uses test credentials from .env
+
+- ✅ `netlify/functions/payment-callback.ts`
+  - Validates orderhash with HMAC-SHA256
+  - Sends data to n8n in correct format
+  - Returns XML response to Teya
+  - Fraud prevention via signature validation
+
+- ✅ `netlify/functions/utils/securepay.ts`
+  - HMAC-SHA256 signature generation
+  - OrderHash validation
+  - Order ID generation (30D-YYYYMMDD-XXX format)
+  - Amount formatting for ISK
+
+**Frontend (React Pages):**
+- ✅ `pages/ThirtyDayRoadmapPaymentPage.tsx`
+  - Calls create-payment-form function
+  - Creates hidden form with signed data
+  - Auto-submits to Teya SecurePay
+  - Shows 86.676 kr total (with VSK)
+
+- ✅ `pages/PaymentSuccessPage.tsx`
+  - Tracks GA4 purchase event
+  - Shows success message
+  - COO trigger handled by payment-callback
+
+- ✅ `pages/PaymentErrorPage.tsx`
+  - Error handling for failed payments
+  - Retry button links to /30dagaplan/payment
+
+**Integration:**
+- ✅ n8n webhook URL: `/30-day-payment-callback`
+- ✅ Data format matches n8n workflow expectations
+- ✅ OrderID extracted from `data.metadata.orderId`
+- ✅ Backward compatible with root `orderId` field
+
+**Git Commits:**
+1. `feat: Implement Teya SecurePay payment integration`
+2. `fix: Match n8n workflow data format for payment callback`
+
+### **Testing Checklist:**
+
+- [ ] 1. Navigate to https://lioratech.is/30dagaplan/payment
+- [ ] 2. Fill out payment form
+- [ ] 3. Verify redirect to Teya test environment
+- [ ] 4. Enter test card: 4176 6699 9900 0104, 12/31, 012
+- [ ] 5. Complete payment
+- [ ] 6. Verify redirect to /payment-success
+- [ ] 7. Check browser console for GA4 purchase event
+- [ ] 8. Check n8n executions for triggered workflow
+- [ ] 9. Check Google Drive for questionnaire file
+- [ ] 10. Check Google Drive for generated roadmap
+
+### **Known Issues:**
+
+1. **Test card does not support 3D Secure**
+   - Workaround: Use real card for 3DS testing
+   - Impact: Cannot test full payment flow with test card
+
+2. **Production endpoint URL not yet received**
+   - Status: Waiting for Teya verification completion
+   - Action: Contact Inbound@teya.com when ready
+
+### **Next Steps After Testing:**
+
+1. **If tests pass:**
+   - Mark testing complete
+   - Wait for Teya verification
+   - Get production endpoint URL
+   - Switch to production mode
+
+2. **If tests fail:**
+   - Check browser console for errors
+   - Check Netlify function logs
+   - Check n8n execution logs
+   - Debug and fix issues
+
+---
+
+**Síðast uppfært:** 2026-01-05 14:30
+**Status:** Ready for testing
+**Næsta skref:** Test payment flow með test korti
