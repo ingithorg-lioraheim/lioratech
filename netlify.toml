@@ -9,10 +9,8 @@
 [functions]
   node_bundler = "esbuild"
 
-# SPA redirect - serve index.html for all routes except functions
+# SPA redirect - serve index.html for all routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  force = false
-  conditions = {Role = ["*"]}
