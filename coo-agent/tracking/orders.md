@@ -10,6 +10,10 @@
 
 | Order ID | Customer | Product | Completed | Delivery Time | Notes |
 |----------|----------|---------|-----------|---------------|-------|
+| AI-2026-01-03-QR37LD | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-QR37LD-test3-ai-greining.md |
+| AI-2026-01-03-GFKGNN | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-GFKGNN-test3-ai-greining.md |
+| AI-2026-01-03-ZU0R24 | test ehf | AI-Greining (Free) | 2026-01-03 09:16 | 0.00h | Industry: smásala, Pain: of mikill tími í handavinnu... Path: products/completed/AI-2026-01-03-ZU0R24-test-ehf-ai-greining.md |
+| AI-2025-12-30-AZ4X31 | test | AI-Greining (Free) | 2026-01-03 09:16 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2025-12-30-AZ4X31-test-ai-greining.md |
 | AI-2025-12-17-2SZ6UP | Reiðhjólaverzlunin Berlin | AI-Greining (Free) | 2025-12-17 00:33 | 0.00h | Industry: Smásala / verslun, Pain: 1. Þrýstingur á framlegð
 2. Lager og bundið fjárma... Path: products/completed/AI-2025-12-17-2SZ6UP-Reihjlaverzlunin-Berlin-ai-greining.md |
 | AI-2025-12-16-HNQHCM | Hans & Gréta | AI-Greining (Free) | 2025-12-16 23:27 | 0.00h | Industry: Smásala (retail), Pain: 1. Lágir framlegðarþrýstingur + hár fastur kostnað... Path: products/completed/AI-2025-12-16-HNQHCM-Hans-Grta-ai-greining.md |

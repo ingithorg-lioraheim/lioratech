@@ -32,3 +32,8 @@ coo-agent/.env
 # Local Netlify folder
 .netlify
 coo-agent/.google-drive-config.json
+
+# COO Agent - User/Customer Data (NEVER commit these)
+coo-agent/products/
+coo-agent/requests/
+coo-agent/scripts/setup-google-auth.js
