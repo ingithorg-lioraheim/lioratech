@@ -482,6 +482,52 @@ VITE_TEYA_MODE=test  # Skipta í 'production' þegar live
 
 ---
 
-**Síðast uppfært:** 2026-01-05 16:00
-**Status:** Environment variables configured, ready for testing
-**Næsta skref:** Test payment flow með test korti á https://lioratech.is/30dagaplan/payment
+## 🐛 **DEBUGGING SESSION (2026-01-05 14:30-15:00)**
+
+### **Issue: Teya error "Innsend gögn eru ekki rétt formúð" (Error Code 1)**
+
+**Problem discovered:**
+User tested payment flow and Teya rejected with error:
+```
+status: ERROR
+errorcode: 1
+errordescription: Innsend gögn eru ekki rétt formúð
+```
+
+**Root causes found and fixed:**
+
+1. **Fix #1: `paymentgatewayid` in test mode** (Commit: `0e3ba47`)
+   - **Problem:** Was sending `paymentgatewayid: 'test_gateway_id'` (invalid placeholder)
+   - **Solution:** Changed to empty string `''` for test mode
+   - **File:** `netlify/functions/utils/securepay.ts` line 102
+   - **Change:** `process.env.TEYA_TEST_GATEWAY_ID || ''`
+
+2. **Fix #2: `merchantid` in test mode** (Commit: `6127a64`)
+   - **Problem:** Was sending `merchantid: 'test_merchant_id'` (invalid placeholder)
+   - **Solution:** Use production merchant ID (`5135296`) for both test and production
+   - **Reason:** Test vs production is determined by endpoint URL, not merchant ID
+   - **File:** `netlify/functions/utils/securepay.ts` lines 97-99
+   - **Configuration:**
+     - Test mode: Production merchant ID + Test secret key + Test endpoint
+     - Production: Production merchant ID + Production secret key + Production endpoint
+
+**Debugging process:**
+- Used Chrome DevTools Network tab with "Preserve log"
+- Examined Form Data being POSTed to Teya `default.aspx`
+- Identified invalid `merchantid` and `paymentgatewayid` values
+- Compared against Teya documentation requirements
+
+**Status after fixes:**
+- ✅ Both fixes committed and pushed
+- ⏳ Waiting for Netlify deployment (~2-3 minutes)
+- ⏳ Ready for testing with test card
+
+---
+
+**Síðast uppfært:** 2026-01-05 15:00
+**Status:** Debugging fixes deployed, waiting for Netlify build
+**Næsta skref:**
+1. Wait for Netlify deployment to complete (check: https://app.netlify.com)
+2. Test payment flow in incognito window: https://lioratech.is/30dagaplan/payment
+3. Use test card: 4176 6699 9900 0104, 12/31, 012
+4. Verify redirect to /payment-success (not /payment-error)
