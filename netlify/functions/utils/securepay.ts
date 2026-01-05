@@ -94,17 +94,18 @@ export function validateOrderHash(
 export function getSecurePayConfig(): SecurePayConfig {
   const isTestMode = process.env.VITE_TEYA_MODE !== 'production';
 
-  // Use production merchant ID for both test and production
-  // Test vs production is determined by endpoint, not merchant ID
-  const merchantId = process.env.TEYA_MERCHANT_ID;
+  // Use correct credentials for test vs production
+  const merchantId = isTestMode
+    ? process.env.TEYA_TEST_MERCHANT_ID
+    : process.env.TEYA_MERCHANT_ID;
 
   const gatewayId = isTestMode
-    ? process.env.TEYA_TEST_GATEWAY_ID || ''  // Empty for test mode if not set
+    ? process.env.TEYA_TEST_GATEWAY_ID || ''
     : process.env.TEYA_GATEWAY_ID;
 
-  // Use production secret key for both test and production
-  // Test vs production is determined by endpoint, not credentials
-  const secretKey = process.env.TEYA_SECRET_KEY;
+  const secretKey = isTestMode
+    ? process.env.TEYA_TEST_SECRET_KEY
+    : process.env.TEYA_SECRET_KEY;
 
   const endpoint = isTestMode
     ? process.env.VITE_TEYA_TEST_ENDPOINT || 'https://test.borgun.is/SecurePay/default.aspx'
