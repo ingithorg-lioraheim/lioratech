@@ -99,7 +99,7 @@ export function getSecurePayConfig(): SecurePayConfig {
     : process.env.TEYA_MERCHANT_ID;
 
   const gatewayId = isTestMode
-    ? process.env.TEYA_TEST_GATEWAY_ID || 'test_gateway_id'
+    ? process.env.TEYA_TEST_GATEWAY_ID || ''  // Empty for test mode if not set
     : process.env.TEYA_GATEWAY_ID;
 
   const secretKey = isTestMode
