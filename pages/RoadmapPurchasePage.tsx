@@ -22,7 +22,7 @@ const RoadmapPurchasePage: React.FC = () => {
 
   // Track page view on mount
   useEffect(() => {
-    trackPageView('/greining', 'Ókeypis AI Greining');
+    trackPageView('/greining', 'Frí AI Greining');
   }, []);
 
   const handleIntro = () => {
@@ -40,7 +40,7 @@ const RoadmapPurchasePage: React.FC = () => {
 
     try {
       // Track form submission
-      trackFormSubmit('Ókeypis AI Greining', 'free_analysis');
+      trackFormSubmit('Frí AI Greining', 'free_analysis');
 
       // Send data to n8n
       const response = await fetch('https://lioratech.app.n8n.cloud/webhook/roadmap-request', {
@@ -115,7 +115,7 @@ const RoadmapPurchasePage: React.FC = () => {
             SJÁLFVIRK AI-GREINING
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            {currentStep === 'intro' && 'Fáðu ókeypis AI-greining'}
+            {currentStep === 'intro' && 'Fáðu fría AI-greiningu'}
             {currentStep === 'questionnaire' && 'Segðu okkur um fyrirtækið þitt'}
             {currentStep === 'success' && 'Takk fyrir!'}
           </h1>
@@ -187,8 +187,8 @@ const RoadmapPurchasePage: React.FC = () => {
 
             <div className="bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-200 p-6 rounded-xl mb-8">
               <div className="text-center mb-4">
-                <p className="text-3xl font-bold text-brand-dark mb-2">100% ókeypis</p>
-                <p className="text-sm text-gray-600">Ókeypis greining – niðurstöður sendar innan 24 klst.</p>
+                <p className="text-3xl font-bold text-brand-dark mb-2">100% frítt</p>
+                <p className="text-sm text-gray-600">Frí greining – niðurstöður sendar innan 24 klst.</p>
               </div>
               <div className="border-t border-gray-200 pt-4 space-y-2">
                 <p className="text-sm text-gray-700 flex items-center gap-2">
@@ -355,7 +355,7 @@ const RoadmapPurchasePage: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    Fá ókeypis greiningu <ArrowRight size={20} />
+                    Fá fría greiningu <ArrowRight size={20} />
                   </>
                 )}
               </button>

@@ -448,7 +448,7 @@ const ServicesSection: React.FC = () => {
           {/* Service 1: Free AI Analysis */}
           <div className="bg-brand-light p-8 rounded-xl border-2 border-blue-400 hover:shadow-lg hover:shadow-blue-200 transition-all transform hover:-translate-y-2 hover:scale-[1.02] duration-300 relative overflow-hidden">
             <div className="absolute top-4 right-4 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-md">
-              100% ÓKEYPIS
+              100% FRÍTT
             </div>
             <div className="w-12 h-12 bg-brand-primary/10 rounded-lg flex items-center justify-center mb-4">
               <BrainCircuit className="text-brand-primary" size={24} />
@@ -640,7 +640,7 @@ const ProductsSection: React.FC = () => {
         <div ref={ref} className={`grid md:grid-cols-2 gap-8 max-w-6xl mx-auto transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           {/* Quick Start Option */}
           <div>
-            <p className="text-center text-sm font-medium text-gray-500 mb-3">Fyrir þá sem vilja byrja strax og ókeypis</p>
+            <p className="text-center text-sm font-medium text-gray-500 mb-3">Fyrir þá sem vilja byrja strax og frítt</p>
             <div className="bg-gradient-to-br from-brand-primary to-blue-600 text-white p-10 rounded-2xl shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
               <div className="relative z-10">
@@ -860,7 +860,7 @@ const NewsletterSection: React.FC = () => {
                   disabled={status === 'loading'}
                   className="px-8 py-3 bg-brand-accent text-white font-bold rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
                 >
-                  {status === 'loading' ? '...' : 'Skrá mig ókeypis'}
+                  {status === 'loading' ? '...' : 'Skrá mig frítt'}
                 </button>
               </form>
               <p className="text-xs text-gray-400">Afskráðu þig hvenær sem er. Engin ruslpóstur.</p>
@@ -899,7 +899,7 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold text-brand-dark mb-4">Þjónusta</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link to="/greining" className="hover:text-brand-primary transition-colors">Ókeypis AI-greining</Link></li>
+              <li><Link to="/greining" className="hover:text-brand-primary transition-colors">Frí AI-greining</Link></li>
               <li><Link to="/30dagaplan" className="hover:text-brand-primary transition-colors">30 daga AI plan</Link></li>
               <li><Link to="/quote" className="hover:text-brand-primary transition-colors">12 mánaða roadmap</Link></li>
               <li><Link to="/quote" className="hover:text-brand-primary transition-colors">Smíði lausna</Link></li>

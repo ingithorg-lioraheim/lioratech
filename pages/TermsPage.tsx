@@ -46,7 +46,7 @@ export default function TermsPage() {
                 <li><strong className="text-brand-dark">"LioraTech"</strong> eða <strong className="text-brand-dark">"við"</strong> vísar til Lioraheim ehf., kt. 660625-1860</li>
                 <li><strong className="text-brand-dark">"Þjónusta"</strong> vísar til allra þjónustu sem LioraTech býður upp á, þar með talið AI-greining, 30 daga framkvæmdaáætlanir og sérsniðnar lausnir</li>
                 <li><strong className="text-brand-dark">"Viðskiptavinur"</strong> eða <strong className="text-brand-dark">"þú"</strong> vísar til einstaklinga eða fyrirtækja sem nota þjónustu okkar</li>
-                <li><strong className="text-brand-dark">"Greining"</strong> vísar til ókeypis AI-greiningar á viðskiptamöguleikum</li>
+                <li><strong className="text-brand-dark">"Greining"</strong> vísar til frírar AI-greiningar á viðskiptamöguleikum</li>
                 <li><strong className="text-brand-dark">"30 daga plan"</strong> vísar til nákvæmrar framkvæmdaáætlunar sem keypt er fyrir 69.900 ISK</li>
               </ul>
             </section>
@@ -55,9 +55,9 @@ export default function TermsPage() {
             <section>
               <h2 className="text-3xl font-bold text-brand-dark mt-12 mb-6 border-b-2 border-brand-primary pb-2">2. Þjónustulýsing</h2>
 
-              <h3 className="text-2xl font-semibold text-brand-primary mt-8 mb-4">2.1 Ókeypis AI Greining</h3>
+              <h3 className="text-2xl font-semibold text-brand-primary mt-8 mb-4">2.1 Frí AI Greining</h3>
               <p className="text-gray-700 leading-relaxed">
-                LioraTech býður upp á ókeypis AI-drifna greiningu á viðskiptamöguleikum fyrir íslensk SMB fyrirtæki.
+                LioraTech býður upp á fría AI-drifna greiningu á viðskiptamöguleikum fyrir íslensk SMB fyrirtæki.
                 Greiningin er afhent í pdf-formi innan 24 klukkustunda og inniheldur 3-5 skýr tækifæri raðað eftir mögulegum áhrifum.
               </p>
 
