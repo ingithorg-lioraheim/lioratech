@@ -116,12 +116,12 @@ const RoadmapPurchasePage: React.FC = () => {
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
             {currentStep === 'intro' && 'Fáðu fría AI-greiningu'}
-            {currentStep === 'questionnaire' && 'Segðu okkur um fyrirtækið þitt'}
+            {currentStep === 'questionnaire' && 'Segðu okkur frá fyrirtækinu þínu'}
             {currentStep === 'success' && 'Takk fyrir!'}
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             {currentStep === 'intro' && 'Fljótleg sjálfvirk greining sem metur stöðu rekstrarins og skilar 3–5 skýrum tækifærum til úrbóta. Engin skuldbinding.'}
-            {currentStep === 'questionnaire' && 'Þessar upplýsingar hjálpa AI að greina reksturinn og finna bestu tækifærin'}
+            {currentStep === 'questionnaire' && 'Þessar upplýsingar hjálpa okkur að greina reksturinn og finna bestu tækifærin'}
             {currentStep === 'success' && 'Greiningin þín verður tilbúin innan 24 klst'}
           </p>
         </div>

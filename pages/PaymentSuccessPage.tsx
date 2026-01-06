@@ -82,7 +82,7 @@ const PaymentSuccessPage: React.FC = () => {
         {/* Success Details */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-green-200 mb-8">
           <h2 className="text-2xl font-bold text-brand-dark mb-6 text-center">
-            Hvað gerist núst?
+            Hvað gerist núna?
           </h2>
 
           <div className="space-y-6">
@@ -106,10 +106,10 @@ const PaymentSuccessPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-brand-dark mb-1">
-                  AI byrjar að greina
+                  Byrjum strax að greina
                 </h3>
                 <p className="text-gray-600">
-                  COO-Agent okkar byrjar strax að greina fyrirtækið þitt og byggja persónulega 30 daga framkvæmdaáætlun.
+                  Við byrjum strax að greina fyrirtækið þitt og byggja persónulega 30 daga framkvæmdaáætlun.
                 </p>
               </div>
             </div>
@@ -120,10 +120,10 @@ const PaymentSuccessPage: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-bold text-brand-dark mb-1">
-                  Roadmap sent innan 24 klst
+                  Greining og framkvæmdaáætlun tilbúin innan 3-5 virka daga
                 </h3>
                 <p className="text-gray-600">
-                  Þú færð persónulega AI-greiningu og nákvæma 30 daga áætlun senda á netfangið þitt sem fagleg PDF skýrsla.
+                  Ég hef samband við þig um leið og við höfum greint fyrirtækið þitt og útbúið 30 daga áætlun sem ég fer svo yfir með þér.
                 </p>
               </div>
             </div>
