@@ -9,7 +9,23 @@
 [functions]
   node_bundler = "esbuild"
 
-# SPA redirect - serve index.html for all routes
+# Explicit redirects for payment pages (before catch-all)
+[[redirects]]
+  from = "/payment-success"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/payment-error"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/30dagaplan/*"
+  to = "/index.html"
+  status = 200
+
+# SPA catch-all redirect - MUST BE LAST
 [[redirects]]
   from = "/*"
   to = "/index.html"
