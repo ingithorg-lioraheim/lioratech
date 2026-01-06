@@ -44,8 +44,8 @@ export const handler: Handler = async (
       authCode: authorizationCode,
     });
 
-    // Check if payment was successful
-    if (status !== 'Ok') {
+    // Check if payment was successful (case-insensitive check for 'OK' or 'Ok')
+    if (status?.toUpperCase() !== 'OK') {
       console.log('[PaymentCallback] Payment not successful:', status);
       return {
         statusCode: 200,
