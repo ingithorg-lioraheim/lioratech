@@ -72,14 +72,26 @@ export const handler: Handler = async (
     // Generate unique order ID
     const orderId = generateOrderId();
 
-    // Get site URL
-    const siteUrl = process.env.URL || 'https://lioratech.is';
+    // Get site URL - FORCE production URL to avoid Netlify preview URLs
+    const siteUrl = 'https://lioratech.is';
+
+    console.log('[CreatePaymentForm] Environment check:', {
+      'process.env.URL': process.env.URL,
+      'using siteUrl': siteUrl,
+    });
 
     // Build callback URLs
     const returnUrlSuccess = `${siteUrl}/payment-success`;
     const returnUrlSuccessServer = `${siteUrl}/.netlify/functions/payment-callback`;
     const returnUrlCancel = `${siteUrl}/payment-error?status=cancel`;
     const returnUrlError = `${siteUrl}/payment-error?status=error`;
+
+    console.log('[CreatePaymentForm] Return URLs:', {
+      success: returnUrlSuccess,
+      server: returnUrlSuccessServer,
+      cancel: returnUrlCancel,
+      error: returnUrlError,
+    });
 
     // Format amount
     const formattedAmount = formatAmount(requestData.amount, requestData.currency);
