@@ -65,6 +65,7 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
           customerEmail: formData.email,
           companyName: formData.companyName,
           itemDescription: `30 daga AI roadmap fyrir ${formData.companyName}`,
+          orderId: orderId || undefined, // Pass orderId from questionnaire if available
         }),
       });
 

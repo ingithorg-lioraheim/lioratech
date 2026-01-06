@@ -14,6 +14,7 @@ interface CreatePaymentRequest {
   customerEmail: string;
   companyName?: string;
   itemDescription?: string;
+  orderId?: string; // Optional: use existing orderId from questionnaire
 }
 
 /**
@@ -69,8 +70,13 @@ export const handler: Handler = async (
     // Get SecurePay config
     const config = getSecurePayConfig();
 
-    // Generate unique order ID
-    const orderId = generateOrderId();
+    // Use provided orderId from questionnaire, or generate new one
+    const orderId = requestData.orderId || generateOrderId();
+
+    console.log('[CreatePaymentForm] OrderID:', {
+      provided: requestData.orderId,
+      using: orderId,
+    });
 
     // Get site URL - FORCE production URL to avoid Netlify preview URLs
     const siteUrl = 'https://lioratech.is';
