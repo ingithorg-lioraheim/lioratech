@@ -87,7 +87,8 @@ export const handler: Handler = async (
     });
 
     // Build callback URLs
-    const returnUrlSuccess = `${siteUrl}/payment-success`;
+    // Use Netlify Function for success to handle POST redirect from Teya
+    const returnUrlSuccess = `${siteUrl}/.netlify/functions/payment-success`;
     const returnUrlSuccessServer = `${siteUrl}/.netlify/functions/payment-callback`;
     const returnUrlCancel = `${siteUrl}/payment-error?status=cancel`;
     const returnUrlError = `${siteUrl}/payment-error?status=error`;
