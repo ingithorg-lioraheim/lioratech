@@ -64,9 +64,10 @@ export const handler: Handler = async (
     }
 
     // CRITICAL: Validate orderhash to prevent fraud
-    const secretKey = process.env.VITE_TEYA_MODE !== 'production'
-      ? process.env.TEYA_TEST_SECRET_KEY
-      : process.env.TEYA_SECRET_KEY;
+    // NOTE: Use TEYA_MODE (not VITE_TEYA_MODE) for Netlify Functions runtime
+    const secretKey = process.env.TEYA_MODE === 'production'
+      ? process.env.TEYA_SECRET_KEY
+      : process.env.TEYA_TEST_SECRET_KEY;
 
     if (!secretKey) {
       throw new Error('Teya secret key not configured');
@@ -126,7 +127,7 @@ export const handler: Handler = async (
 
       // Send to n8n webhook to trigger COO Agent
       const n8nWebhook = process.env.N8N_ROADMAP_WEBHOOK ||
-                         'https://lioratech.app.n8n.cloud/webhook/roadmap-request';
+                         'https://lioratech.app.n8n.cloud/webhook/30-day-payment-callback';
 
       try {
         const n8nResponse = await fetch(n8nWebhook, {
