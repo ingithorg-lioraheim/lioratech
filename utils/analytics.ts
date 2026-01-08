@@ -15,6 +15,14 @@ declare global {
   }
 }
 
+// GA4 Ecommerce Item interface
+export interface GA4Item {
+  item_id: string;
+  item_name: string;
+  price: number;
+  quantity?: number;
+}
+
 /**
  * Track custom event
  * @param eventName - Name of the event (e.g., 'button_click', 'form_submit')
@@ -43,77 +51,72 @@ export function trackPageView(pagePath: string, pageTitle?: string) {
 }
 
 /**
- * Track when user views a product
- * @param productName - Name of product
- * @param value - Price in ISK
+ * Track when user views a product/service
+ * @param item - GA4 Item with id, name, price, and optional quantity
  */
-export function trackViewProduct(productName: string, value: number) {
-  trackEvent('view_item', {
-    currency: 'ISK',
-    value: value,
-    items: [{
-      item_name: productName,
-      price: value,
-    }],
-  });
+export function trackViewItem(item: GA4Item) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'view_item', {
+      currency: 'ISK',
+      value: item.price,
+      items: [item],
+    });
+    console.log('[GA4 View Item]', item);
+  }
 }
 
 /**
- * Track when user begins checkout (fills out questionnaire)
- * @param productName - Name of product
- * @param value - Price in ISK
+ * Track when user begins checkout (e.g., starts questionnaire for paid product)
+ * @param item - GA4 Item with id, name, price, and optional quantity
  */
-export function trackBeginCheckout(productName: string, value: number) {
-  trackEvent('begin_checkout', {
-    currency: 'ISK',
-    value: value,
-    items: [{
-      item_name: productName,
-      price: value,
-    }],
-  });
+export function trackBeginCheckout(item: GA4Item) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'begin_checkout', {
+      currency: 'ISK',
+      value: item.price,
+      items: [item],
+    });
+    console.log('[GA4 Begin Checkout]', item);
+  }
 }
 
 /**
- * Track when user adds payment info (on payment page)
- * @param productName - Name of product
- * @param value - Price in ISK
+ * Track when user reaches payment page or adds payment info
+ * @param item - GA4 Item with id, name, price, and optional quantity
  */
-export function trackAddPaymentInfo(productName: string, value: number) {
-  trackEvent('add_payment_info', {
-    currency: 'ISK',
-    value: value,
-    items: [{
-      item_name: productName,
-      price: value,
-    }],
-  });
+export function trackAddPaymentInfo(item: GA4Item) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'add_payment_info', {
+      currency: 'ISK',
+      value: item.price,
+      items: [item],
+    });
+    console.log('[GA4 Add Payment Info]', item);
+  }
 }
 
 /**
  * Track successful purchase (conversion!)
- * @param orderId - Unique order ID
- * @param value - Purchase amount in ISK
- * @param productName - Name of product
+ * @param orderId - Unique transaction/order ID
+ * @param item - GA4 Item with id, name, price, and optional quantity
  */
-export function trackPurchase(orderId: string, value: number, productName: string) {
-  trackEvent('purchase', {
-    transaction_id: orderId,
-    currency: 'ISK',
-    value: value,
-    items: [{
-      item_id: orderId,
-      item_name: productName,
-      price: value,
-      quantity: 1,
-    }],
-  });
+export function trackPurchase(orderId: string, item: GA4Item) {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'purchase', {
+      transaction_id: orderId,
+      currency: 'ISK',
+      value: item.price,
+      items: [{
+        ...item,
+        quantity: item.quantity || 1,
+      }],
+    });
 
-  console.log('[GA4 Purchase] 🎉', {
-    orderId,
-    value,
-    productName,
-  });
+    console.log('[GA4 Purchase] 🎉', {
+      orderId,
+      item,
+    });
+  }
 }
 
 /**

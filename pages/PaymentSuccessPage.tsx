@@ -24,7 +24,12 @@ const PaymentSuccessPage: React.FC = () => {
 
         // Track purchase in Google Analytics (CONVERSION!)
         // Note: COO agent trigger is handled by payment-callback function
-        trackPurchase(orderId, 86676, '30 Day AI Roadmap');
+        trackPurchase(orderId, {
+          item_id: '30-daga-plan',
+          item_name: '30 daga plan',
+          price: 86676,
+          quantity: 1
+        });
 
         setProcessing(false);
       } catch (err: any) {

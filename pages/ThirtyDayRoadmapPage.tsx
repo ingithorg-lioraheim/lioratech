@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ArrowRight, ArrowLeft, Target, Clock, BarChart3, Zap } from 'lucide-react';
-import { trackViewProduct } from '../utils/analytics';
+import { trackViewItem, trackCTAClick, trackPageView } from '../utils/analytics';
 
 const ThirtyDayRoadmapPage: React.FC = () => {
-  // Track product view on page load
+  // Track page view and product view on page load
   useEffect(() => {
-    trackViewProduct('30 Day AI Roadmap', 86676);
+    trackPageView('/30dagaplan', '30 daga plan - Landing síða');
+
+    // Track that user is viewing the 30 day plan product
+    trackViewItem({
+      item_id: '30-daga-plan',
+      item_name: '30 daga plan',
+      price: 86676, // Total with VSK
+      quantity: 1
+    });
   }, []);
 
   return (
@@ -118,6 +126,7 @@ const ThirtyDayRoadmapPage: React.FC = () => {
 
                 <Link
                   to="/30dagaplan/questionnaire"
+                  onClick={() => trackCTAClick('Panta núna', '30day_landing_pricing_card')}
                   className="w-full py-4 bg-white text-brand-primary font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg flex justify-center items-center group"
                 >
                   Panta núna <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -219,6 +228,7 @@ const ThirtyDayRoadmapPage: React.FC = () => {
             </p>
             <Link
               to="/30dagaplan/questionnaire"
+              onClick={() => trackCTAClick('Panta 30 daga áætlun', '30day_landing_bottom_cta')}
               className="inline-flex items-center px-10 py-5 bg-brand-accent text-white font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg text-lg"
             >
               Panta 30 daga áætlun <ArrowRight className="ml-2" />

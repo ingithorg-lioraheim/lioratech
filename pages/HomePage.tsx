@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { SectionId } from '../types';
 import AIChatWidget from '../components/AIChatWidget';
+import { trackViewItem, trackCTAClick } from '../utils/analytics';
 
 // --- Custom Hooks ---
 
@@ -114,6 +115,7 @@ const Navbar: React.FC = () => {
           {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-gray-600 hover:text-brand-primary transition-colors">Fréttabréf</button> */}
           <Link
             to="/quote"
+            onClick={() => trackCTAClick('Fá verðtilboð', 'navbar')}
             className="px-6 py-2.5 bg-brand-primary text-white rounded-lg hover:bg-brand-dark transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           >
             Fá verðtilboð
@@ -137,7 +139,13 @@ const Navbar: React.FC = () => {
             <button onClick={() => scrollTo(SectionId.ABOUT)} className="text-left text-gray-600 font-medium">Um okkur</button>
             {/* Hidden until newsletter is ready */}
             {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-left text-gray-600 font-medium">Fréttabréf</button> */}
-            <Link to="/quote" className="text-brand-primary font-bold">Fá verðtilboð</Link>
+            <Link
+              to="/quote"
+              onClick={() => trackCTAClick('Fá verðtilboð', 'mobile_menu')}
+              className="text-brand-primary font-bold"
+            >
+              Fá verðtilboð
+            </Link>
           </div>
         </div>
       )}
@@ -165,12 +173,14 @@ const Hero: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
             <Link
               to="/greining"
+              onClick={() => trackCTAClick('Fá AI-greiningu', 'hero_primary')}
               className="px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all flex items-center justify-center text-lg hover:scale-105 transform"
             >
               Fá AI-greiningu <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
             <Link
               to="/quote"
+              onClick={() => trackCTAClick('Fá verðtilboð', 'hero_secondary')}
               className="px-10 py-5 bg-white text-brand-primary border-2 border-brand-primary font-semibold rounded-lg hover:bg-brand-primary hover:text-white transition-all flex items-center justify-center text-lg hover:scale-105 transform"
             >
               Fá verðtilboð
@@ -423,6 +433,18 @@ const ProvenResultsSection: React.FC = () => {
 const ServicesSection: React.FC = () => {
   const { ref, isVisible } = useScrollAnimation();
 
+  // Track when user views the 30 daga plan service
+  useEffect(() => {
+    if (isVisible) {
+      trackViewItem({
+        item_id: '30-daga-plan',
+        item_name: '30 daga plan',
+        price: 86676, // Total with VSK
+        quantity: 1
+      });
+    }
+  }, [isVisible]);
+
   return (
     <section id={SectionId.SERVICES} className="py-20 bg-brand-light relative overflow-hidden">
       {/* Wave divider at top */}
@@ -459,6 +481,7 @@ const ServicesSection: React.FC = () => {
             </p>
             <Link
               to="/greining"
+              onClick={() => trackCTAClick('Fá AI-greiningu', 'services_free_analysis')}
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá AI-greiningu <ArrowRight className="ml-1 w-4 h-4" />
@@ -476,6 +499,7 @@ const ServicesSection: React.FC = () => {
             </p>
             <Link
               to="/30dagaplan"
+              onClick={() => trackCTAClick('Fá 30 daga plan', 'services_30day_plan')}
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá 30 daga plan <ArrowRight className="ml-1 w-4 h-4" />
@@ -493,6 +517,7 @@ const ServicesSection: React.FC = () => {
             </p>
             <Link
               to="/quote"
+              onClick={() => trackCTAClick('Fá verðtilboð', 'services_12month_roadmap')}
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá verðtilboð <ArrowRight className="ml-1 w-4 h-4" />
@@ -510,6 +535,7 @@ const ServicesSection: React.FC = () => {
             </p>
             <Link
               to="/quote"
+              onClick={() => trackCTAClick('Fá verðtilboð', 'services_custom_implementation')}
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Fá verðtilboð <ArrowRight className="ml-1 w-4 h-4" />
@@ -527,6 +553,7 @@ const ServicesSection: React.FC = () => {
             </p>
             <Link
               to="/quote"
+              onClick={() => trackCTAClick('Bóka samtal', 'services_monthly_operations')}
               className="inline-flex items-center text-brand-primary font-semibold hover:gap-2 transition-all"
             >
               Bóka samtal <ArrowRight className="ml-1 w-4 h-4" />
@@ -671,6 +698,7 @@ const ProductsSection: React.FC = () => {
 
               <Link
                 to="/greining"
+                onClick={() => trackCTAClick('Fá AI-greiningu', 'products_quick_start')}
                 className="w-full py-4 bg-white text-brand-primary font-bold rounded-xl hover:bg-gray-50 transition-all shadow-lg flex justify-center items-center group"
               >
                 Fá AI-greiningu <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -716,6 +744,7 @@ const ProductsSection: React.FC = () => {
 
               <Link
                 to="/quote"
+                onClick={() => trackCTAClick('Fá verðtilboð', 'products_custom_solution')}
                 className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-dark transition-all shadow-lg flex justify-center items-center group mb-4"
               >
                 Fá verðtilboð <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -929,6 +958,7 @@ const Footer: React.FC = () => {
             </ul>
             <Link
               to="/quote"
+              onClick={() => trackCTAClick('Bóka samtal', 'footer')}
               className="mt-4 px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-lg hover:bg-brand-dark transition-colors inline-block"
             >
               Bóka samtal

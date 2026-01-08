@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Lock, Loader2 } from 'lucide-react';
+import { trackAddPaymentInfo, trackPageView } from '../utils/analytics';
 
 const ThirtyDayRoadmapPaymentPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -41,6 +42,17 @@ const ThirtyDayRoadmapPaymentPage: React.FC = () => {
         console.error('Failed to parse stored form data:', err);
       }
     }
+
+    // Track page view and payment info step
+    trackPageView('/payment/30dagaplan', '30 daga plan - Greiðsla');
+
+    // Track that user has reached payment page (add_payment_info)
+    trackAddPaymentInfo({
+      item_id: '30-daga-plan',
+      item_name: '30 daga plan',
+      price: 86676, // Total with VSK
+      quantity: 1
+    });
   }, [searchParams]);
 
   // Production pricing

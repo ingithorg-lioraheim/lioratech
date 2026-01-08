@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Save, Loader2 } from 'lucide-react';
+import { trackBeginCheckout, trackPageView } from '../utils/analytics';
 
 const PaidRoadmapQuestionnairePage: React.FC = () => {
   const navigate = useNavigate();
@@ -35,6 +36,19 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
     // Support
     supportLevel: '',
   });
+
+  // Track page view and begin checkout on mount
+  useEffect(() => {
+    trackPageView('/questionnaire/30dagaplan', '30 daga plan - Spurningalisti');
+
+    // Track that user has begun the checkout process
+    trackBeginCheckout({
+      item_id: '30-daga-plan',
+      item_name: '30 daga plan',
+      price: 86676, // Total with VSK
+      quantity: 1
+    });
+  }, []);
 
   // Generate unique order ID
   const generateOrderId = () => {
@@ -84,7 +98,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
       navigate(`/payment/30dagaplan?orderId=${orderId}`);
     } catch (err: any) {
       console.error('Error saving questionnaire:', err);
-      setError('Ekki tókst að vista gögnin. Vinsamlegast reyndu aftur.');
+      setError('Ekki tï¿½kst aï¿½ vista gï¿½gnin. Vinsamlegast reyndu aftur.');
       setLoading(false);
     }
   };
@@ -116,10 +130,10 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
             SKREF 1 AF 2
           </div>
           <h1 className="text-4xl md:text-5xl font-serif font-bold text-brand-dark mb-4">
-            Segðu okkur um fyrirtækið þitt
+            Segï¿½u okkur um fyrirtï¿½kiï¿½ ï¿½itt
           </h1>
           <p className="text-gray-600 text-lg">
-            Þessar upplýsingar hjálpa AI að búa til persónulega 30 daga áætlun
+            ï¿½essar upplï¿½singar hjï¿½lpa AI aï¿½ bï¿½a til persï¿½nulega 30 daga ï¿½ï¿½tlun
           </p>
         </div>
 
@@ -128,10 +142,10 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
           <div className="flex items-start gap-3">
             <Save className="text-blue-600 flex-shrink-0 mt-1" size={24} />
             <div>
-              <h3 className="font-bold text-blue-900 mb-1">Gögnin þín eru vistuð strax</h3>
+              <h3 className="font-bold text-blue-900 mb-1">Gï¿½gnin ï¿½ï¿½n eru vistuï¿½ strax</h3>
               <p className="text-blue-800 text-sm">
-                Við vistum svörin þín áður en þú ferð í greiðslu. Ef eitthvað fer úrskeiðis
-                eru gögnin þín örugg og þú getur haldið áfram þar sem þú varst staddur.
+                Viï¿½ vistum svï¿½rin ï¿½ï¿½n ï¿½ï¿½ur en ï¿½ï¿½ ferï¿½ ï¿½ greiï¿½slu. Ef eitthvaï¿½ fer ï¿½rskeiï¿½is
+                eru gï¿½gnin ï¿½ï¿½n ï¿½rugg og ï¿½ï¿½ getur haldiï¿½ ï¿½fram ï¿½ar sem ï¿½ï¿½ varst staddur.
               </p>
             </div>
           </div>
@@ -143,7 +157,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
           {/* Section 1: Contact Info */}
           <div>
             <h2 className="text-2xl font-bold text-brand-dark mb-4 pb-2 border-b-2 border-brand-primary/20">
-              1. Tengiliðaupplýsingar
+              1. Tengiliï¿½aupplï¿½singar
             </h2>
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
@@ -155,7 +169,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                     required
                     type="text"
                     className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                    placeholder="Jón Jónsson"
+                    placeholder="Jï¿½n Jï¿½nsson"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
@@ -179,13 +193,13 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fyrirtæki *
+                    Fyrirtï¿½ki *
                   </label>
                   <input
                     required
                     type="text"
                     className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                    placeholder="Fyrirtæki ehf."
+                    placeholder="Fyrirtï¿½ki ehf."
                     value={formData.companyName}
                     onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                   />
@@ -193,7 +207,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Símanúmer
+                    Sï¿½manï¿½mer
                   </label>
                   <input
                     type="tel"
@@ -207,7 +221,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Vefsíða fyrirtækis
+                  Vefsï¿½ï¿½a fyrirtï¿½kis
                 </label>
                 <input
                   type="url"
@@ -216,7 +230,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   value={formData.website}
                   onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                 />
-                <p className="text-xs text-gray-500 mt-1">Hjálpar AI að greina reksturinn betur</p>
+                <p className="text-xs text-gray-500 mt-1">Hjï¿½lpar AI aï¿½ greina reksturinn betur</p>
               </div>
             </div>
           </div>
@@ -224,19 +238,19 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
           {/* Section 2: Company Details */}
           <div>
             <h2 className="text-2xl font-bold text-brand-dark mb-4 pb-2 border-b-2 border-brand-primary/20">
-              2. Um fyrirtækið
+              2. Um fyrirtï¿½kiï¿½
             </h2>
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Iðnaður *
+                    Iï¿½naï¿½ur *
                   </label>
                   <input
                     required
                     type="text"
                     className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all"
-                    placeholder="T.d. smásala, ráðgjöf, þjónusta..."
+                    placeholder="T.d. smï¿½sala, rï¿½ï¿½gjï¿½f, ï¿½jï¿½nusta..."
                     value={formData.industry}
                     onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                   />
@@ -244,7 +258,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fjöldi starfsmanna *
+                    Fjï¿½ldi starfsmanna *
                   </label>
                   <select
                     required
@@ -252,7 +266,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                     value={formData.employees}
                     onChange={(e) => setFormData({ ...formData, employees: e.target.value })}
                   >
-                    <option value="">Veldu fjölda...</option>
+                    <option value="">Veldu fjï¿½lda...</option>
                     <option value="1-5">1-5</option>
                     <option value="6-20">6-20</option>
                     <option value="21-50">21-50</option>
@@ -263,7 +277,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Áætlaður ársveltu *
+                  ï¿½ï¿½tlaï¿½ur ï¿½rsveltu *
                 </label>
                 <select
                   required
@@ -271,11 +285,11 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   value={formData.revenue}
                   onChange={(e) => setFormData({ ...formData, revenue: e.target.value })}
                 >
-                  <option value="">Veldu svið...</option>
-                  <option value="0-50m">Undir 50 milljónir</option>
-                  <option value="50-200m">50-200 milljónir</option>
-                  <option value="200-500m">200-500 milljónir</option>
-                  <option value="500m+">Yfir 500 milljónir</option>
+                  <option value="">Veldu sviï¿½...</option>
+                  <option value="0-50m">Undir 50 milljï¿½nir</option>
+                  <option value="50-200m">50-200 milljï¿½nir</option>
+                  <option value="200-500m">200-500 milljï¿½nir</option>
+                  <option value="500m+">Yfir 500 milljï¿½nir</option>
                 </select>
               </div>
             </div>
@@ -284,18 +298,18 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
           {/* Section 3: Current State */}
           <div>
             <h2 className="text-2xl font-bold text-brand-dark mb-4 pb-2 border-b-2 border-brand-primary/20">
-              3. Núverandi staða
+              3. Nï¿½verandi staï¿½a
             </h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hverjar eru stærstu áskoranirnar í rekstrinum núna? *
+                  Hverjar eru stï¿½rstu ï¿½skoranirnar ï¿½ rekstrinum nï¿½na? *
                 </label>
                 <textarea
                   required
                   rows={4}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all resize-none"
-                  placeholder="T.d. of mikill tími fer í handvirkar uppfærslur, erfitt að halda utan um verkefni, viðskiptavinir bíða of lengi eftir svörum..."
+                  placeholder="T.d. of mikill tï¿½mi fer ï¿½ handvirkar uppfï¿½rslur, erfitt aï¿½ halda utan um verkefni, viï¿½skiptavinir bï¿½ï¿½a of lengi eftir svï¿½rum..."
                   value={formData.currentChallenges}
                   onChange={(e) => setFormData({ ...formData, currentChallenges: e.target.value })}
                 />
@@ -303,13 +317,13 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hvað vilt þú ná með AI? *
+                  Hvaï¿½ vilt ï¿½ï¿½ nï¿½ meï¿½ AI? *
                 </label>
                 <textarea
                   required
                   rows={4}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-brand-dark focus:border-brand-primary focus:ring-1 focus:ring-brand-primary outline-none transition-all resize-none"
-                  placeholder="T.d. spara 10+ klst á viku, bæta þjónustu við viðskiptavini, sjálfvirka ítrekunar verkefni..."
+                  placeholder="T.d. spara 10+ klst ï¿½ viku, bï¿½ta ï¿½jï¿½nustu viï¿½ viï¿½skiptavini, sjï¿½lfvirka ï¿½trekunar verkefni..."
                   value={formData.goals}
                   onChange={(e) => setFormData({ ...formData, goals: e.target.value })}
                 />
@@ -317,7 +331,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hvaða tól/kerfi notið þið í dag? *
+                  Hvaï¿½a tï¿½l/kerfi notiï¿½ ï¿½iï¿½ ï¿½ dag? *
                 </label>
                 <input
                   required
@@ -331,7 +345,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hversu skipulögð eru gögn ykkar? *
+                  Hversu skipulï¿½gï¿½ eru gï¿½gn ykkar? *
                 </label>
                 <select
                   required
@@ -340,9 +354,9 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, dataQuality: e.target.value })}
                 >
                   <option value="">Veldu...</option>
-                  <option value="not-organized">Ekki skipulögð - allt í tölvupósti og skjölum</option>
-                  <option value="partially">Að hluta - í Excel/Sheets</option>
-                  <option value="well-organized">Vel skipulögð - í CRM/database</option>
+                  <option value="not-organized">Ekki skipulï¿½gï¿½ - allt ï¿½ tï¿½lvupï¿½sti og skjï¿½lum</option>
+                  <option value="partially">Aï¿½ hluta - ï¿½ Excel/Sheets</option>
+                  <option value="well-organized">Vel skipulï¿½gï¿½ - ï¿½ CRM/database</option>
                 </select>
               </div>
             </div>
@@ -355,7 +369,7 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
             </h2>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Hafið þið notað AI áður? *
+                Hafiï¿½ ï¿½iï¿½ notaï¿½ AI ï¿½ï¿½ur? *
               </label>
               <select
                 required
@@ -365,8 +379,8 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
               >
                 <option value="">Veldu...</option>
                 <option value="none">Nei, aldrei</option>
-                <option value="basic">Já, notað ChatGPT eða álíka</option>
-                <option value="integrated">Já, við höfum AI samþætt í rekstur</option>
+                <option value="basic">Jï¿½, notaï¿½ ChatGPT eï¿½a ï¿½lï¿½ka</option>
+                <option value="integrated">Jï¿½, viï¿½ hï¿½fum AI samï¿½ï¿½tt ï¿½ rekstur</option>
               </select>
             </div>
           </div>
@@ -374,12 +388,12 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
           {/* Section 5: Timeline & Budget */}
           <div>
             <h2 className="text-2xl font-bold text-brand-dark mb-4 pb-2 border-b-2 border-brand-primary/20">
-              5. Tímalína og fjárhagsáætlun
+              5. Tï¿½malï¿½na og fjï¿½rhagsï¿½ï¿½tlun
             </h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hversu hratt vilt þú innleiða? *
+                  Hversu hratt vilt ï¿½ï¿½ innleiï¿½a? *
                 </label>
                 <select
                   required
@@ -387,17 +401,17 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   value={formData.timeline}
                   onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
                 >
-                  <option value="">Veldu tímalínu...</option>
-                  <option value="asap">Eins fljótt og hægt er (innan mánaðar)</option>
-                  <option value="1-3-months">Innan 1-3 mánaða</option>
-                  <option value="3-6-months">Innan 3-6 mánaða</option>
+                  <option value="">Veldu tï¿½malï¿½nu...</option>
+                  <option value="asap">Eins fljï¿½tt og hï¿½gt er (innan mï¿½naï¿½ar)</option>
+                  <option value="1-3-months">Innan 1-3 mï¿½naï¿½a</option>
+                  <option value="3-6-months">Innan 3-6 mï¿½naï¿½a</option>
                   <option value="flexible">Sveigjanlegur</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Fjárhagsáætlun fyrir innleiðingu *
+                  Fjï¿½rhagsï¿½ï¿½tlun fyrir innleiï¿½ingu *
                 </label>
                 <select
                   required
@@ -405,18 +419,18 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   value={formData.budget}
                   onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                 >
-                  <option value="">Veldu svið...</option>
-                  <option value="0-500k">0-500 þúsund kr</option>
-                  <option value="500k-2m">500 þúsund - 2 milljónir</option>
-                  <option value="2m-5m">2-5 milljónir</option>
-                  <option value="5m+">Yfir 5 milljónir</option>
+                  <option value="">Veldu sviï¿½...</option>
+                  <option value="0-500k">0-500 ï¿½ï¿½sund kr</option>
+                  <option value="500k-2m">500 ï¿½ï¿½sund - 2 milljï¿½nir</option>
+                  <option value="2m-5m">2-5 milljï¿½nir</option>
+                  <option value="5m+">Yfir 5 milljï¿½nir</option>
                   <option value="uncertain">Ekki viss/viss</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hvaða stuðning vilt þú? *
+                  Hvaï¿½a stuï¿½ning vilt ï¿½ï¿½? *
                 </label>
                 <select
                   required
@@ -425,9 +439,9 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
                   onChange={(e) => setFormData({ ...formData, supportLevel: e.target.value })}
                 >
                   <option value="">Veldu...</option>
-                  <option value="self-service">DIY - Við viljum bara áætlunina</option>
-                  <option value="guidance">Leiðsögn - Smá aðstoð til að byrja</option>
-                  <option value="full-service">Full þjónusta - Við viljum að þið gerir þetta</option>
+                  <option value="self-service">DIY - Viï¿½ viljum bara ï¿½ï¿½tlunina</option>
+                  <option value="guidance">Leiï¿½sï¿½gn - Smï¿½ aï¿½stoï¿½ til aï¿½ byrja</option>
+                  <option value="full-service">Full ï¿½jï¿½nusta - Viï¿½ viljum aï¿½ ï¿½iï¿½ gerir ï¿½etta</option>
                 </select>
               </div>
             </div>
@@ -450,17 +464,17 @@ const PaidRoadmapQuestionnairePage: React.FC = () => {
               {loading ? (
                 <>
                   <Loader2 size={24} className="animate-spin" />
-                  <span>Vista og halda áfram...</span>
+                  <span>Vista og halda ï¿½fram...</span>
                 </>
               ) : (
                 <>
-                  <span>Vista og fara í greiðslu</span>
+                  <span>Vista og fara ï¿½ greiï¿½slu</span>
                   <ArrowRight size={24} />
                 </>
               )}
             </button>
             <p className="text-center text-sm text-gray-500 mt-3">
-              Svörin þín eru vistuð áður en þú ferð í greiðslu
+              Svï¿½rin ï¿½ï¿½n eru vistuï¿½ ï¿½ï¿½ur en ï¿½ï¿½ ferï¿½ ï¿½ greiï¿½slu
             </p>
           </div>
         </form>
