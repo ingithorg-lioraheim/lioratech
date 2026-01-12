@@ -295,22 +295,24 @@ export function trackLead(leadType: string, value?: number, email?: string) {
       console.log('[GA4 Lead]', leadType);
     }
 
-    // Facebook Pixel
+    // Facebook Pixel (CompleteRegistration for Sales objective)
     if (window.fbq) {
-      window.fbq('track', 'Lead', {
+      window.fbq('track', 'CompleteRegistration', {
         content_name: leadType,
         value: value || 0,
         currency: 'ISK',
+        status: 'completed',
       }, { eventID: eventId });
-      console.log('[Facebook Pixel] Lead', leadType);
+      console.log('[Facebook Pixel] CompleteRegistration', leadType);
     }
 
     // Facebook CAPI (with email if available)
     const userData = email ? { em: [email.toLowerCase().trim()] } : undefined;
-    sendToFacebookCAPI('Lead', eventId, userData, {
+    sendToFacebookCAPI('CompleteRegistration', eventId, userData, {
       content_name: leadType,
       value: value || 0,
       currency: 'ISK',
+      status: 'completed',
     });
   }
 }
