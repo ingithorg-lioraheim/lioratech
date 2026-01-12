@@ -10,6 +10,9 @@
 
 | Order ID | Customer | Product | Completed | Delivery Time | Notes |
 |----------|----------|---------|-----------|---------------|-------|
+| AI-2026-01-07-BIVUVZ | test | AI-Greining (Free) | 2026-01-07 15:03 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2026-01-07-BIVUVZ-test-ai-greining.md |
+| AI-2026-01-07-85P8W1 | Test ehf | AI-Greining (Free) | 2026-01-07 15:02 | 0.00h | Industry: ráðgjöf, Pain: handvirkt... Path: products/completed/AI-2026-01-07-85P8W1-Test-ehf-ai-greining.md |
+| AI-2026-01-04-KDXPC6 | test | AI-Greining (Free) | 2026-01-07 15:02 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2026-01-04-KDXPC6-test-ai-greining.md |
 | AI-2026-01-03-QR37LD | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-QR37LD-test3-ai-greining.md |
 | AI-2026-01-03-GFKGNN | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-GFKGNN-test3-ai-greining.md |
 | AI-2026-01-03-ZU0R24 | test ehf | AI-Greining (Free) | 2026-01-03 09:16 | 0.00h | Industry: smásala, Pain: of mikill tími í handavinnu... Path: products/completed/AI-2026-01-03-ZU0R24-test-ehf-ai-greining.md |

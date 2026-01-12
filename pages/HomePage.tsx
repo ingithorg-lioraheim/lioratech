@@ -953,7 +953,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                <span>info@lioratech.is</span>
+                <span>ingi@lioratech.is</span>
               </li>
             </ul>
             <Link
