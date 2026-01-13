@@ -28,6 +28,7 @@ const RoadmapPurchasePage: React.FC = () => {
   const handleIntro = () => {
     trackCTAClick('Halda áfram', 'intro_section');
     setCurrentStep('questionnaire');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleQuestionnaire = async (e: React.FormEvent) => {
@@ -56,6 +57,7 @@ const RoadmapPurchasePage: React.FC = () => {
         trackLead('free_analysis', 0);
 
         setCurrentStep('success');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         alert('Eitthvað fór úrskeiðis. Vinsamlegast reyndu aftur.');
         setIsSubmitting(false);
