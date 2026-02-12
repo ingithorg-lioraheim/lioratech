@@ -113,13 +113,15 @@ const Navbar: React.FC = () => {
           <button onClick={() => scrollTo(SectionId.ABOUT)} className="text-gray-600 hover:text-brand-primary transition-colors">Um okkur</button>
           {/* Hidden until newsletter is ready */}
           {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-gray-600 hover:text-brand-primary transition-colors">Fréttabréf</button> */}
-          <Link
-            to="/quote"
-            onClick={() => trackCTAClick('Fá verðtilboð', 'navbar')}
+          <a
+            href="https://calendly.com/ingi-lioratech/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCTAClick('Tala við sérfræðing', 'navbar')}
             className="px-6 py-2.5 bg-brand-primary text-white rounded-lg hover:bg-brand-dark transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
           >
-            Fá verðtilboð
-          </Link>
+            Tala við sérfræðing
+          </a>
         </div>
 
         {/* Mobile Toggle */}
@@ -139,13 +141,15 @@ const Navbar: React.FC = () => {
             <button onClick={() => scrollTo(SectionId.ABOUT)} className="text-left text-gray-600 font-medium">Um okkur</button>
             {/* Hidden until newsletter is ready */}
             {/* <button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="text-left text-gray-600 font-medium">Fréttabréf</button> */}
-            <Link
-              to="/quote"
-              onClick={() => trackCTAClick('Fá verðtilboð', 'mobile_menu')}
+            <a
+              href="https://calendly.com/ingi-lioratech/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCTAClick('Tala við sérfræðing', 'mobile_menu')}
               className="text-brand-primary font-bold"
             >
-              Fá verðtilboð
-            </Link>
+              Tala við sérfræðing
+            </a>
           </div>
         </div>
       )}
@@ -174,7 +178,7 @@ const Hero: React.FC = () => {
               <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
                 <CheckCircle2 size={14} className="text-green-600" />
               </div>
-              <span className="text-gray-700 font-medium">3-5 konkret tækifæri til að sjálfvirknivæða</span>
+              <span className="text-gray-700 font-medium">3-5 frábær tækifæri til að sjálfvirknivæða</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
@@ -190,23 +194,16 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
+          <div className="opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
             <Link
               to="/greining"
               onClick={() => trackCTAClick('Fá fría AI-greiningu', 'hero_primary')}
-              className="px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all flex flex-col items-center justify-center text-lg hover:scale-105 transform"
+              className="inline-flex flex-col items-center justify-center px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all text-lg hover:scale-105 transform"
             >
               <span className="flex items-center">
                 Fá fría AI-greiningu <ArrowRight className="ml-2 w-5 h-5" />
               </span>
               <span className="text-sm text-blue-100 mt-1 font-normal">(Virði 29.900 kr)</span>
-            </Link>
-            <Link
-              to="/quote"
-              onClick={() => trackCTAClick('Fá verðtilboð', 'hero_secondary')}
-              className="px-10 py-5 bg-white text-brand-primary border-2 border-brand-primary font-semibold rounded-lg hover:bg-brand-primary hover:text-white transition-all flex items-center justify-center text-lg hover:scale-105 transform"
-            >
-              Fá verðtilboð
             </Link>
           </div>
           <p className="mt-4 text-sm text-gray-500 italic opacity-0 animate-[fadeInUp_0.8s_ease-out_0.8s_forwards]">Byggt á 10+ ára reynslu í gervigreind, markaðssetningu, sölu og rekstri.</p>
