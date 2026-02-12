@@ -8,12 +8,35 @@ interface Message {
   feedback?: 'helpful' | 'not-helpful';
 }
 
-const SUGGESTED_QUESTIONS = [
+const INITIAL_QUESTIONS = [
   "Hvernig getur AI sparað tíma í mínu fyrirtæki?",
   "Hvað kostar þetta?",
   "Hvernig virkar ferlið?",
   "Er þetta fyrir lítið fyrirtæki?",
 ];
+
+const FOLLOW_UP_QUESTIONS_BY_TOPIC: Record<string, string[]> = {
+  default: [
+    "Hvaða fyrirtæki hentar þetta best fyrir?",
+    "Hversu langan tíma tekur innleiðing?",
+    "Get ég séð dæmi um árangur?",
+  ],
+  cost: [
+    "Hvað er innifalið í 30 daga planinu?",
+    "Er hægt að fá sérsniðið tilboð?",
+    "Hvaða ROI get ég búist við?",
+  ],
+  time: [
+    "Hvaða verkefni eru oftast sjálfvirk?",
+    "Hversu hratt sjáum við niðurstöður?",
+    "Þarf ég mikinn tíma í innleiðingu?",
+  ],
+  process: [
+    "Hvað gerist í fríu greiningunni?",
+    "Hvernig er stuðningurinn eftir innleiðingu?",
+    "Get ég prófað áður en ég skuldbind mig?",
+  ],
+};
 
 const AIChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +44,7 @@ const AIChatWidget: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -118,6 +142,20 @@ const AIChatWidget: React.FC = () => {
         conversation_length: messages.length + 2,
       });
 
+      // Set suggested follow-up questions based on topic
+      const lowerQ = questionToAsk.toLowerCase();
+      let topic = 'default';
+
+      if (lowerQ.includes('kosta') || lowerQ.includes('verð') || lowerQ.includes('krónu')) {
+        topic = 'cost';
+      } else if (lowerQ.includes('tíma') || lowerQ.includes('tím') || lowerQ.includes('hratt')) {
+        topic = 'time';
+      } else if (lowerQ.includes('ferli') || lowerQ.includes('byrja') || lowerQ.includes('virka')) {
+        topic = 'process';
+      }
+
+      setSuggestedQuestions(FOLLOW_UP_QUESTIONS_BY_TOPIC[topic] || FOLLOW_UP_QUESTIONS_BY_TOPIC.default);
+
     } catch (error) {
       console.error('Error fetching AI response:', error);
       const errorMessage: Message = {
@@ -195,11 +233,11 @@ const AIChatWidget: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Suggested Questions */}
+                  {/* Initial Suggested Questions */}
                   <div>
                     <p className="text-xs text-gray-500 mb-2 font-medium">Dæmi um spurningar:</p>
                     <div className="space-y-2">
-                      {SUGGESTED_QUESTIONS.map((q, idx) => (
+                      {INITIAL_QUESTIONS.map((q, idx) => (
                         <button
                           key={idx}
                           onClick={() => handleSuggestedQuestion(q)}
@@ -271,28 +309,64 @@ const AIChatWidget: React.FC = () => {
                 </div>
               )}
 
+              {/* Follow-up Suggested Questions */}
+              {!loading && !isTyping && suggestedQuestions.length > 0 && messages.length > 0 && (
+                <div className="mt-2">
+                  <p className="text-xs text-gray-500 mb-2 font-medium">Kannski áhugavert:</p>
+                  <div className="space-y-2">
+                    {suggestedQuestions.map((q, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => handleSuggestedQuestion(q)}
+                        className="w-full text-left text-xs bg-blue-50 hover:bg-blue-100 text-gray-700 p-2 rounded border border-blue-200 hover:border-brand-primary transition-all"
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div ref={messagesEndRef} />
             </div>
           </div>
 
           {/* Input Area */}
           <form onSubmit={handleSubmit} className="p-3 bg-white border-t border-gray-200">
-            {/* CTA Button after first exchange */}
+            {/* CTA Buttons after first exchange */}
             {messages.length >= 2 && (
-              <button
-                type="button"
-                onClick={() => {
-                  trackChatEvent('chat_cta_clicked', {
-                    message_count: messages.length,
-                  });
+              <div className="mb-3 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackChatEvent('chat_cta_clicked', {
+                      message_count: messages.length,
+                      cta_type: 'greining',
+                    });
 
-                  // Navigate to /greining page
-                  window.location.href = '/greining';
-                }}
-                className="w-full mb-3 py-2 px-3 bg-gradient-to-r from-brand-primary to-brand-dark text-white text-sm font-semibold rounded-lg hover:shadow-lg transition-all"
-              >
-                🎯 Fá fría AI-greiningu →
-              </button>
+                    // Navigate to /greining page
+                    window.location.href = '/greining';
+                  }}
+                  className="w-full py-2 px-3 bg-gradient-to-r from-brand-primary to-brand-dark text-white text-sm font-semibold rounded-lg hover:shadow-lg transition-all"
+                >
+                  🎯 Fá fría AI-greiningu →
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackChatEvent('chat_cta_clicked', {
+                      message_count: messages.length,
+                      cta_type: 'calendly',
+                    });
+
+                    // Open Calendly in new tab
+                    window.open('https://calendly.com/ingi-lioratech/30min', '_blank');
+                  }}
+                  className="w-full py-2 px-3 bg-white border-2 border-brand-primary text-brand-primary text-sm font-semibold rounded-lg hover:bg-brand-primary hover:text-white transition-all"
+                >
+                  📅 Bóka tíma með sérfræðing
+                </button>
+              </div>
             )}
 
             <div className="flex gap-2">
