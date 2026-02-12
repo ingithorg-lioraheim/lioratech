@@ -44,24 +44,10 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     }
 
     // Initialize Gemini AI
-    const ai = new GoogleGenAI({ apiKey });
-
-    // Build conversation context
-    let conversationContext = '';
-    if (conversationHistory.length > 0) {
-      conversationContext = conversationHistory
-        .map(msg => `${msg.role === 'user' ? 'Notandi' : 'Þú'}: ${msg.content}`)
-        .join('\n') + '\n';
-    }
-
-    const fullPrompt = conversationContext + `Notandi: ${question}`;
-
-    // Call Gemini API
-    const response = await ai.models.generateContent({
+    const genAI = new GoogleGenAI({ apiKey });
+    const model = genAI.getGenerativeModel({
       model: 'gemini-2.0-flash-exp',
-      contents: fullPrompt,
-      config: {
-        systemInstruction: `Þú ert sérfræðingur hjá LioraTech, ráðgjafafyrirtæki í gervigreind (AI).
+      systemInstruction: `Þú ert sérfræðingur hjá LioraTech, ráðgjafafyrirtæki í gervigreind (AI).
 
 **Um LioraTech:**
 - Við hjálpum íslenskum fyrirtækjum að innleiða AI í daglegan rekstur
@@ -90,12 +76,26 @@ Hjálpa fólki að skilja hvort AI geti hjálpat þeim, og hvetja til að bóka 
 - Svara því sem var spurt
 - Ef þú veist ekki svar, segðu það
 - Vísa í fría greiningu sem næsta skref`,
+      generationConfig: {
         temperature: 0.7,
         maxOutputTokens: 500,
-      },
+      }
     });
 
-    const answer = response.text || "Afsakið, ég náði ekki að svara þessu í augnablikinu.";
+    // Build conversation context
+    let conversationContext = '';
+    if (conversationHistory.length > 0) {
+      conversationContext = conversationHistory
+        .map(msg => `${msg.role === 'user' ? 'Notandi' : 'Þú'}: ${msg.content}`)
+        .join('\n') + '\n';
+    }
+
+    const fullPrompt = conversationContext + `Notandi: ${question}`;
+
+    // Call Gemini API
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const answer = response.text() || "Afsakið, ég náði ekki að svara þessu í augnablikinu.";
 
     return {
       statusCode: 200,
