@@ -59,11 +59,11 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       };
     }
 
-    // Get Gemini API key from environment
-    const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
+    // Get OpenAI API key from environment
+    const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey || apiKey === 'PLACEHOLDER_API_KEY') {
-      console.error('Gemini API key not configured');
+      console.error('OpenAI API key not configured');
       return {
         statusCode: 200,
         body: JSON.stringify({
@@ -72,45 +72,56 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
       };
     }
 
-    // Build conversation context
-    let fullPrompt = SYSTEM_INSTRUCTION + '\n\n';
-    if (conversationHistory.length > 0) {
-      fullPrompt += conversationHistory
-        .map(msg => `${msg.role === 'user' ? 'Notandi' : 'Þú'}: ${msg.content}`)
-        .join('\n') + '\n';
-    }
-    fullPrompt += `Notandi: ${question}`;
+    // Build messages array for OpenAI
+    const messages = [
+      {
+        role: 'system',
+        content: SYSTEM_INSTRUCTION
+      }
+    ];
 
-    // Call Gemini API using REST endpoint
+    // Add conversation history
+    if (conversationHistory.length > 0) {
+      conversationHistory.forEach(msg => {
+        messages.push({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        });
+      });
+    }
+
+    // Add current question
+    messages.push({
+      role: 'user',
+      content: question
+    });
+
+    // Call OpenAI API
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`,
+      'https://api.openai.com/v1/chat/completions',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: fullPrompt
-            }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
-          }
+          model: 'gpt-4o-mini',
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: 500,
         })
       }
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Gemini API error:', errorData);
-      throw new Error(`Gemini API error: ${response.status}`);
+      console.error('OpenAI API error:', errorData);
+      throw new Error(`OpenAI API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || "Afsakið, ég náði ekki að svara þessu í augnablikinu.";
+    const answer = data.choices?.[0]?.message?.content || "Afsakið, ég náði ekki að svara þessu í augnablikinu.";
 
     return {
       statusCode: 200,
