@@ -5,9 +5,10 @@
 ### 1. Nýr Netlify Function Backend
 **Skrá:** `netlify/functions/ai-chat.ts`
 
-- Öruggur backend sem kallar á Gemini API
+- Öruggur backend sem kallar á OpenAI (ChatGPT) API
+- Notar GPT-4o-mini model (ódýrt og áreiðanlegt)
 - API key er í umhverfisbreytum (ekki client-side)
-- Styður conversation history (síðustu 4 skilaboð)
+- Styður conversation history með proper message format
 - Betra error handling
 
 ### 2. Algjörlega nýr Chat Widget
