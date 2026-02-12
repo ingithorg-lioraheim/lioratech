@@ -162,21 +162,44 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-6 z-10 grid md:grid-cols-2 gap-12 items-center">
         <div className="max-w-xl order-2 md:order-1">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-brand-dark leading-tight opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
-            AI og sjálfvirkni sem vinnur fyrir <span className="text-brand-primary relative">
-              reksturinn þinn
-            </span>
+            Sparaðu <span className="text-brand-primary relative">10-15 klst á viku</span> með AI sjálfvirkni
           </h1>
-          <p className="text-gray-600 text-lg md:text-xl mb-8 leading-relaxed max-w-lg opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
-            Ég hjálpa íslenskum fyrirtækjum að draga úr handavinnu, bæta flæði og byggja hagnýtar AI-lausnir sem skila sér í stöðugri og skilvirkri starfsemi.
+          <p className="text-gray-600 text-lg md:text-xl mb-6 leading-relaxed max-w-lg opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+            Fáðu fría 30 mínútna AI-greiningu sem sýnir nákvæmlega hvar fyrirtækið þitt getur sparað tíma og peninga með sjálfvirkni.
           </p>
+
+          {/* Value Points */}
+          <div className="mb-8 space-y-3 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.5s_forwards]">
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 size={14} className="text-green-600" />
+              </div>
+              <span className="text-gray-700 font-medium">3-5 konkret tækifæri til að sjálfvirknivæða</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 size={14} className="text-green-600" />
+              </div>
+              <span className="text-gray-700 font-medium">Raunhæft ROI mat á hverjum lið</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 size={14} className="text-green-600" />
+              </div>
+              <span className="text-gray-700 font-medium">100% ókeypis - engar skuldbindingar</span>
+            </div>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
             <Link
               to="/greining"
-              onClick={() => trackCTAClick('Fá AI-greiningu', 'hero_primary')}
-              className="px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all flex items-center justify-center text-lg hover:scale-105 transform"
+              onClick={() => trackCTAClick('Fá fría AI-greiningu', 'hero_primary')}
+              className="px-10 py-5 bg-brand-primary text-white font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-brand-dark transition-all flex flex-col items-center justify-center text-lg hover:scale-105 transform"
             >
-              Fá AI-greiningu <ArrowRight className="ml-2 w-5 h-5" />
+              <span className="flex items-center">
+                Fá fría AI-greiningu <ArrowRight className="ml-2 w-5 h-5" />
+              </span>
+              <span className="text-sm text-blue-100 mt-1 font-normal">(Virði 29.900 kr)</span>
             </Link>
             <Link
               to="/quote"
