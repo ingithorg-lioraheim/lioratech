@@ -217,7 +217,7 @@ const AIChatWidget: React.FC = () => {
               {messages.map((message, idx) => (
                 <div key={idx} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] ${message.role === 'user' ? 'bg-brand-primary text-white' : 'bg-white border border-gray-200'} rounded-lg p-3 shadow-sm`}>
-                    <p className={`text-sm leading-relaxed ${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
+                    <p className={`text-sm leading-relaxed whitespace-pre-line ${message.role === 'user' ? 'text-white' : 'text-gray-800'}`}>
                       {message.content}
                     </p>
 
@@ -282,7 +282,23 @@ const AIChatWidget: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  window.location.href = '#consultation';
+                  // Close chat
+                  setIsOpen(false);
+
+                  // Scroll to consultation form
+                  setTimeout(() => {
+                    const consultationElement = document.getElementById('consultation')
+                      || document.querySelector('[id*="consultation"]')
+                      || document.querySelector('form');
+
+                    if (consultationElement) {
+                      consultationElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                      });
+                    }
+                  }, 300);
+
                   trackChatEvent('chat_cta_clicked', {
                     message_count: messages.length,
                   });
