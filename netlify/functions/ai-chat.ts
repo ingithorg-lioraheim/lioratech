@@ -44,9 +44,9 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     }
 
     // Initialize Gemini AI
-    const genAI = new GoogleGenAI({ apiKey });
+    const genAI = new GoogleGenAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-1.5-flash',
       systemInstruction: `Þú ert sérfræðingur hjá LioraTech, ráðgjafafyrirtæki í gervigreind (AI).
 
 **Um LioraTech:**
