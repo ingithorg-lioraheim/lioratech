@@ -282,30 +282,16 @@ const AIChatWidget: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  // Close chat
-                  setIsOpen(false);
-
-                  // Scroll to consultation form
-                  setTimeout(() => {
-                    const consultationElement = document.getElementById('consultation')
-                      || document.querySelector('[id*="consultation"]')
-                      || document.querySelector('form');
-
-                    if (consultationElement) {
-                      consultationElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                      });
-                    }
-                  }, 300);
-
                   trackChatEvent('chat_cta_clicked', {
                     message_count: messages.length,
                   });
+
+                  // Navigate to /greining page
+                  window.location.href = '/greining';
                 }}
                 className="w-full mb-3 py-2 px-3 bg-gradient-to-r from-brand-primary to-brand-dark text-white text-sm font-semibold rounded-lg hover:shadow-lg transition-all"
               >
-                🎯 Bóka fría AI-greiningu →
+                🎯 Fá fría AI-greiningu →
               </button>
             )}
 
