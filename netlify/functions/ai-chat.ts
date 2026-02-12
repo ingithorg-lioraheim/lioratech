@@ -83,7 +83,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
     // Call Gemini API using REST endpoint
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: {
