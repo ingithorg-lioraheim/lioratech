@@ -166,10 +166,10 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-6 z-10 grid md:grid-cols-2 gap-12 items-center">
         <div className="max-w-xl order-2 md:order-1">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-brand-dark leading-tight opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
-            Sparaðu <span className="text-brand-primary relative">10-15 klst á viku</span> með AI sjálfvirkni
+            Sparaðu <span className="text-brand-primary relative">10-15 klst á viku</span>
           </h1>
           <p className="text-gray-600 text-lg md:text-xl mb-6 leading-relaxed max-w-lg opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
-            Fáðu fría 30 mínútna AI-greiningu sem sýnir nákvæmlega hvar fyrirtækið þitt getur sparað tíma og peninga með sjálfvirkni.
+            Fáðu fría AI greiningu sem sýnir nákvæmlega hvar fyrirtækið þitt getur sparað tíma og peninga með sjálfvirkni.
           </p>
 
           {/* Value Points */}
@@ -964,6 +964,7 @@ const Footer: React.FC = () => {
               <li><button onClick={() => scrollTo(SectionId.PROCESS)} className="hover:text-brand-primary transition-colors">Hvernig það virkar</button></li>
               {/* <li><button onClick={() => scrollTo(SectionId.NEWSLETTER)} className="hover:text-brand-primary transition-colors">Fréttabréf</button></li> */}
               <li><Link to="/skilmalar" className="hover:text-brand-primary transition-colors">Skilmálar</Link></li>
+              <li><Link to="/personuvernd" className="hover:text-brand-primary transition-colors">Persónuvernd</Link></li>
             </ul>
           </div>
 

@@ -10,6 +10,8 @@ import PaidRoadmapQuestionnairePage from './pages/PaidRoadmapQuestionnairePage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import PaymentErrorPage from './pages/PaymentErrorPage';
 import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
+import AuditPage from './pages/AuditPage';
 import ScrollToTop from './components/ScrollToTop';
 import CookieConsent from './components/CookieConsent';
 
@@ -35,7 +37,9 @@ const App: React.FC = () => {
         <Route path="/payment/30dagaplan" element={<ThirtyDayRoadmapPaymentPage />} />
         <Route path="/payment/success" element={<PaymentSuccessPage />} />
         <Route path="/questionnaire/30dagaplan" element={<ThirtyDayRoadmapQuestionnairePage />} />
+        <Route path="/audit" element={<AuditPage />} />
         <Route path="/skilmalar" element={<TermsPage />} />
+        <Route path="/personuvernd" element={<PrivacyPage />} />
       </Routes>
     </Router>
   );
