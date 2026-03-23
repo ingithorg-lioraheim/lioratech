@@ -157,20 +157,45 @@ const handler: Handler = async (event) => {
     // Send email notifications (errors are caught internally)
     await sendEmails(data, metaResult);
 
-    // TODO: Send lead data to HQ via webhook
-    // For now, log the lead data that would be sent
-    console.log('Lead data for HQ:', {
-      id: `lead-${Date.now()}`,
-      name: data.name,
-      email: data.email,
-      company: data.company,
-      phone: data.phone || '',
-      adAccountId: data.adAccountId || '',
-      status: 'new',
-      metaAccessStatus: data.adAccountId ? 'pending' : 'none',
-      createdAt: new Date().toISOString(),
-      notes: '',
-    });
+    // Write lead to Supabase
+    try {
+      const supabaseUrl = process.env.SUPABASE_URL || 'https://mikkzhvjkxhnjwuubeti.supabase.co';
+      const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pa2t6aHZqa3hobmp3dXViZXRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMTQyMDYsImV4cCI6MjA4NzY5MDIwNn0.M9rOK5MEnU8yg0cPCRyTI71P2bIrdaSluplj7G2B-zQ';
+
+      let parsedMetaResponse: object | null = null;
+      if (metaResult) {
+        try {
+          parsedMetaResponse = JSON.parse(metaResult.replace(/^⚠️.*\n/, ''));
+        } catch {
+          parsedMetaResponse = null;
+        }
+      }
+
+      const leadRes = await fetch(`${supabaseUrl}/rest/v1/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          company: data.company,
+          phone: data.phone || null,
+          ad_account_id: data.adAccountId || null,
+          status: 'new',
+          meta_access_status: data.adAccountId ? 'pending' : 'none',
+          meta_api_response: parsedMetaResponse,
+          notes: '',
+        }),
+      });
+      const leadData = await leadRes.json();
+      console.log('Lead saved to Supabase:', leadData);
+    } catch (leadError) {
+      console.error('Failed to save lead to Supabase:', leadError);
+    }
 
     return {
       statusCode: 200,
