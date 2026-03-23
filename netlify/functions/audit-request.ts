@@ -1,4 +1,5 @@
 import type { Handler } from '@netlify/functions';
+import nodemailer from 'nodemailer';
 
 interface AuditRequest {
   name: string;
@@ -6,6 +7,80 @@ interface AuditRequest {
   company: string;
   phone?: string;
   adAccountId?: string;
+}
+
+async function sendEmails(data: AuditRequest, metaResult?: string) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || '587'),
+    secure: process.env.SMTP_PORT === '465',
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  const timestamp = new Date().toLocaleString('is-IS', { timeZone: 'Atlantic/Reykjavik' });
+
+  // A) Tilkynning á Ingi
+  const notifyBody = `
+🔔 Nýtt Liora Audit lead!
+
+Nafn: ${data.name}
+Netfang: ${data.email}
+Fyrirtæki: ${data.company}
+Sími: ${data.phone || 'N/A'}
+Ad Account ID: ${data.adAccountId || 'N/A'}
+Tími: ${timestamp}
+
+${metaResult ? `Meta API niðurstaða:\n${metaResult}` : ''}
+  `.trim();
+
+  try {
+    await transporter.sendMail({
+      from: `"LioraTech" <${process.env.SMTP_USER}>`,
+      to: 'ingi@lioratech.is',
+      subject: `🔔 Nýtt Liora Audit lead: ${data.company}`,
+      text: notifyBody,
+    });
+    console.log('Notification email sent to ingi@lioratech.is');
+  } catch (err) {
+    console.error('Failed to send notification email:', err);
+  }
+
+  // B) Auto-reply á viðskiptavin
+  const adAccountSection = data.adAccountId
+    ? `Við höfum sent beiðni um lesaðgang (Analyst) á auglýsingareikninginn þinn. Þú ættir að fá tilkynningu í Meta Business Suite — smelltu bara "Samþykkja" til að veita okkur aðgang.`
+    : `Til að geta hafið greininguna þurfum við lesaðgang (Analyst) að auglýsingareikningnum þínum. Við munum hafa samband og leiðbeina þér í gegnum það.`;
+
+  const autoReplyBody = `
+Hæ ${data.name},
+
+Takk fyrir áhugann á Liora Audit!
+
+Við höfum móttekið beiðni þína og byrjum greiningu á auglýsingareikningnum þínum eins fljótt og auðið er.
+
+${adAccountSection}
+
+Þú færð niðurstöður innan sólarhrings.
+
+Kveðja,
+Ingi Þór
+LioraTech
+ingi@lioratech.is | 696-0156
+  `.trim();
+
+  try {
+    await transporter.sendMail({
+      from: `"Ingi Þór — LioraTech" <${process.env.SMTP_USER}>`,
+      to: data.email,
+      subject: 'Takk fyrir beiðnina — LioraTech',
+      text: autoReplyBody,
+    });
+    console.log(`Auto-reply sent to ${data.email}`);
+  } catch (err) {
+    console.error('Failed to send auto-reply:', err);
+  }
 }
 
 const handler: Handler = async (event) => {
@@ -43,6 +118,8 @@ const handler: Handler = async (event) => {
       timestamp: new Date().toISOString(),
     });
 
+    let metaResult: string | undefined;
+
     // Send Meta Analyst access request if ad account ID provided
     if (data.adAccountId) {
       const metaToken = process.env.META_SYSTEM_USER_TOKEN;
@@ -64,11 +141,30 @@ const handler: Handler = async (event) => {
         );
         const metaData = await metaRes.json();
         console.log('Meta API response:', metaData);
+        metaResult = JSON.stringify(metaData, null, 2);
       } catch (metaError) {
         console.error('Meta API error:', metaError);
         // Don't fail the form submission if Meta API fails
       }
     }
+
+    // Send email notifications (errors are caught internally)
+    await sendEmails(data, metaResult);
+
+    // TODO: Send lead data to HQ via webhook
+    // For now, log the lead data that would be sent
+    console.log('Lead data for HQ:', {
+      id: `lead-${Date.now()}`,
+      name: data.name,
+      email: data.email,
+      company: data.company,
+      phone: data.phone || '',
+      adAccountId: data.adAccountId || '',
+      status: 'new',
+      metaAccessStatus: data.adAccountId ? 'pending' : 'none',
+      createdAt: new Date().toISOString(),
+      notes: '',
+    });
 
     return {
       statusCode: 200,

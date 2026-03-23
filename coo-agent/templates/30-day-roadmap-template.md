@@ -251,7 +251,7 @@ Annual ROI: [X]%
 - [Link to documentation]
 
 ### Support
-- LioraTech support: info@lioratech.is
+- LioraTech support: ingi@lioratech.is
 - Implementation help available (additional cost)
 
 ---
@@ -321,7 +321,7 @@ ROI: [Net benefit / Investment × 100]%
 - **Guided implementation:** Monthly check-ins with LioraTech (150,000 ISK/month)
 - **Full-service:** LioraTech implements everything for you (custom quote)
 
-**Questions?** Contact: info@lioratech.is
+**Questions?** Contact: ingi@lioratech.is
 
 ---
 
@@ -340,7 +340,7 @@ ROI: [Net benefit / Investment × 100]%
 ### About LioraTech
 LioraTech helps Icelandic businesses implement AI without complexity.
 - Website: lioratech.is
-- Email: info@lioratech.is
+- Email: ingi@lioratech.is
 - Focus: Practical, ROI-driven AI solutions
 
 ---

@@ -56,7 +56,7 @@ You work alongside:
 
 ## CORE PRODUCTS YOU BUILD
 
-### 1. 30-Day AI Roadmap (49,900 ISK + VAT)
+### 1. 30-Day AI Roadmap (69.900 kr+vsk)
 **Input needed:**
 - Company name & industry
 - Current pain points

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lífland Vefverslun - AI Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: #fbfbf4;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #a91f23 0%, #8a1a1d 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(169, 31, 35, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+
+        .nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* AI Badge */
+        .ai-badge {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-left: 0.5rem;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Demo Note */
+        .demo-note {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.2);
+        }
+
+        .demo-note h2 {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .demo-note p {
+            font-size: 1rem;
+            color: #78350f;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn {
+            background: white;
+            border: 2px solid #fbbf24;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #92400e;
+        }
+
+        .control-btn:hover {
+            background: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+        }
+
+        .control-btn.active {
+            background: #92400e;
+            color: white;
+            border-color: #92400e;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border: 3px solid #6366f1;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .search-section:hover {
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 3.5rem 1.25rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: 'Barlow', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #a91f23;
+            box-shadow: 0 0 0 4px rgba(169, 31, 35, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #999;
+        }
+
+        .search-examples {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .search-examples h3 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .example-queries {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .example-query {
+            background: #f5f5f5;
+            padding: 0.6rem 1.2rem;
+            border-radius: 24px;
+            font-size: 0.9rem;
+            color: #333;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-query:hover {
+            background: #a91f23;
+            color: white;
+            border-color: #a91f23;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(169, 31, 35, 0.3);
+        }
+
+        .search-results {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #e0e0e0;
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-item {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #6366f1;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .result-item:hover {
+            background: #f3f4f6;
+            transform: translateX(8px);
+        }
+
+        .result-item h4 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-item p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .ai-explanation {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-left: 4px solid #6366f1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #a91f23;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #a91f23 0%, #8a1a1d 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Barlow', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(169, 31, 35, 0.4);
+        }
+
+        /* AI Recommendations Section */
+        .recommendations-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            border: 3px solid #8b5cf6;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .recommendations-section:hover {
+            box-shadow: 0 12px 32px rgba(139, 92, 246, 0.2);
+        }
+
+        .recommendations-section h2 {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendations-subtitle {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Personalization Section */
+        .personalization-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            border: 3px solid #10b981;
+            position: relative;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .personalization-section:hover {
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.2);
+        }
+
+        .profile-switcher {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: #f9fafb;
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .profile-option {
+            flex: 1;
+            padding: 0.75rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .profile-option:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+        }
+
+        .profile-option.active {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border-color: #10b981;
+            font-weight: 600;
+        }
+
+        .profile-banner {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .profile-details h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-details p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .personalized-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .content-card {
+            background: #f9fafb;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            border-color: #10b981;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
+        }
+
+        .content-card h4 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .content-card p {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Impact Stats */
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a91f23 0%, #8a1a1d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #a91f23 0%, #8a1a1d 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(169, 31, 35, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .contact-cards {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            background: white;
+            color: #333;
+            padding: 1.25rem 1.75rem;
+            border-radius: 12px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+
+        .contact-card strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-card a {
+            color: #a91f23;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c2c2c;
+            color: #ccc;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #a91f23;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .demo-controls {
+                flex-direction: column;
+            }
+
+            .profile-switcher {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">Lífland</div>
+            <nav class="nav">
+                <a href="#">Fóður</a>
+                <a href="#">Búnaður</a>
+                <a href="#">Hross</a>
+                <a href="#">Gæludýr</a>
+                <a href="#">Ráðgjöf</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Demo Note -->
+        <div class="demo-note">
+            <h2>🎯 Interactive AI Demo fyrir Lífland</h2>
+            <p>Þetta er virk demo sem sýnir nákvæmlega hvernig AI gæti breytt upplifun viðskiptavina. <strong>Prófaðu að klikka og prófa!</strong></p>
+            <div class="demo-controls">
+                <button class="control-btn active" onclick="showAllFeatures()">📊 Sýna allar features</button>
+                <button class="control-btn" onclick="scrollToSearch()">🔍 Snjall leit</button>
+                <button class="control-btn" onclick="scrollToRecommendations()">🎯 Tillögur</button>
+                <button class="control-btn" onclick="scrollToPersonalization()">👤 Persónugerð</button>
+            </div>
+        </div>
+
+        <!-- Impact Stats -->
+        <div class="impact-stats">
+            <div class="stat-card">
+                <div class="stat-number">+24%</div>
+                <div class="stat-label">Conversion Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+31%</div>
+                <div class="stat-label">Average Order Value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">-42%</div>
+                <div class="stat-label">Support fyrirspurnir</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">+18%</div>
+                <div class="stat-label">Customer Retention</div>
+            </div>
+        </div>
+
+        <!-- Feature 1: Smart Search -->
+        <div class="search-section" id="search-section">
+            <div class="feature-label">✨ AI Feature #1: Snjall Leit</div>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Prófaðu að skrifa 'fóður sem eykir mjólkurframleiðslu' eða klikka á dæmi fyrir neðan...">
+                <div class="search-icon">🔍</div>
+            </div>
+
+            <div class="search-examples">
+                <h3>👇 Klikkaðu á dæmi til að prófa náttúrulega leit:</h3>
+                <div class="example-queries">
+                    <div class="example-query" onclick="performSearch('fóður sem eykur mjólkurframleiðslu')">🐄 fóður sem eykur mjólkurframleiðslu</div>
+                    <div class="example-query" onclick="performSearch('vörur fyrir sauðfjárrækt á veturna')">🐑 vörur fyrir sauðfjárrækt á veturna</div>
+                    <div class="example-query" onclick="performSearch('búnaður fyrir smábændur')">🏡 búnaður fyrir smábændur</div>
+                    <div class="example-query" onclick="performSearch('lífrænar lausnir fyrir hænsnabú')">🌱 lífrænar lausnir fyrir hænsnabú</div>
+                </div>
+            </div>
+
+            <div class="search-results" id="searchResults"></div>
+
+            <div class="ai-explanation">
+                <strong>💡 Hvernig virkar þetta?</strong> Í stað þess að leita bara að nákvæmum orðum, skilur AI-leitin <em>hvað viðskiptavinurinn þarf í raun</em>. T.d. ef bóndi leitar að "auka mjólkurframleiðslu" þá sýnir kerfið rétta fóðurtegundir, bætiefni og ráðgjöf - jafnvel þótt þessi orð séu ekki í vörulýsingu.
+            </div>
+        </div>
+
+        <!-- Feature 2: AI Recommendations -->
+        <div class="recommendations-section" id="recommendations-section">
+            <div class="feature-label">🎯 AI Feature #2: Snjallari Vörutillögur</div>
+            <h2>Bændur eins og þú keyptu líka <span class="ai-badge">AI-KNÚIÐ</span></h2>
+            <p class="recommendations-subtitle">Byggt á innkaupum frá bændum með svipaða búfjárgerð og svæði</p>
+
+            <div class="product-grid" id="recommendationGrid">
+                <!-- Will be populated by JS -->
+            </div>
+
+            <div class="ai-explanation">
+                <strong>💡 Hvernig virkar þetta?</strong> AI greinir innkaupamynstur bænda með svipaða búfjárgerð, svæði og stærð. Þannig fær t.d. mjólkurbóndi á Suðurlandi tillögur byggðar á því sem aðrir mjólkurbændur á Suðurlandi eru að kaupa - ekki bara almennar "vinsælar vörur".
+            </div>
+        </div>
+
+        <!-- Feature 3: Personalization -->
+        <div class="personalization-section" id="personalization-section">
+            <div class="feature-label">👤 AI Feature #3: Persónugerð</div>
+
+            <div class="profile-switcher">
+                <div class="profile-option active" onclick="switchProfile('jon')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🐄</div>
+                    <div style="font-weight: 600;">Jón - Mjólkurbú</div>
+                    <div style="font-size: 0.85rem; color: #666;">45 kýr, Suðurland</div>
+                </div>
+                <div class="profile-option" onclick="switchProfile('anna')">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🐑</div>
+                    <div style="font-weight: 600;">Anna - Sauðfjárbú</div>
+                    <div style="font-size: 0.85rem; color: #666;">320 kindur, Vestfirðir</div>
+                </div>
+            </div>
+
+            <div class="profile-banner" id="profileBanner">
+                <!-- Will be populated by JS -->
+            </div>
+
+            <h3 style="margin-bottom: 1rem; color: #333;">Sérsniðið fyrir þitt bú:</h3>
+
+            <div class="personalized-content" id="personalizedContent">
+                <!-- Will be populated by JS -->
+            </div>
+
+            <div class="ai-explanation" style="margin-top: 1.5rem;">
+                <strong>💡 Hvernig virkar þetta?</strong> Byggt á búgerð, staðsetningu og innkaupaferli sýnir kerfið <em>rétt efni til rétts bónda</em>. Mjólkurbóndi sér ekki hross- og gæludýravörur á forsíðu - hann sér fóður, ráðgjöf og tilboð sem skipta máli fyrir <em>hans</em> rekstur. <strong>👆 Prófaðu að skipta um profile fyrir ofan!</strong>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>🚀 Áhugasamur um AI í vefverslun Lífland?</h2>
+            <p>Látum taka 15 mínútna símtal til að skoða hvað væri hægt að gera.</p>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <strong>Ingi Þór Gunnarsson</strong>
+                    <a href="mailto:ingi@lioratech.is">ingi@lioratech.is</a>
+                </div>
+                <div class="contact-card">
+                    <strong>Sími</strong>
+                    <a href="tel:6960156">696-0156</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">Lífland</div>
+            <p>Interactive Demo útbúið af LioraTech • 30. janúar 2026</p>
+            <p style="font-size: 0.85rem; margin-top: 1rem; opacity: 0.7;">Þetta er concept mockup með working features</p>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchData = {
+            'fóður sem eykur mjólkurframleiðslu': [
+                { title: 'Premium Mjólkurfóður Plus 25kg', desc: 'Sérhannað fyrir hámarksframleiðslu - eykur mjólkurmagn um 8-15%', price: '8.990 kr' },
+                { title: 'Prótein Bætiefni - Mjólkurkýr', desc: 'Hátt próteininnihald stuðlar að betri mjólkurgæðum', price: '5.490 kr' },
+                { title: 'Steinefnablanda Premium', desc: 'Lykilsteinefni fyrir aukna mjólkurframleiðslu', price: '4.290 kr' },
+                { title: 'Fóðurráðgjöf - Mjólkurbú', desc: 'Sérsniðin ráðgjöf til að hámarka mjólkurframleiðslu', price: '12.900 kr' }
+            ],
+            'vörur fyrir sauðfjárrækt á veturna': [
+                { title: 'Vetrarhey Premium 20kg', desc: 'Gæða hey sérvalið fyrir sauðfé á veturna', price: '3.790 kr' },
+                { title: 'Lambafóður - Vetrarblanda', desc: 'Næringaríkt fóður fyrir lömb í kalda veðri', price: '6.490 kr' },
+                { title: 'Steinefni fyrir sauðfé', desc: 'Nauðsynleg steinefni fyrir heilbrigt sauðfé yfir veturinn', price: '2.890 kr' },
+                { title: 'Klippivélar og Búnaður', desc: 'Vetrarbúnaður fyrir sauðfjárrækt', price: '18.900 kr' }
+            ],
+            'búnaður fyrir smábændur': [
+                { title: 'Starter Fóðurpakki', desc: 'Allt sem þarf fyrir lítið bú - góð verðlausn', price: '24.900 kr' },
+                { title: 'Compact Fóðurkerra', desc: 'Lítil en öflug kerra fyrir minni bú', price: '89.000 kr' },
+                { title: 'Smábændaþjónusta', desc: 'Ráðgjöf sérhannað fyrir smábændur', price: '8.900 kr' },
+                { title: 'Almenn Bætiefni 5kg', desc: 'Góður grunnur fyrir smærri búfjárhópa', price: '3.490 kr' }
+            ],
+            'lífrænar lausnir fyrir hænsnabú': [
+                { title: 'Lífrænt Hænsafóður 15kg', desc: 'Vottað lífrænt fóður fyrir verphænsn', price: '7.890 kr' },
+                { title: 'Náttúruleg Sótthreinsivara', desc: 'Umhverfisvæn hreinsun fyrir hænsnahús', price: '4.290 kr' },
+                { title: 'Lífrænar Bætiefni', desc: 'Náttúruleg steinefni og vítamín', price: '3.990 kr' },
+                { title: 'Lífræn Ráðgjöf', desc: 'Sérfræðiþekking í lífrænum rekstri', price: '9.900 kr' }
+            ]
+        };
+
+        function performSearch(query) {
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+
+            searchInput.value = query;
+
+            const results = searchData[query] || [];
+
+            let html = '<h3 style="margin-bottom: 1rem; color: #333; font-size: 1.1rem;">✅ Fannst ' + results.length + ' niðurstöður sem passa við þarfir þínar:</h3>';
+
+            results.forEach(result => {
+                html += `
+                    <div class="result-item">
+                        <h4>${result.title}</h4>
+                        <p>${result.desc}</p>
+                        <div style="margin-top: 0.5rem; font-weight: 600; color: #a91f23;">${result.price}</div>
+                    </div>
+                `;
+            });
+
+            searchResults.innerHTML = html;
+            searchResults.classList.add('active');
+        }
+
+        // Recommendation products data
+        const recommendationData = {
+            jon: [
+                { emoji: '🌾', title: 'Premium Mjólkurfóður 25kg', desc: 'Sérhannað fyrir mjólkurkýr, eykur framleiðslu um 8-12%', price: '8.990 kr' },
+                { emoji: '💊', title: 'Steinefnabætiefni', desc: 'Fyrir heilbrigt bú, mælt með fyrir mjólkurframleiðslu', price: '4.590 kr' },
+                { emoji: '🧪', title: 'Mjólkurgæðaprófun', desc: 'Greiningarþjónusta til að hámarka gæði og arðsemi', price: '12.900 kr' }
+            ],
+            anna: [
+                { emoji: '🐑', title: 'Lambafóður Premium 20kg', desc: 'Sérhannað fyrir sauðfé á Vestfjörðum - vetrarblanda', price: '6.490 kr' },
+                { emoji: '✂️', title: 'Klippivél Pro', desc: 'Vinsælust meðal sauðfjárbænda - áreiðanleg og öflug', price: '45.900 kr' },
+                { emoji: '🌿', title: 'Náttúruleg Sníkjudýralyf', desc: 'Lífræn lausn fyrir heilbrigt sauðfé', price: '8.290 kr' }
+            ]
+        };
+
+        // Profile data
+        const profileData = {
+            jon: {
+                avatar: 'JÓ',
+                name: 'Jón',
+                type: 'Mjólkurbú • Suðurland • 45 kýr',
+                cards: [
+                    { icon: '📊', title: 'Árstíðabundnar tillögur', desc: 'Vetrarfóður kemur á lager 15. sept - viltu minningu?' },
+                    { icon: '🎯', title: 'Þínar tegundir', desc: 'Fóður fyrir mjólkurkýr, steinefni, próteinbætiefni' },
+                    { icon: '💰', title: 'Magnafslættir', desc: 'Þú kaupir ~4 tonn/ár - 12% sérverð í boði' },
+                    { icon: '📈', title: 'Ráðgjöf', desc: 'Fóðurráðgjafi á Suðurlandi: Guðmundur, 895-2341' }
+                ]
+            },
+            anna: {
+                avatar: 'AN',
+                name: 'Anna',
+                type: 'Sauðfjárbú • Vestfirðir • 320 kindur',
+                cards: [
+                    { icon: '❄️', title: 'Vetrarviðvörun', desc: 'Veðurspá: Frost næstu vikur - bæta við heybirgðum?' },
+                    { icon: '🎯', title: 'Þínar tegundir', desc: 'Lambafóður, klippivélar, vetrarhey, sníkjudýralyf' },
+                    { icon: '💰', title: 'Svæðisafsláttur', desc: 'Frí sending á Vestfirði fyrir pantanir >15.000 kr' },
+                    { icon: '📈', title: 'Ráðgjöf', desc: 'Sauðfjárráðgjafi Vestfjarða: Sigríður, 867-4521' }
+                ]
+            }
+        };
+
+        let currentProfile = 'jon';
+
+        function switchProfile(profile) {
+            currentProfile = profile;
+
+            // Update button states
+            const buttons = document.querySelectorAll('.profile-option');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.profile-option').classList.add('active');
+
+            // Update profile banner
+            updateProfileBanner(profile);
+
+            // Update personalized content
+            updatePersonalizedContent(profile);
+
+            // Update recommendations
+            updateRecommendations(profile);
+        }
+
+        function updateProfileBanner(profile) {
+            const data = profileData[profile];
+            const banner = document.getElementById('profileBanner');
+
+            banner.innerHTML = `
+                <div class="profile-info">
+                    <div class="profile-avatar">${data.avatar}</div>
+                    <div class="profile-details">
+                        <h3>Sæl/Sæll ${data.name}! <span class="ai-badge">PERSÓNULEGT</span></h3>
+                        <p>${data.type}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updatePersonalizedContent(profile) {
+            const data = profileData[profile];
+            const content = document.getElementById('personalizedContent');
+
+            let html = '';
+            data.cards.forEach(card => {
+                html += `
+                    <div class="content-card">
+                        <h4>${card.icon} ${card.title}</h4>
+                        <p>${card.desc}</p>
+                    </div>
+                `;
+            });
+
+            content.innerHTML = html;
+        }
+
+        function updateRecommendations(profile) {
+            const products = recommendationData[profile];
+            const grid = document.getElementById('recommendationGrid');
+
+            let html = '';
+            products.forEach(product => {
+                html += `
+                    <div class="product-card">
+                        <div class="product-image">${product.emoji}</div>
+                        <div class="product-info">
+                            <div class="product-title">${product.title}</div>
+                            <div class="product-description">${product.desc}</div>
+                            <div class="product-price">${product.price}</div>
+                            <button class="add-to-cart">Setja í körfu</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Scroll functions
+        function scrollToSearch() {
+            document.getElementById('search-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function scrollToRecommendations() {
+            document.getElementById('recommendations-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function scrollToPersonalization() {
+            document.getElementById('personalization-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function showAllFeatures() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            updateProfileBanner('jon');
+            updatePersonalizedContent('jon');
+            updateRecommendations('jon');
+        };
+
+        // Search input listener
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.toLowerCase();
+                // Try to match closest query
+                for (let key in searchData) {
+                    if (key.includes(query) || query.includes(key.split(' ')[0])) {
+                        performSearch(key);
+                        return;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

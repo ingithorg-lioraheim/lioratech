@@ -37,3 +37,4 @@ coo-agent/.google-drive-config.json
 coo-agent/products/
 coo-agent/requests/
 coo-agent/scripts/setup-google-auth.js
+.vercel

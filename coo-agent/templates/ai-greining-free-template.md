@@ -42,7 +42,7 @@ Type: Ókeypis AI-greining
 Project ID: [ORDER_ID]
 
 lioratech.is
-info@lioratech.is
+ingi@lioratech.is
 ```
 
 ---
@@ -216,7 +216,7 @@ Byggt á þinni stöðu, mælum við með að byrja hér:
 
 ### Þú hefur séð HVAÐ er hægt að gera. Viltu vita HVERNIG?
 
-**Verð: 49.900 ISK** (einstaklingsbundið tilboð)
+**Verð: 69.900 ISK + VSK**
 
 Persónuleg ráðgjöf með sérfræðingi + ítarleg 30 daga framkvæmdaáætlun:
 
@@ -244,7 +244,7 @@ Persónuleg ráðgjöf með sérfræðingi + ítarleg 30 daga framkvæmdaáætlu
 - 📈 Þú vilt hámarkar ROI og forðast dýr mistök
 - ⏰ Þú hefur ekki tíma til að prófa þig áfram sjálfur
 
-👉 **[Panta 30 daga framkvæmdaáætlun](https://lioratech.is/30dagaplan)**
+👉 **[Panta 30 daga framkvæmdaáætlun](https://lioratech.is/30dagaplan/questionnaire)**
 
 ---
 
@@ -266,7 +266,7 @@ Við innleiðum allt fyrir þig:
 
 **Verð:** Custom (fer eftir umfangi)
 
-👉 **[Fá verðtilboð](https://lioratech.is/quote)**
+👉 **[Bóka fund - Fá verðtilboð](https://calendly.com/ingi-lioratech/30min)**
 
 ---
 
@@ -284,8 +284,8 @@ Við innleiðum allt fyrir þig:
 
 1. **📋 Gera ekkert** – Greiningin situr í skúffu, tækifærin týnast, keppendur komast á undan
 2. **🛠️ Prófa þig áfram sjálfur** – Getur tekið 3-6 mánuði, kostað dýr mistök, en er ókeypis
-3. **🚀 Fá 30 daga framkvæmdaáætlun** – Nákvæm stefna, sparar 2-4 mánuði, forðast mistök → **[Panta hér](https://lioratech.is/30dagaplan)**
-4. **💎 Full innleiðing með okkur** – Done-for-you lausn, hraðasti leiðin → **[Fá tilboð](https://lioratech.is/quote)**
+3. **🚀 Fá 30 daga framkvæmdaáætlun** – Nákvæm stefna, sparar 2-4 mánuði, forðast mistök → **[Panta hér](https://lioratech.is/30dagaplan/questionnaire)**
+4. **💎 Full innleiðing með okkur** – Done-for-you lausn, hraðasti leiðin → **[Bóka fund](https://calendly.com/ingi-lioratech/30min)**
 
 ---
 
@@ -293,8 +293,6 @@ Við innleiðum allt fyrir þig:
 - Email: ingi@lioratech.is
 - Website: lioratech.is
 
-**Meira efni:**
-- Vikubréf með AI ráðleggingum: [Skrá sig](https://lioratech.is#newsletter)
 
 ---
 
