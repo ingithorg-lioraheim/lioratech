@@ -62,6 +62,8 @@ Við höfum móttekið beiðni þína og byrjum greiningu á auglýsingareikning
 
 ${adAccountSection}
 
+Ef þú lendir í vandræðum eða finnur ekki tilkynninguna, sendu okkur línu á ingi@lioratech.is eða hringdu í 696-0156 og við aðstoðum þig.
+
 Þú færð niðurstöður innan sólarhrings.
 
 Kveðja,
@@ -142,8 +144,12 @@ const handler: Handler = async (event) => {
         const metaData = await metaRes.json();
         console.log('Meta API response:', metaData);
         metaResult = JSON.stringify(metaData, null, 2);
+        if (metaData.error) {
+          metaResult = `⚠️ META API VILLA — þarf aðstoð!\n${JSON.stringify(metaData, null, 2)}`;
+        }
       } catch (metaError) {
         console.error('Meta API error:', metaError);
+        metaResult = `⚠️ META API VILLA — þarf aðstoð!\n${String(metaError)}`;
         // Don't fail the form submission if Meta API fails
       }
     }
