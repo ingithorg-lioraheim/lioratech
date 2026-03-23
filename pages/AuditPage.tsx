@@ -530,7 +530,7 @@ export default function AuditPage() {
                     type="text"
                     value={formData.adAccountId}
                     onChange={e => setFormData(d => ({ ...d, adAccountId: e.target.value }))}
-                    placeholder="act_123456789"
+                    placeholder="1606953747166015"
                     className="w-full px-4 py-3 rounded-xl text-white placeholder-slate-500 text-sm outline-none transition-all"
                     style={{
                       background: '#1a1a2e',
@@ -573,7 +573,7 @@ export default function AuditPage() {
                           'Opnaðu Meta Business Suite (business.facebook.com)',
                           'Smelltu á ⚙️ Stillingar (Settings) neðst til vinstri',
                           'Veldu "Auglýsingareikningar" (Ad accounts) í valmyndinni',
-                          'Ad Account ID birtist efst — það lítur svona út: act_123456789',
+                          'Ad Account ID birtist efst — tölur eins og 1606953747166015',
                           'Afritaðu ID-ið og límdu hér að ofan',
                         ].map((step, i) => (
                           <li key={i} className="flex items-start gap-3">
