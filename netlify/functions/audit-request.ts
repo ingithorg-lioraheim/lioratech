@@ -67,7 +67,7 @@ ${adAccountSection}
 
 Ef þú lendir í vandræðum eða finnur ekki tilkynninguna, sendu okkur línu á ingi@lioratech.is eða hringdu í 696-0156 og við aðstoðum þig.
 
-Þú færð niðurstöður innan sólarhrings.
+Þú færð niðurstöður innan sólarhrings, eftir að við erum komin með aðgang í auglýsingareikninginn.
 
 Kveðja,
 Ingi Þór
