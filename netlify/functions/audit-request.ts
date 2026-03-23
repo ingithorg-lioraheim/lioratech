@@ -6,6 +6,7 @@ interface AuditRequest {
   company: string;
   phone?: string;
   hasGrantedAccess?: boolean;
+  needsAccessHelp?: boolean;
 }
 
 const handler: Handler = async (event) => {
@@ -40,6 +41,7 @@ const handler: Handler = async (event) => {
       company: data.company,
       phone: data.phone || 'N/A',
       hasGrantedAccess: data.hasGrantedAccess || false,
+      needsAccessHelp: data.needsAccessHelp || false,
       timestamp: new Date().toISOString(),
     });
 

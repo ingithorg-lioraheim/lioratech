@@ -47,6 +47,7 @@ interface FormData {
   company: string;
   phone: string;
   hasGrantedAccess: boolean;
+  needsAccessHelp: boolean;
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -64,6 +65,7 @@ export default function AuditPage() {
     company: '',
     phone: '',
     hasGrantedAccess: false,
+    needsAccessHelp: false,
   });
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [accordionOpen, setAccordionOpen] = useState(false);
@@ -87,6 +89,7 @@ export default function AuditPage() {
           company: formData.company,
           phone: formData.phone || undefined,
           hasGrantedAccess: formData.hasGrantedAccess,
+          needsAccessHelp: formData.needsAccessHelp,
         }),
       });
       if (res.ok) {
@@ -140,7 +143,7 @@ export default function AuditPage() {
 
         <div className="relative container mx-auto px-6 max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight mb-6">
-            Ertu viss um að Meta auglýsingar þínar séu að skila sér?
+            Ertu viss um að þínar Meta auglýsingar séu að skila þér virði?
           </h1>
 
           <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10 max-w-2xl mx-auto">
@@ -353,9 +356,6 @@ export default function AuditPage() {
           </FadeIn>
 
           <div className="grid md:grid-cols-3 gap-6 relative">
-            {/* Connector line (desktop) */}
-            <div className="hidden md:block absolute top-10 left-1/3 right-1/3 h-px bg-gradient-to-r from-brand-accent/10 via-brand-accent/50 to-brand-accent/10" />
-
             {[
               {
                 step: '01',
@@ -368,7 +368,7 @@ export default function AuditPage() {
                 step: '02',
                 icon: <Search size={22} className="text-brand-accent" />,
                 title: 'Við greinum',
-                body: 'AI-drifin greining á öllum campaigns, ad sets og ads. Við berum saman við geirann og finnum eyður.',
+                body: 'Greining á öllum campaigns, ad sets og ads. Við berum saman við geirann og finnum eyður.',
                 delay: 120,
               },
               {
@@ -379,8 +379,8 @@ export default function AuditPage() {
                 delay: 240,
               },
             ].map(({ step, icon, title, body, delay }) => (
-              <FadeIn key={step} delay={delay}>
-                <div className="group relative rounded-2xl p-7 transition-all duration-300
+              <FadeIn key={step} delay={delay} className="h-full">
+                <div className="group relative rounded-2xl p-7 transition-all duration-300 h-full flex flex-col
                   bg-gradient-to-br from-white/5 to-brand-accent/5
                   border border-white/10
                   hover:border-brand-accent/40
@@ -401,7 +401,7 @@ export default function AuditPage() {
                     </div>
                   </div>
                   <h3 className="relative text-lg font-bold text-white mb-3">{title}</h3>
-                  <p className="relative text-slate-400 text-sm leading-relaxed">{body}</p>
+                  <p className="relative text-slate-400 text-sm leading-relaxed flex-grow">{body}</p>
                 </div>
               </FadeIn>
             ))}
@@ -573,9 +573,6 @@ export default function AuditPage() {
                         <strong className="text-white">Greiningaraðili (Analyst)</strong> hefur eingöngu lesaðgang — við getum aldrei breytt auglýsingunum þínum eða eytt neinu.
                       </div>
 
-                      <p className="text-sm text-slate-400">
-                        Ef þú þarft nánari aðstoð, skráðu þig hér að neðan og við aðstoðum þig skref fyrir skref.
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -589,7 +586,20 @@ export default function AuditPage() {
                     className="mt-0.5 w-4 h-4 rounded accent-brand-accent cursor-pointer flex-shrink-0"
                   />
                   <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-snug">
-                    Ég hef gefið aðgang að auglýsingareikningi
+                    Ég er búin/n að veita aðgang að mínum auglýsingareikningi
+                  </span>
+                </label>
+
+                {/* Need help checkbox */}
+                <label className="flex items-start gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={formData.needsAccessHelp || false}
+                    onChange={e => setFormData(d => ({ ...d, needsAccessHelp: e.target.checked }))}
+                    className="mt-0.5 w-4 h-4 rounded accent-brand-accent cursor-pointer flex-shrink-0"
+                  />
+                  <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-snug">
+                    Ég þarf frekari aðstoð við að gefa aðgang að mínum auglýsingareikningi
                   </span>
                 </label>
 
