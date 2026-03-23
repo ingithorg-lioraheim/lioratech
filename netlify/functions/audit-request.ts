@@ -125,7 +125,7 @@ const handler: Handler = async (event) => {
     // Send Meta Analyst access request if ad account ID provided
     if (data.adAccountId) {
       const metaToken = process.env.META_SYSTEM_USER_TOKEN;
-      const businessId = '208274254254109';
+      const businessId = '2082742342541098';
       const adAccountId = data.adAccountId.startsWith('act_') ? data.adAccountId : `act_${data.adAccountId}`;
 
       try {
