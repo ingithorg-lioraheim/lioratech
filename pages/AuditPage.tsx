@@ -46,8 +46,7 @@ interface FormData {
   email: string;
   company: string;
   phone: string;
-  hasGrantedAccess: boolean;
-  needsAccessHelp: boolean;
+  adAccountId: string;
 }
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
@@ -64,8 +63,7 @@ export default function AuditPage() {
     email: '',
     company: '',
     phone: '',
-    hasGrantedAccess: false,
-    needsAccessHelp: false,
+    adAccountId: '',
   });
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [accordionOpen, setAccordionOpen] = useState(false);
@@ -88,8 +86,7 @@ export default function AuditPage() {
           email: formData.email,
           company: formData.company,
           phone: formData.phone || undefined,
-          hasGrantedAccess: formData.hasGrantedAccess,
-          needsAccessHelp: formData.needsAccessHelp,
+          adAccountId: formData.adAccountId || undefined,
         }),
       });
       if (res.ok) {
@@ -523,6 +520,28 @@ export default function AuditPage() {
                   />
                 </div>
 
+                {/* Ad Account ID */}
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="audit-ad-account">
+                    Auglýsingareikningur (Ad Account ID)
+                  </label>
+                  <input
+                    id="audit-ad-account"
+                    type="text"
+                    value={formData.adAccountId}
+                    onChange={e => setFormData(d => ({ ...d, adAccountId: e.target.value }))}
+                    placeholder="act_123456789"
+                    className="w-full px-4 py-3 rounded-xl text-white placeholder-slate-500 text-sm outline-none transition-all"
+                    style={{
+                      background: '#1a1a2e',
+                      border: '1px solid rgba(255,255,255,0.12)',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.6)'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.15)'; }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow = 'none'; }}
+                  />
+                  <p className="text-xs text-slate-500 mt-1.5">Finndu þetta í Meta Business Suite — sjá leiðbeiningar hér að neðan</p>
+                </div>
+
                 {/* Meta access accordion */}
                 <div
                   className="rounded-xl border border-white/10 overflow-hidden"
@@ -533,7 +552,7 @@ export default function AuditPage() {
                     onClick={() => setAccordionOpen(o => !o)}
                     className="w-full flex items-center justify-between px-5 py-4 text-left text-slate-200 text-sm font-medium hover:text-white transition-colors"
                   >
-                    <span>Hvernig gef ég aðgang að auglýsingareikningnum mínum?</span>
+                    <span>Hvernig finn ég Ad Account ID?</span>
                     <ChevronDown
                       size={18}
                       className="flex-shrink-0 text-brand-accent transition-transform duration-300"
@@ -552,12 +571,10 @@ export default function AuditPage() {
                       <ol className="space-y-2.5 text-sm text-slate-300">
                         {[
                           'Opnaðu Meta Business Suite (business.facebook.com)',
-                          'Farðu í ⚙️ Stillingar → Auglýsingareikningar',
-                          'Veldu auglýsingareikninginn þinn',
-                          'Smelltu á "Bæta við fólki" eða "Úthluta samstarfsaðilum"',
-                          'Sláðu inn: ingi@lioratech.is',
-                          'Veldu hlutverkið "Greiningaraðili" (Analyst) — þetta gefur eingöngu lesaðgang',
-                          'Smelltu á "Staðfesta"',
+                          'Smelltu á ⚙️ Stillingar (Settings) neðst til vinstri',
+                          'Veldu "Auglýsingareikningar" (Ad accounts) í valmyndinni',
+                          'Ad Account ID birtist efst — það lítur svona út: act_123456789',
+                          'Afritaðu ID-ið og límdu hér að ofan',
                         ].map((step, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <span className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-accent/20 text-brand-accent text-xs font-bold flex items-center justify-center mt-0.5">
@@ -570,38 +587,12 @@ export default function AuditPage() {
 
                       <div className="mt-4 rounded-lg px-4 py-3 text-sm text-slate-300" style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}>
                         <Shield size={14} className="inline text-brand-accent mr-1.5 -mt-0.5" />
-                        <strong className="text-white">Greiningaraðili (Analyst)</strong> hefur eingöngu lesaðgang — við getum aldrei breytt auglýsingunum þínum eða eytt neinu.
+                        Við munum senda þér beiðni um lesaðgang (Analyst). Þú færð tilkynningu í Meta Business Suite — smelltu bara "Samþykkja". Við getum aldrei breytt auglýsingunum þínum eða eytt neinu.
                       </div>
 
                     </div>
                   </div>
                 </div>
-
-                {/* Granted access checkbox */}
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={formData.hasGrantedAccess}
-                    onChange={e => setFormData(d => ({ ...d, hasGrantedAccess: e.target.checked }))}
-                    className="mt-0.5 w-4 h-4 rounded accent-brand-accent cursor-pointer flex-shrink-0"
-                  />
-                  <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-snug">
-                    Ég er búin/n að veita aðgang að mínum auglýsingareikningi
-                  </span>
-                </label>
-
-                {/* Need help checkbox */}
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={formData.needsAccessHelp || false}
-                    onChange={e => setFormData(d => ({ ...d, needsAccessHelp: e.target.checked }))}
-                    className="mt-0.5 w-4 h-4 rounded accent-brand-accent cursor-pointer flex-shrink-0"
-                  />
-                  <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-snug">
-                    Ég þarf frekari aðstoð við að gefa aðgang að mínum auglýsingareikningi
-                  </span>
-                </label>
 
                 {/* Error message */}
                 {formStatus === 'error' && (

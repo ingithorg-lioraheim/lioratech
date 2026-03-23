@@ -5,8 +5,7 @@ interface AuditRequest {
   email: string;
   company: string;
   phone?: string;
-  hasGrantedAccess?: boolean;
-  needsAccessHelp?: boolean;
+  adAccountId?: string;
 }
 
 const handler: Handler = async (event) => {
@@ -40,10 +39,36 @@ const handler: Handler = async (event) => {
       email: data.email,
       company: data.company,
       phone: data.phone || 'N/A',
-      hasGrantedAccess: data.hasGrantedAccess || false,
-      needsAccessHelp: data.needsAccessHelp || false,
+      adAccountId: data.adAccountId || 'N/A',
       timestamp: new Date().toISOString(),
     });
+
+    // Send Meta Analyst access request if ad account ID provided
+    if (data.adAccountId) {
+      const metaToken = process.env.META_SYSTEM_USER_TOKEN;
+      const businessId = '208274254254109';
+      const adAccountId = data.adAccountId.startsWith('act_') ? data.adAccountId : `act_${data.adAccountId}`;
+
+      try {
+        const metaRes = await fetch(
+          `https://graph.facebook.com/v21.0/${adAccountId}/agencies`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              business: businessId,
+              permitted_tasks: ['ANALYZE'],
+              access_token: metaToken,
+            }),
+          }
+        );
+        const metaData = await metaRes.json();
+        console.log('Meta API response:', metaData);
+      } catch (metaError) {
+        console.error('Meta API error:', metaError);
+        // Don't fail the form submission if Meta API fails
+      }
+    }
 
     return {
       statusCode: 200,
