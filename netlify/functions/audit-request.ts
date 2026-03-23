@@ -9,7 +9,7 @@ interface AuditRequest {
   adAccountId?: string;
 }
 
-async function sendEmails(data: AuditRequest, metaResult?: string) {
+async function sendEmails(data: AuditRequest) {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
@@ -23,6 +23,10 @@ async function sendEmails(data: AuditRequest, metaResult?: string) {
   const timestamp = new Date().toLocaleString('is-IS', { timeZone: 'Atlantic/Reykjavik' });
 
   // A) Tilkynning á Ingi
+  const adAccountNote = data.adAccountId
+    ? `\n📋 NÆSTA SKREF: Sendu Analyst access beiðni á þennan reikning:\n   1. Opnaðu https://business.facebook.com/settings/ad-accounts\n   2. Smelltu "Add" → "Request access to an ad account"\n   3. Sláðu inn Ad Account ID: ${data.adAccountId}\n   4. Veldu "Analyst" aðgang\n   5. Smelltu "Request Access"\n`
+    : '';
+
   const notifyBody = `
 🔔 Nýtt Liora Audit lead!
 
@@ -32,8 +36,7 @@ Fyrirtæki: ${data.company}
 Sími: ${data.phone || 'N/A'}
 Ad Account ID: ${data.adAccountId || 'N/A'}
 Tími: ${timestamp}
-
-${metaResult ? `Meta API niðurstaða:\n${metaResult}` : ''}
+${adAccountNote}
   `.trim();
 
   try {
@@ -50,7 +53,7 @@ ${metaResult ? `Meta API niðurstaða:\n${metaResult}` : ''}
 
   // B) Auto-reply á viðskiptavin
   const adAccountSection = data.adAccountId
-    ? `Við höfum sent beiðni um lesaðgang (Analyst) á auglýsingareikninginn þinn. Þú ættir að fá tilkynningu í Meta Business Suite — smelltu bara "Samþykkja" til að veita okkur aðgang.`
+    ? `Við sendum þér beiðni um lesaðgang (Analyst) á auglýsingareikninginn þinn á næstu mínútum. Þú færð tilkynningu í Meta Business Suite — smelltu bara "Samþykkja" til að veita okkur aðgang.`
     : `Til að geta hafið greininguna þurfum við lesaðgang (Analyst) að auglýsingareikningnum þínum. Við munum hafa samband og leiðbeina þér í gegnum það.`;
 
   const autoReplyBody = `
@@ -120,56 +123,13 @@ const handler: Handler = async (event) => {
       timestamp: new Date().toISOString(),
     });
 
-    let metaResult: string | undefined;
-
-    // Send Meta Analyst access request if ad account ID provided
-    if (data.adAccountId) {
-      const metaToken = process.env.META_SYSTEM_USER_TOKEN;
-      const businessId = '2082742342541098';
-      const adAccountId = data.adAccountId.startsWith('act_') ? data.adAccountId : `act_${data.adAccountId}`;
-
-      try {
-        const metaRes = await fetch(
-          `https://graph.facebook.com/v21.0/${adAccountId}/agencies`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              business: businessId,
-              permitted_tasks: ['ANALYZE'],
-              access_token: metaToken,
-            }),
-          }
-        );
-        const metaData = await metaRes.json();
-        console.log('Meta API response:', metaData);
-        metaResult = JSON.stringify(metaData, null, 2);
-        if (metaData.error) {
-          metaResult = `⚠️ META API VILLA — þarf aðstoð!\n${JSON.stringify(metaData, null, 2)}`;
-        }
-      } catch (metaError) {
-        console.error('Meta API error:', metaError);
-        metaResult = `⚠️ META API VILLA — þarf aðstoð!\n${String(metaError)}`;
-        // Don't fail the form submission if Meta API fails
-      }
-    }
-
     // Send email notifications (errors are caught internally)
-    await sendEmails(data, metaResult);
+    await sendEmails(data);
 
     // Write lead to Supabase
     try {
       const supabaseUrl = process.env.SUPABASE_URL || 'https://mikkzhvjkxhnjwuubeti.supabase.co';
       const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pa2t6aHZqa3hobmp3dXViZXRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxMTQyMDYsImV4cCI6MjA4NzY5MDIwNn0.M9rOK5MEnU8yg0cPCRyTI71P2bIrdaSluplj7G2B-zQ';
-
-      let parsedMetaResponse: object | null = null;
-      if (metaResult) {
-        try {
-          parsedMetaResponse = JSON.parse(metaResult.replace(/^⚠️.*\n/, ''));
-        } catch {
-          parsedMetaResponse = null;
-        }
-      }
 
       const leadRes = await fetch(`${supabaseUrl}/rest/v1/leads`, {
         method: 'POST',
@@ -187,7 +147,6 @@ const handler: Handler = async (event) => {
           ad_account_id: data.adAccountId || null,
           status: 'new',
           meta_access_status: data.adAccountId ? 'pending' : 'none',
-          meta_api_response: parsedMetaResponse,
           notes: '',
         }),
       });
