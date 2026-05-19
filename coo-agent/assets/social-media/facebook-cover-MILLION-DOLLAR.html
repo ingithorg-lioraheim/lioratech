@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Million Dollar Cover</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Million Dollar Concept</h1>
+    <div style="color: #64748b; margin: 20px;">Minimal. Elegant. Perfect.</div>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        drawCover();
+
+        function drawCover() {
+            // Premium gradient - brand blues
+            const bg = ctx.createLinearGradient(0, 0, 1640, 0);
+            bg.addColorStop(0, '#1e3a8a');
+            bg.addColorStop(0.5, '#2563eb');
+            bg.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Subtle vignette
+            const vignette = ctx.createRadialGradient(820, 312, 200, 820, 312, 800);
+            vignette.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            vignette.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
+            ctx.fillStyle = vignette;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // === MINIMAL CONCEPT: THREE STATES ===
+
+            // LEFT: SCATTERED (chaos before automation)
+            const leftX = 410;
+            const leftY = 312;
+
+            // 7 scattered particles - minimal chaos representation
+            const scatter = [
+                { x: -40, y: -35, size: 8 },
+                { x: 35, y: -45, size: 6 },
+                { x: -25, y: 10, size: 10 },
+                { x: 45, y: -10, size: 7 },
+                { x: -10, y: 40, size: 9 },
+                { x: 40, y: 35, size: 6 },
+                { x: 10, y: -20, size: 8 },
+            ];
+
+            scatter.forEach(p => {
+                // Glow
+                const glow = ctx.createRadialGradient(
+                    leftX + p.x, leftY + p.y, 0,
+                    leftX + p.x, leftY + p.y, p.size * 4
+                );
+                glow.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+                glow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(leftX + p.x, leftY + p.y, p.size * 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                ctx.beginPath();
+                ctx.arc(leftX + p.x, leftY + p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // CENTER: PERFECT CIRCLE (organized automation)
+            const centerX = 820;
+            const centerY = 312;
+
+            // Outer glow
+            const outerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 80);
+            outerGlow.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+            outerGlow.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+            outerGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = outerGlow;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 80, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Perfect circle ring
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 45, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Inner circle
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bright core
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.beginPath();
+            ctx.arc(centerX - 3, centerY - 3, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // RIGHT: ASCENDING (growth/success)
+            const rightX = 1230;
+            const rightY = 400;
+
+            // Simple elegant ascending line with points
+            const ascendPoints = [
+                { x: -60, y: 0 },
+                { x: -30, y: -25 },
+                { x: 0, y: -55 },
+                { x: 30, y: -90 },
+                { x: 60, y: -130 },
+            ];
+
+            // Line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(rightX + ascendPoints[0].x, rightY + ascendPoints[0].y);
+            for (let i = 1; i < ascendPoints.length; i++) {
+                ctx.lineTo(rightX + ascendPoints[i].x, rightY + ascendPoints[i].y);
+            }
+            ctx.stroke();
+
+            // Points on line
+            ascendPoints.forEach((p, i) => {
+                const progress = i / (ascendPoints.length - 1);
+                const size = 6 + progress * 6;
+                const opacity = 0.6 + progress * 0.4;
+
+                // Glow
+                const pointGlow = ctx.createRadialGradient(
+                    rightX + p.x, rightY + p.y, 0,
+                    rightX + p.x, rightY + p.y, size * 3
+                );
+                pointGlow.addColorStop(0, `rgba(255, 255, 255, ${opacity})`);
+                pointGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = pointGlow;
+                ctx.beginPath();
+                ctx.arc(rightX + p.x, rightY + p.y, size * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Point
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(rightX + p.x, rightY + p.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Highlight
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.beginPath();
+                ctx.arc(rightX + p.x - 2, rightY + p.y - 2, size * 0.3, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // === MINIMAL CONNECTING FLOW ===
+
+            // LEFT → CENTER: subtle flow
+            for (let i = 0; i < 18; i++) {
+                const t = i / 18;
+                const x = leftX + (centerX - leftX) * t;
+                const y = leftY + (centerY - leftY) * t;
+                const size = 2 + Math.sin(t * Math.PI) * 2;
+                const opacity = Math.sin(t * Math.PI) * 0.25;
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // CENTER → RIGHT: subtle flow
+            for (let i = 0; i < 18; i++) {
+                const t = i / 18;
+                const x = centerX + (rightX - centerX) * t;
+                const y = centerY + (rightY - 50 - centerY) * t;
+                const size = 2 + Math.sin(t * Math.PI) * 2;
+                const opacity = Math.sin(t * Math.PI) * 0.25;
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-FINAL-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ FINAL PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-FINAL-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.98);
+            link.click();
+            document.getElementById('status').textContent = '✅ FINAL JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

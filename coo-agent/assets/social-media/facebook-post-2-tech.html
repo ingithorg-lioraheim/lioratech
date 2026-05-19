@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Tech Style</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Tech Circuit Style</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Dark tech gradient background
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0a0e27');
+            bg.addColorStop(0.5, '#1e3a8a');
+            bg.addColorStop(1, '#312e81');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle radial overlay
+            const radial = ctx.createRadialGradient(800, 315, 0, 800, 315, 500);
+            radial.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
+            radial.addColorStop(1, 'rgba(0, 0, 0, 0.3)');
+            ctx.fillStyle = radial;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Circuit board lines in background
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.15)';
+            ctx.lineWidth = 2;
+
+            // Horizontal circuit lines
+            for (let i = 0; i < 8; i++) {
+                const y = 100 + i * 60;
+                ctx.beginPath();
+                ctx.moveTo(500, y);
+                ctx.lineTo(1100, y);
+                ctx.stroke();
+
+                // Circuit nodes
+                for (let j = 0; j < 3; j++) {
+                    const x = 600 + j * 200;
+                    ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Vertical circuit lines
+            for (let i = 0; i < 4; i++) {
+                const x = 600 + i * 200;
+                ctx.beginPath();
+                ctx.moveTo(x, 50);
+                ctx.lineTo(x, 580);
+                ctx.stroke();
+            }
+
+            // LEFT SIDE: Text
+            ctx.font = 'bold 72px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            ctx.fillText('Helmingur', 80, 140);
+
+            ctx.font = 'bold 64px "Inter", sans-serif';
+            ctx.fillText('dagsins', 80, 230);
+
+            ctx.font = '500 44px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.fillText('fer í að færa gögn', 80, 330);
+
+            ctx.fillStyle = '#fca5a5';
+            ctx.fillText('á milli kerfa', 80, 390);
+
+            // RIGHT SIDE: Donut chart with 50/50 split
+            const chartX = 850;
+            const chartY = 315;
+            const outerRadius = 120;
+            const innerRadius = 85;
+
+            // Productive half (top) - brand blue
+            const prodGradient = ctx.createLinearGradient(chartX, chartY - outerRadius, chartX, chartY);
+            prodGradient.addColorStop(0, '#3b82f6');
+            prodGradient.addColorStop(1, '#2563eb');
+
+            ctx.fillStyle = prodGradient;
+            ctx.beginPath();
+            ctx.arc(chartX, chartY, outerRadius, -Math.PI / 2, Math.PI / 2, false);
+            ctx.arc(chartX, chartY, innerRadius, Math.PI / 2, -Math.PI / 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Glow for productive
+            ctx.shadowColor = '#3b82f6';
+            ctx.shadowBlur = 20;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Waste half (bottom) - red/pink
+            const wasteGradient = ctx.createLinearGradient(chartX, chartY, chartX, chartY + outerRadius);
+            wasteGradient.addColorStop(0, '#f87171');
+            wasteGradient.addColorStop(1, '#dc2626');
+
+            ctx.fillStyle = wasteGradient;
+            ctx.beginPath();
+            ctx.arc(chartX, chartY, outerRadius, Math.PI / 2, -Math.PI / 2, false);
+            ctx.arc(chartX, chartY, innerRadius, -Math.PI / 2, Math.PI / 2, true);
+            ctx.closePath();
+            ctx.fill();
+
+            // Glow for waste
+            ctx.shadowColor = '#ef4444';
+            ctx.shadowBlur = 20;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // Center circle with 50%
+            const centerGradient = ctx.createRadialGradient(chartX, chartY, 0, chartX, chartY, innerRadius);
+            centerGradient.addColorStop(0, '#1e3a8a');
+            centerGradient.addColorStop(1, '#0f172a');
+            ctx.fillStyle = centerGradient;
+            ctx.beginPath();
+            ctx.arc(chartX, chartY, innerRadius, 0, Math.PI * 2);
+            ctx.fill();
+
+            // White ring around center
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // 50% text
+            ctx.font = 'bold 56px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('50%', chartX, chartY);
+
+            // Labels with circuit connection lines
+            // Top label - Virðissköpun
+            const topLabelX = chartX + outerRadius + 120;
+            const topLabelY = chartY - 60;
+
+            // Circuit line to top
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(chartX, chartY - outerRadius);
+            ctx.lineTo(chartX, chartY - outerRadius - 30);
+            ctx.lineTo(topLabelX - 90, chartY - outerRadius - 30);
+            ctx.lineTo(topLabelX - 90, topLabelY);
+            ctx.stroke();
+
+            // Node
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.arc(topLabelX - 90, topLabelY, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Label text
+            ctx.font = '600 22px "Inter", sans-serif';
+            ctx.fillStyle = '#60a5fa';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Virðissköpun', topLabelX - 75, topLabelY);
+
+            // Bottom label - Handavinna
+            const bottomLabelX = chartX + outerRadius + 120;
+            const bottomLabelY = chartY + 60;
+
+            // Circuit line to bottom
+            ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(chartX, chartY + outerRadius);
+            ctx.lineTo(chartX, chartY + outerRadius + 30);
+            ctx.lineTo(bottomLabelX - 90, chartY + outerRadius + 30);
+            ctx.lineTo(bottomLabelX - 90, bottomLabelY);
+            ctx.stroke();
+
+            // Node
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(bottomLabelX - 90, bottomLabelY, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Label text
+            ctx.font = '600 22px "Inter", sans-serif';
+            ctx.fillStyle = '#fca5a5';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Handavinna', bottomLabelX - 75, bottomLabelY);
+
+            // LioraTech branding bottom right - correct colors
+            ctx.font = 'bold 28px "Playfair Display", serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'bottom';
+
+            // "Liora" in white
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Liora', 1140, 590);
+
+            // Measure "Liora" to position "Tech" correctly
+            const lioraWidth = ctx.measureText('Liora').width;
+
+            // "Tech" in brand accent blue right next to "Liora"
+            ctx.fillStyle = '#3b82f6';
+            ctx.textAlign = 'left';
+            ctx.fillText('Tech', 1140 - lioraWidth, 590);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Tech-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Tech-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="250" cy="250" r="230" fill="none" stroke="#1e3a8a" stroke-width="20" />
+  <text x="250" y="270" dominant-baseline="middle" text-anchor="middle"
+        style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 220px; letter-spacing: -0.05em;">
+    <tspan fill="#1e3a8a">L</tspan><tspan fill="#3b82f6">T</tspan>
+  </text>
+</svg>

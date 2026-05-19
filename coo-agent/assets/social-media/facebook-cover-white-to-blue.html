@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - White to Blue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech Facebook Cover - Final (Hvítur → Blár)</h1>
+    <div class="subtitle">1640×624px - Með réttum brand litum</div>
+    <div id="status">Smelltu á takkann til að vista myndina</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Wait for fonts to load
+        document.fonts.ready.then(() => {
+            drawCover();
+        });
+
+        function drawCover() {
+            // Create gradient background - WHITE at top transitioning to BLUE at bottom
+            const bgGradient = ctx.createLinearGradient(0, 0, 0, 624);
+            bgGradient.addColorStop(0, '#ffffff');        // Pure white at top
+            bgGradient.addColorStop(0.3, '#f8fafc');      // Very light slate
+            bgGradient.addColorStop(0.6, '#e2e8f0');      // Light slate
+            bgGradient.addColorStop(0.85, '#1e3a8a');     // Brand primary blue
+            bgGradient.addColorStop(1, '#0f172a');        // Dark blue at bottom
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Very subtle accent in upper right corner
+            const accentGradient = ctx.createRadialGradient(1500, 100, 0, 1500, 100, 350);
+            accentGradient.addColorStop(0, 'rgba(59, 130, 246, 0.05)');
+            accentGradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = accentGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Content
+            const leftMargin = 100;
+            let yPos = 140;
+
+            // Brand name "LioraTech" - NOW WITH CORRECT BRAND COLORS!
+            ctx.font = '700 90px "Playfair Display", serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            const lioraText = 'Liora';
+            const techText = 'Tech';
+
+            // "Liora" in brand-primary (#1e3a8a)
+            ctx.fillStyle = '#1e3a8a';
+            ctx.fillText(lioraText, leftMargin, yPos);
+
+            // "Tech" in brand-accent (#3b82f6)
+            const lioraWidth = ctx.measureText(lioraText).width;
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillText(techText, leftMargin + lioraWidth, yPos);
+
+            yPos += 125;
+
+            // Tagline - subtle
+            ctx.font = '400 28px "Inter", sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText('AI Ráðgjöf & Innleiðing', leftMargin + 4, yPos);
+
+            yPos += 85;
+
+            // Main headline - Playfair Display for elegance
+            // Color transitions based on position
+            ctx.font = '700 76px "Playfair Display", serif';
+            ctx.fillStyle = '#0f172a';  // Dark slate - works on light background
+            ctx.fillText('Sparaðu allt að 20+ klst. á viku með AI', leftMargin, yPos);
+
+            yPos += 105;
+
+            // Subheadline with bullet points
+            // This is lower so we need lighter color as background gets darker
+            ctx.font = '400 36px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';  // White - works on dark background
+            ctx.fillText('Sjálfvirkni  •  Gagnagreining  •  Hagkvæmar lausnir', leftMargin, yPos);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Final-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Final-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>

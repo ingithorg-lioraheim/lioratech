@@ -1,0 +1,35 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  targetPort = 3000
+
+[functions]
+  node_bundler = "esbuild"
+
+# Explicit redirects for payment pages (before catch-all)
+# Handle both GET and POST from Teya payment gateway
+[[redirects]]
+  from = "/payment-success"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/payment-error"
+  to = "/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/30dagaplan/*"
+  to = "/index.html"
+  status = 200
+
+# SPA catch-all redirect - MUST BE LAST
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

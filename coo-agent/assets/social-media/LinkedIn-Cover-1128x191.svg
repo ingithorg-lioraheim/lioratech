@@ -1,0 +1,11 @@
+<svg width="1128" height="191" viewBox="0 0 1128 191" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1128" height="191" fill="#0f172a" />
+
+  <text x="60" y="105" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 48px;">
+    <tspan fill="#ffffff">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+
+  <text x="1068" y="105" text-anchor="end" style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 24px;" fill="#f8fafc">
+    AI og sjálfvirkni sem vinnur fyrir reksturinn þinn
+  </text>
+</svg>

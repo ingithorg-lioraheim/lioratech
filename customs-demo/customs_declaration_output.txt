@@ -1,0 +1,71 @@
+
+╔════════════════════════════════════════════════════════════════╗
+║          TOLLAFGREIÐSLUSKJAL / CUSTOMS DECLARATION            ║
+╚════════════════════════════════════════════════════════════════╝
+
+────────────────────────────────────────────────────────────────
+SENDANDI / SHIPPER
+────────────────────────────────────────────────────────────────
+Nafn:           TechGear Solutions Ltd.
+Heimilisfang:   123 Industrial Park, Unit 5B, Manchester M15 4FN
+Land:           United Kingdom
+Tengiliður:     John Smith/+44 161 234 5678
+
+────────────────────────────────────────────────────────────────
+VIÐTAKANDI / CONSIGNEE
+────────────────────────────────────────────────────────────────
+Nafn:           Icetransport / FedEx ehf.
+Heimilisfang:   Selhella 7, 221 Hafnarfjörður
+Land:           Iceland
+Tengiliður:     Silfá Guðmundsdóttir/+354 412 0120
+
+────────────────────────────────────────────────────────────────
+SENDINGARUPPLÝSINGAR / SHIPMENT DETAILS
+────────────────────────────────────────────────────────────────
+Reikningsnr:    INV-2024-001234
+Dagsetning:     January 26, 2024
+Incoterms:      CIF
+Gjaldmiðill:    USD
+Heildarverð:    19,000.00
+Þyngd:          45.5 kg (Gross)
+Pakkar:         3 cartons
+
+────────────────────────────────────────────────────────────────
+VÖRULISTI / ITEMS
+────────────────────────────────────────────────────────────────
+
+Vara #1:
+  Lýsing:       Laptop Computers - Dell XPS 15
+  HS-kóði:      8471.30.00
+  Magn:         10
+  Einingarverð: USD 1,250.00
+  Heildarverð:  USD 12,500.00
+  Uppruni:      China
+
+Vara #2:
+  Lýsing:       Wireless Mouse - Logitech MX Master 3
+  HS-kóði:      8471.60.70
+  Magn:         50
+  Einingarverð: USD 85.00
+  Heildarverð:  USD 4,250.00
+  Uppruni:      China
+
+Vara #3:
+  Lýsing:       USB-C Charging Cables - 2m length
+  HS-kóði:      8544.42.90
+  Magn:         100
+  Einingarverð: USD 12.50
+  Heildarverð:  USD 1,250.00
+  Uppruni:      Vietnam
+
+────────────────────────────────────────────────────────────────
+FLUTNINGUR / TRANSPORT
+────────────────────────────────────────────────────────────────
+Aðferð:         Air Freight
+Flytjandi:      FedEx Express
+Tracking:       123-45678900
+
+────────────────────────────────────────────────────────────────
+Búið til með LioraTech AI Customs System
+Dagsetning: "January 26, 2024"
+────────────────────────────────────────────────────────────────

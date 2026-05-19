@@ -1,0 +1,14 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1920" fill="#0f172a" />
+
+  <rect x="100" y="200" width="880" height="800" rx="20" fill="#1e3a8a" opacity="0.2" />
+  <text x="540" y="600" text-anchor="middle" font-family="Inter" font-size="30" fill="#3b82f6">[ Setja mynd af Inga hér ]</text>
+
+  <text x="100" y="1150" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 72px;" fill="#ffffff">
+    <tspan x="100" dy="0">Er reksturinn þinn</tspan>
+    <tspan x="100" dy="1.2em">tilbúinn í 2025?</tspan>
+  </text>
+
+  <rect x="100" y="1450" width="880" height="120" rx="60" fill="#3b82f6" />
+  <text x="540" y="1525" text-anchor="middle" style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 40px;" fill="#ffffff">Bóka ókeypis greiningu</text>
+</svg>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - The Real Problem</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - The Real Problem (Creative)</h1>
+    <div style="color: #64748b; margin: 20px;">Pain point visualization</div>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Lighter, paper-like background - less polished, more raw
+            const bg = ctx.createLinearGradient(0, 0, 0, 630);
+            bg.addColorStop(0, '#f8fafc');
+            bg.addColorStop(1, '#e2e8f0');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle texture
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+            for (let i = 0; i < 100; i++) {
+                const x = Math.random() * 1200;
+                const y = Math.random() * 630;
+                const size = Math.random() * 2;
+                ctx.fillRect(x, y, size, size);
+            }
+
+            // Visual chaos in background - scattered system boxes, messy connections
+            ctx.globalAlpha = 0.15;
+            const systemColors = ['#64748b', '#475569', '#334155'];
+
+            // Random scattered boxes representing systems
+            for (let i = 0; i < 12; i++) {
+                const x = 100 + Math.random() * 1000;
+                const y = 80 + Math.random() * 470;
+                const size = 40 + Math.random() * 30;
+                const rotation = Math.random() * 0.3 - 0.15;
+
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotation);
+                ctx.fillStyle = systemColors[Math.floor(Math.random() * systemColors.length)];
+                ctx.fillRect(-size/2, -size/2, size, size);
+                ctx.strokeStyle = '#334155';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-size/2, -size/2, size, size);
+                ctx.restore();
+            }
+
+            // Messy connecting lines between random boxes
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 15; i++) {
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * 1200, Math.random() * 630);
+                ctx.lineTo(Math.random() * 1200, Math.random() * 630);
+                ctx.stroke();
+            }
+            ctx.globalAlpha = 1;
+
+            // Large quote card in center - like a sticky note or insight card
+            const cardX = 600;
+            const cardY = 315;
+            const cardWidth = 900;
+            const cardHeight = 420;
+
+            // Card shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(cardX - cardWidth/2 + 8, cardY - cardHeight/2 + 8, cardWidth, cardHeight);
+
+            // Card background - clean white
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(cardX - cardWidth/2, cardY - cardHeight/2, cardWidth, cardHeight);
+
+            // Subtle border
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cardX - cardWidth/2, cardY - cardHeight/2, cardWidth, cardHeight);
+
+            // Quote mark
+            ctx.font = 'bold 120px "Playfair Display", serif';
+            ctx.fillStyle = '#dbeafe';
+            ctx.textAlign = 'left';
+            ctx.fillText('"', cardX - cardWidth/2 + 60, cardY - cardHeight/2 + 140);
+
+            // The actual quote - broken into lines
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 42px "Playfair Display", serif';
+            ctx.fillStyle = '#1e293b';
+
+            const line1 = '„Við erum komin með góð kerfi.';
+            const line2 = 'En liðið eyðir helmingi dagsins';
+            const line3 = 'í að færa gögn á milli þeirra."';
+
+            ctx.fillText(line1, cardX, cardY - 80);
+            ctx.fillText(line2, cardY - 80);
+            ctx.fillText(line3, cardX, cardY + 20);
+
+            // Underline key phrase
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(cardX - 280, cardY + 35);
+            ctx.lineTo(cardX + 280, cardY + 35);
+            ctx.stroke();
+
+            // Key insight below
+            ctx.font = 'bold 36px "Inter", sans-serif';
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText('Algengasta vandamálið', cardX, cardY + 100);
+
+            // Small branding - subtle, bottom corner
+            ctx.font = '600 18px "Inter", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.textAlign = 'right';
+            ctx.fillText('LioraTech', cardX + cardWidth/2 - 40, cardY + cardHeight/2 - 30);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Problem-Creative-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Problem-Creative-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

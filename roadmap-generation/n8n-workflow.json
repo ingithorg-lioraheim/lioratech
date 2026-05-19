@@ -1,0 +1,215 @@
+{
+  "name": "30 Day AI Roadmap Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "roadmap-request",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "roadmap-request"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Get customer data from webhook\nconst data = $input.item.json;\n\n// Load prompt template\nconst promptTemplate = `\nBúðu til 30 daga AI innleiðingar roadmap fyrir eftirfarandi fyrirtæki:\n\n**FYRIRTÆKJAUPPLÝSINGAR:**\n- Fyrirtæki: ${data.companyName}\n- Iðnaður: ${data.industry}\n- Fjöldi starfsmanna: ${data.employees}\n- Netfang: ${data.email}\n\n**NÚVERANDI STAÐA:**\n- Helstu áskoranir: ${data.currentChallenges}\n- Markmið með AI: ${data.goals}\n- Núverandi tól: ${data.currentTools}\n- Tímalína: ${data.timeline}\n\n---\n\n## MIKILVÆGT:\n\nSkrifaðu roadmap í Markdown formati með eftirfarandi sections:\n\n1. EXECUTIVE SUMMARY\n   - Yfirlit fyrirtækisins\n   - Top 3-5 greindar áskoranir\n   - Top 5 AI tækifæri með ROI estimate\n   - Áætlaður ávinningur (tímasparnaður + kostnaður)\n\n2. 30 DAGA ÁÆTLUN\n   Fyrir hvern dag (1-30), láttu fylgja:\n   - Dagur X: [Title]\n   - Verkefni: [bullet list]\n   - Tími: [estimate]\n   - Hverjir: [roles]\n   - Tilgangur: [benefit]\n\n3. TOOL RECOMMENDATIONS\n   5-7 verkfæri með:\n   - Nafn\n   - Hvað það gerir\n   - Verð (í ISK)\n   - Use cases\n   - ROI estimate\n   - Setup leiðbeiningar\n\n4. MEASURING SUCCESS\n   - 5 KPIs\n   - Hvernig á að mæla\n   - Milestones per viku\n\n5. COMMON PITFALLS\n   - 3-5 pitfalls + solutions\n\n6. RESOURCES\n   - 3-5 prompt templates\n   - Support info\n   - Next steps\n\n**Mikilvægt:**\n- Skrifaðu á íslensku\n- Sérsníðaðu fyrir ${data.industry}\n- Vertu specific og hagnýtur\n- Engin generic ráð\n- Raunhæf tímamöt\n- Quick wins fyrstu dagana\n\nLengd: 4000-6000 orð\n`;\n\nreturn {\n  json: {\n    prompt: promptTemplate,\n    customerData: data\n  }\n};"
+      },
+      "name": "Prepare Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "jsonBody": "={\n  \"model\": \"claude-3-5-sonnet-20241022\",\n  \"max_tokens\": 16000,\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $json.prompt }}\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "name": "Claude API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [650, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "1",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Parse Claude response\nconst response = $input.item.json;\nconst roadmapContent = response.content[0].text;\nconst customerData = $('Prepare Prompt').item.json.customerData;\n\n// Create email subject - for internal use\nconst subject = `🚀 Nýtt Roadmap tilbúið: ${customerData.companyName}`;\n\n// Create email body - for YOU to review\nconst emailBody = `\nHæ Ingi,\n\nNýtt roadmap er tilbúið og þarfnast review áður en það fer til viðskiptavinar.\n\n📋 VIÐSKIPTAVINUR:\n- Fyrirtæki: ${customerData.companyName}\n- Netfang: ${customerData.email}\n- Iðnaður: ${customerData.industry}\n- Starfsmenn: ${customerData.employees}\n\n🎯 MARKMIÐ:\n${customerData.goals}\n\n⚠️ ÁSKORANIR:\n${customerData.currentChallenges}\n\n🛠️ NÚVERANDI TÓL:\n${customerData.currentTools}\n\n⏰ TÍMALÍNA:\n${customerData.timeline}\n\n---\n\nRoadmap-ið er í viðhengi. Review það og sendu svo handvirkt á ${customerData.email}.\n\n✅ TODO:\n1. Lesa roadmap\n2. Quality check\n3. Forward til ${customerData.email}\n4. Bóka 20 mín follow-up: https://calendly.com/lioratech/20min\n\n---\n\nLioraTech Roadmap Generator\n`;\n\n// Create filename\nconst filename = `${customerData.companyName.replace(/[^a-z0-9]/gi, '_')} - 30 Daga AI Roadmap.md`;\n\nreturn {\n  json: {\n    email: 'info@lioratech.is',  // SEND TO YOU, not customer\n    customerEmail: customerData.email,  // Save for reference\n    subject: subject,\n    body: emailBody,\n    roadmapContent: roadmapContent,\n    filename: filename,\n    companyName: customerData.companyName\n  }\n};"
+      },
+      "name": "Prepare Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "operation": "sendEmail",
+        "fromEmail": "info@lioratech.is",
+        "toEmail": "={{ $json.email }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.body }}",
+        "options": {
+          "attachments": "={{ $json.filename }}",
+          "allowUnauthorizedCerts": false
+        },
+        "attachments": "={{ $json.filename }}"
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [1050, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2",
+          "name": "Gmail account"
+        }
+      },
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "functionCode": "// Create binary data for attachment\nconst roadmapContent = $input.item.json.roadmapContent;\nconst filename = $input.item.json.filename;\n\n// Convert to binary\nconst binaryData = Buffer.from(roadmapContent, 'utf-8');\n\n// Return with binary attachment\nreturn {\n  json: $input.item.json,\n  binary: {\n    data: {\n      data: binaryData.toString('base64'),\n      mimeType: 'text/markdown',\n      fileName: filename\n    }\n  }\n};"
+      },
+      "name": "Create Attachment",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [950, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Log successful delivery\nconst companyName = $input.item.json.companyName;\nconst email = $input.item.json.email;\nconst timestamp = new Date().toISOString();\n\nconsole.log(`✅ Roadmap delivered to ${companyName} (${email}) at ${timestamp}`);\n\nreturn {\n  json: {\n    success: true,\n    message: `Roadmap sent to ${email}`,\n    timestamp: timestamp\n  }\n};"
+      },
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Prompt": {
+      "main": [
+        [
+          {
+            "node": "Claude API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude API": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email": {
+      "main": [
+        [
+          {
+            "node": "Create Attachment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Attachment": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-30T01:00:00.000Z",
+  "versionId": "1"
+}

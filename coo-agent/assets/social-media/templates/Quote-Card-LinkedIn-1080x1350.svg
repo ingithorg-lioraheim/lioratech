@@ -1,0 +1,20 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1080" height="1350" fill="#1e3a8a" />
+
+  <rect x="50" y="50" width="980" height="1250" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.5" />
+
+  <text x="540" y="550" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 64px;" fill="#ffffff">
+    <tspan x="540" dy="0">Hættu að handvinna</tspan>
+    <tspan x="540" dy="1.2em">gögn sem AI getur</tspan>
+    <tspan x="540" dy="1.2em">unnið á sekúndum.</tspan>
+  </text>
+
+  <rect x="440" y="850" width="200" height="4" fill="#3b82f6" />
+  <text x="540" y="920" text-anchor="middle" style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 28px; letter-spacing: 0.2em;" fill="#eff6ff">
+    #AI_RÁÐGJÖF
+  </text>
+
+  <text x="540" y="1150" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 48px;">
+    <tspan fill="#ffffff">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+</svg>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Final</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Final Beautiful Version</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Beautiful brand gradient
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0a1628');
+            bg.addColorStop(0.3, '#1e3a8a');
+            bg.addColorStop(0.7, '#2563eb');
+            bg.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Radial overlay
+            const overlay = ctx.createRadialGradient(800, 315, 0, 800, 315, 600);
+            overlay.addColorStop(0, 'rgba(59, 130, 246, 0.15)');
+            overlay.addColorStop(1, 'rgba(15, 23, 42, 0.2)');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // LEFT SIDE: Text
+            ctx.font = 'bold 72px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+
+            let yPos = 160;
+            ctx.fillText('50%', 60, yPos);
+
+            ctx.font = 'bold 48px "Inter", sans-serif';
+            yPos += 70;
+            ctx.fillText('af tímanum', 60, yPos);
+
+            yPos += 60;
+            ctx.fillText('fer í', 60, yPos);
+
+            yPos += 60;
+            ctx.fillStyle = '#fca5a5';
+            ctx.fillText('handavinnu', 60, yPos);
+
+            // Small subtitle
+            ctx.font = '500 20px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            yPos += 80;
+            ctx.fillText('á milli kerfa', 60, yPos);
+
+            // RIGHT SIDE: Beautiful particle visualization
+            const rightStartX = 520;
+
+            // SYSTEM 1 - Top left cluster (organized)
+            const sys1X = rightStartX + 80;
+            const sys1Y = 180;
+            drawSystemCluster(sys1X, sys1Y, 35, 8, '#60a5fa', 0.6);
+
+            // SYSTEM 2 - Bottom left cluster (organized)
+            const sys2X = rightStartX + 80;
+            const sys2Y = 450;
+            drawSystemCluster(sys2X, sys2Y, 35, 8, '#93c5fd', 0.6);
+
+            // SYSTEM 3 - Top right cluster (organized)
+            const sys3X = rightStartX + 520;
+            const sys3Y = 180;
+            drawSystemCluster(sys3X, sys3Y, 35, 8, '#60a5fa', 0.6);
+
+            // SYSTEM 4 - Bottom right cluster (organized)
+            const sys4X = rightStartX + 520;
+            const sys4Y = 450;
+            drawSystemCluster(sys4X, sys4Y, 35, 8, '#93c5fd', 0.6);
+
+            // MESSY MANUAL FLOWS between systems (the problem)
+            // Left to right flows - chaotic and inefficient
+            drawChaoticFlow(sys1X, sys1Y, sys3X, sys3Y, '#fca5a5', 0.4);
+            drawChaoticFlow(sys2X, sys2Y, sys4X, sys4Y, '#fca5a5', 0.4);
+            drawChaoticFlow(sys1X, sys1Y, sys4X, sys4Y, '#ef4444', 0.3);
+            drawChaoticFlow(sys2X, sys2Y, sys3X, sys3Y, '#ef4444', 0.3);
+
+            // "Manual" label in center
+            ctx.font = 'bold 18px "Inter", sans-serif';
+            ctx.fillStyle = '#fca5a5';
+            ctx.textAlign = 'center';
+            ctx.fillText('handavinna', rightStartX + 300, 315);
+
+            // LioraTech branding
+            ctx.font = 'bold 24px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'right';
+            ctx.fillText('Liora', 1140, 580);
+            const lioraW = ctx.measureText('Liora').width;
+            ctx.fillStyle = '#93c5fd';
+            ctx.fillText('Tech', 1140 + lioraW/2, 580);
+        }
+
+        function drawSystemCluster(x, y, radius, particleCount, color, opacity) {
+            // Outer glow
+            const glow = ctx.createRadialGradient(x, y, 0, x, y, radius + 20);
+            glow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.4})`);
+            glow.addColorStop(0.7, `rgba(59, 130, 246, ${opacity * 0.2})`);
+            glow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 20, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Particles in cluster
+            for (let i = 0; i < particleCount; i++) {
+                const angle = (i / particleCount) * Math.PI * 2;
+                const r = radius * 0.6 + Math.random() * radius * 0.4;
+                const px = x + Math.cos(angle) * r;
+                const py = y + Math.sin(angle) * r;
+                const size = 3 + Math.random() * 4;
+                const pOpacity = opacity * (0.6 + Math.random() * 0.4);
+
+                // Particle glow
+                const pGlow = ctx.createRadialGradient(px, py, 0, px, py, size * 2);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${pOpacity})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(px, py, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle core
+                ctx.fillStyle = `rgba(255, 255, 255, ${pOpacity})`;
+                ctx.beginPath();
+                ctx.arc(px, py, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Center dot
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawChaoticFlow(x1, y1, x2, y2, color, opacity) {
+            // Multiple chaotic particle paths showing manual/inefficient flow
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const t = i / particleCount;
+
+                // Add chaos - wavy, inefficient path
+                const chaos = Math.sin(t * Math.PI * 6) * 30 + Math.cos(t * Math.PI * 4) * 20;
+                const x = x1 + (x2 - x1) * t;
+                const y = y1 + (y2 - y1) * t + chaos;
+
+                const size = 2 + Math.sin(t * Math.PI) * 2;
+                const pOpacity = opacity * Math.sin(t * Math.PI);
+
+                // Particle glow
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+                pGlow.addColorStop(0, `rgba(252, 165, 165, ${pOpacity})`);
+                pGlow.addColorStop(1, 'rgba(252, 165, 165, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle
+                ctx.fillStyle = `rgba(255, 200, 200, ${pOpacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Final-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-Final-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

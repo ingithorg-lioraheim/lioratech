@@ -1,0 +1,21 @@
+# Netlify Ignore - Skip these directories during dev server file watching
+
+# Python virtual environments
+customs-demo/venv/
+**/venv/
+**/__pycache__/
+
+# Node modules
+node_modules/
+
+# Git
+.git/
+
+# Misc large directories
+reports/
+coo-agent/tracking/
+*.csv
+*.txt
+*.pdf
+all_emails*.txt
+contacts_by_company*.txt

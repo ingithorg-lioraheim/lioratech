@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Rich & Bold Cover</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>RICH & BOLD Concept</h1>
+    <div style="color: #1e3a8a; margin: 20px; font-weight: 600;">Maximum impact. Premium feel.</div>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        drawCover();
+
+        function drawCover() {
+            // Rich dramatic gradient
+            const bg = ctx.createRadialGradient(820, 312, 0, 820, 312, 900);
+            bg.addColorStop(0, '#2563eb');
+            bg.addColorStop(0.4, '#1e3a8a');
+            bg.addColorStop(0.8, '#1e40af');
+            bg.addColorStop(1, '#0f172a');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Atmospheric layers
+            const atmos1 = ctx.createRadialGradient(200, 150, 0, 200, 150, 400);
+            atmos1.addColorStop(0, 'rgba(59, 130, 246, 0.15)');
+            atmos1.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = atmos1;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            const atmos2 = ctx.createRadialGradient(1400, 450, 0, 1400, 450, 350);
+            atmos2.addColorStop(0, 'rgba(147, 197, 253, 0.12)');
+            atmos2.addColorStop(1, 'rgba(147, 197, 253, 0)');
+            ctx.fillStyle = atmos2;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // === LEFT: RICH CHAOS - Many particles, layered ===
+            const leftX = 410;
+            const leftY = 312;
+
+            // Background glow
+            const leftGlow = ctx.createRadialGradient(leftX, leftY, 0, leftX, leftY, 120);
+            leftGlow.addColorStop(0, 'rgba(147, 197, 253, 0.2)');
+            leftGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+            ctx.fillStyle = leftGlow;
+            ctx.beginPath();
+            ctx.arc(leftX, leftY, 120, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Many scattered particles - chaos
+            for (let i = 0; i < 25; i++) {
+                const angle = (i / 25) * Math.PI * 2;
+                const radius = 30 + Math.random() * 60;
+                const x = leftX + Math.cos(angle) * radius + (Math.random() - 0.5) * 40;
+                const y = leftY + Math.sin(angle) * radius + (Math.random() - 0.5) * 40;
+                const size = 4 + Math.random() * 8;
+                const opacity = 0.3 + Math.random() * 0.5;
+
+                // Glow
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 3);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity * 0.8})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Particle
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Connecting web
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 15; i++) {
+                const angle1 = Math.random() * Math.PI * 2;
+                const angle2 = Math.random() * Math.PI * 2;
+                const r1 = 30 + Math.random() * 60;
+                const r2 = 30 + Math.random() * 60;
+                ctx.beginPath();
+                ctx.moveTo(leftX + Math.cos(angle1) * r1, leftY + Math.sin(angle1) * r1);
+                ctx.lineTo(leftX + Math.cos(angle2) * r2, leftY + Math.sin(angle2) * r2);
+                ctx.stroke();
+            }
+
+            // === CENTER: RICH HUB - Multiple rings, strong glow ===
+            const centerX = 820;
+            const centerY = 312;
+
+            // Massive glow
+            const massiveGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 180);
+            massiveGlow.addColorStop(0, 'rgba(147, 197, 253, 0.4)');
+            massiveGlow.addColorStop(0.3, 'rgba(59, 130, 246, 0.25)');
+            massiveGlow.addColorStop(0.7, 'rgba(59, 130, 246, 0.1)');
+            massiveGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = massiveGlow;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 180, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Multiple concentric rings
+            for (let i = 0; i < 8; i++) {
+                const radius = 25 + i * 15;
+                const opacity = 0.35 - i * 0.04;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Pulsing particles on rings
+            for (let ring = 0; ring < 5; ring++) {
+                const ringRadius = 40 + ring * 20;
+                const particles = 12 - ring * 2;
+                for (let i = 0; i < particles; i++) {
+                    const angle = (i / particles) * Math.PI * 2 + ring * 0.3;
+                    const x = centerX + Math.cos(angle) * ringRadius;
+                    const y = centerY + Math.sin(angle) * ringRadius;
+                    const size = 3 + (5 - ring) * 0.5;
+
+                    ctx.fillStyle = `rgba(255, 255, 255, ${0.6 - ring * 0.1})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Brilliant core
+            const coreGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 30);
+            coreGrad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            coreGrad.addColorStop(0.6, 'rgba(255, 255, 255, 0.95)');
+            coreGrad.addColorStop(1, 'rgba(147, 197, 253, 0.5)');
+            ctx.fillStyle = coreGrad;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ultra bright spot
+            ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+            ctx.beginPath();
+            ctx.arc(centerX - 6, centerY - 6, 10, 0, Math.PI * 2);
+            ctx.fill();
+
+            // === RIGHT: UPWARD TREND GRAPH - Clear growth visualization ===
+            const rightX = 1230;
+            const rightY = 440;
+
+            // Create dramatic upward trend data points (6 points for clarity)
+            const dataPoints = [
+                { x: rightX - 120, y: rightY },
+                { x: rightX - 80, y: rightY - 25 },
+                { x: rightX - 40, y: rightY - 45 },
+                { x: rightX, y: rightY - 75 },
+                { x: rightX + 40, y: rightY - 115 },
+                { x: rightX + 80, y: rightY - 165 },
+            ];
+
+            // Ambient glow around chart area
+            const chartGlow = ctx.createRadialGradient(rightX, rightY - 80, 0, rightX, rightY - 80, 150);
+            chartGlow.addColorStop(0, 'rgba(147, 197, 253, 0.3)');
+            chartGlow.addColorStop(0.6, 'rgba(59, 130, 246, 0.15)');
+            chartGlow.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = chartGlow;
+            ctx.beginPath();
+            ctx.arc(rightX, rightY - 80, 150, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Area fill under curve (gradient for depth)
+            const areaGrad = ctx.createLinearGradient(rightX - 120, rightY, rightX + 80, rightY - 165);
+            areaGrad.addColorStop(0, 'rgba(59, 130, 246, 0.08)');
+            areaGrad.addColorStop(0.5, 'rgba(147, 197, 253, 0.18)');
+            areaGrad.addColorStop(1, 'rgba(147, 197, 253, 0.35)');
+
+            ctx.fillStyle = areaGrad;
+            ctx.beginPath();
+            ctx.moveTo(dataPoints[0].x, rightY);
+            for (let i = 0; i < dataPoints.length - 1; i++) {
+                const xc = (dataPoints[i].x + dataPoints[i + 1].x) / 2;
+                const yc = (dataPoints[i].y + dataPoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(dataPoints[i].x, dataPoints[i].y, xc, yc);
+            }
+            ctx.lineTo(dataPoints[dataPoints.length - 1].x, dataPoints[dataPoints.length - 1].y);
+            ctx.lineTo(dataPoints[dataPoints.length - 1].x, rightY);
+            ctx.closePath();
+            ctx.fill();
+
+            // Bold upward trend line
+            const lineGrad = ctx.createLinearGradient(rightX - 120, rightY, rightX + 80, rightY - 165);
+            lineGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+            lineGrad.addColorStop(0.4, 'rgba(255, 255, 255, 0.85)');
+            lineGrad.addColorStop(1, 'rgba(255, 255, 255, 1)');
+
+            ctx.strokeStyle = lineGrad;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(dataPoints[0].x, dataPoints[0].y);
+            for (let i = 0; i < dataPoints.length - 1; i++) {
+                const xc = (dataPoints[i].x + dataPoints[i + 1].x) / 2;
+                const yc = (dataPoints[i].y + dataPoints[i + 1].y) / 2;
+                ctx.quadraticCurveTo(dataPoints[i].x, dataPoints[i].y, xc, yc);
+            }
+            ctx.stroke();
+
+            // Data points with progressive size and glow
+            dataPoints.forEach((point, i) => {
+                const progress = i / (dataPoints.length - 1);
+                const size = 5 + progress * 6; // 5px to 11px
+                const opacity = 0.6 + progress * 0.4; // 0.6 to 1.0
+
+                // Large glow
+                const pointGlow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, size * 4);
+                pointGlow.addColorStop(0, `rgba(255, 255, 255, ${opacity * 0.8})`);
+                pointGlow.addColorStop(0.5, `rgba(147, 197, 253, ${opacity * 0.5})`);
+                pointGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pointGlow;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size * 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Data point
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Bright highlight
+                ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+                ctx.beginPath();
+                ctx.arc(point.x - size * 0.25, point.y - size * 0.25, size * 0.35, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // === RICH FLOW CONNECTIONS ===
+
+            // LEFT → CENTER: Dense flow
+            for (let i = 0; i < 35; i++) {
+                const t = i / 35;
+                const x = leftX + (centerX - leftX) * t;
+                const y = leftY + (centerY - leftY) * t + Math.sin(t * Math.PI * 4) * 20;
+                const size = 2 + Math.sin(t * Math.PI) * 3;
+                const opacity = Math.sin(t * Math.PI) * 0.4;
+
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // CENTER → RIGHT: Dense flow to graph start
+            for (let i = 0; i < 35; i++) {
+                const t = i / 35;
+                const x = centerX + (rightX - 120 - centerX) * t;
+                const y = centerY + (rightY - centerY) * t - Math.sin(t * Math.PI * 3) * 20;
+                const size = 2 + Math.sin(t * Math.PI) * 3;
+                const opacity = Math.sin(t * Math.PI) * 0.4;
+
+                const pGlow = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+                pGlow.addColorStop(0, `rgba(147, 197, 253, ${opacity})`);
+                pGlow.addColorStop(1, 'rgba(147, 197, 253, 0)');
+                ctx.fillStyle = pGlow;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-RICH-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ RICH PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-RICH-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.98);
+            link.click();
+            document.getElementById('status').textContent = '✅ RICH JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

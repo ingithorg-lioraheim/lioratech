@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Facebook Post #2 - Problem Awareness</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Facebook Post #2 - Problem Awareness</h1>
+    <div style="color: #1e3a8a; margin: 20px; font-weight: 600;">26. desember • 1200x630px</div>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Load fonts
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // Gradient background
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0f172a');
+            bg.addColorStop(0.5, '#1e3a8a');
+            bg.addColorStop(1, '#2563eb');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle overlay
+            const overlay = ctx.createRadialGradient(600, 315, 100, 600, 315, 600);
+            overlay.addColorStop(0, 'rgba(255, 255, 255, 0.05)');
+            overlay.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Visual representation: disconnected systems
+            // Three boxes representing systems with manual work arrows between them
+            const boxWidth = 140;
+            const boxHeight = 100;
+            const boxY = 450;
+            const boxSpacing = 200;
+            const startX = 280;
+
+            for (let i = 0; i < 3; i++) {
+                const x = startX + i * boxSpacing;
+
+                // Box shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.fillRect(x - boxWidth/2 + 4, boxY - boxHeight/2 + 4, boxWidth, boxHeight);
+
+                // Box
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.fillRect(x - boxWidth/2, boxY - boxHeight/2, boxWidth, boxHeight);
+                ctx.strokeRect(x - boxWidth/2, boxY - boxHeight/2, boxWidth, boxHeight);
+
+                // System label
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.font = '500 16px "Inter", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Kerfi', x, boxY);
+            }
+
+            // Manual work arrows between boxes
+            const arrowY = boxY;
+            ctx.strokeStyle = '#ef4444';
+            ctx.fillStyle = '#ef4444';
+            ctx.lineWidth = 3;
+
+            // Arrow 1 (left to middle)
+            const arrow1Start = startX + boxWidth/2;
+            const arrow1End = startX + boxSpacing - boxWidth/2;
+            ctx.beginPath();
+            ctx.moveTo(arrow1Start, arrowY);
+            ctx.lineTo(arrow1End - 10, arrowY);
+            ctx.stroke();
+            // Arrowhead
+            ctx.beginPath();
+            ctx.moveTo(arrow1End, arrowY);
+            ctx.lineTo(arrow1End - 10, arrowY - 6);
+            ctx.lineTo(arrow1End - 10, arrowY + 6);
+            ctx.closePath();
+            ctx.fill();
+
+            // Arrow 2 (middle to right)
+            const arrow2Start = startX + boxSpacing + boxWidth/2;
+            const arrow2End = startX + 2 * boxSpacing - boxWidth/2;
+            ctx.beginPath();
+            ctx.moveTo(arrow2Start, arrowY);
+            ctx.lineTo(arrow2End - 10, arrowY);
+            ctx.stroke();
+            // Arrowhead
+            ctx.beginPath();
+            ctx.moveTo(arrow2End, arrowY);
+            ctx.lineTo(arrow2End - 10, arrowY - 6);
+            ctx.lineTo(arrow2End - 10, arrowY + 6);
+            ctx.closePath();
+            ctx.fill();
+
+            // "Handavinna" labels on arrows
+            ctx.fillStyle = '#fca5a5';
+            ctx.font = 'bold 14px "Inter", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('handavinna', (arrow1Start + arrow1End) / 2, arrowY - 15);
+            ctx.fillText('handavinna', (arrow2Start + arrow2End) / 2, arrowY - 15);
+
+            // LioraTech logo at top
+            ctx.font = 'bold 28px "Playfair Display", serif';
+            ctx.textAlign = 'center';
+
+            const lioraText = 'Liora';
+            const techText = 'Tech';
+            const lioraWidth = ctx.measureText(lioraText).width;
+            const techWidth = ctx.measureText(techText).width;
+            const totalWidth = lioraWidth + techWidth;
+            const logoStartX = (1200 - totalWidth) / 2;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(lioraText, logoStartX + lioraWidth / 2, 70);
+
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillText(techText, logoStartX + lioraWidth + techWidth / 2, 70);
+
+            // Main quote - centered and prominent
+            ctx.font = 'bold 44px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+
+            const quote1 = 'Það er ekki kerfin';
+            const quote2 = 'sem eru vandamálið';
+
+            ctx.fillText(quote1, 600, 180);
+            ctx.fillText(quote2, 600, 235);
+
+            // Key insight below
+            ctx.font = 'bold 38px "Playfair Display", serif';
+            ctx.fillStyle = '#fca5a5';
+            ctx.fillText('Það er handavinnan á milli', 600, 310);
+
+            // Bottom text
+            ctx.font = '600 20px "Inter", sans-serif';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.textAlign = 'center';
+            ctx.fillText('Algengasta vandamálið í íslenskum rekstri', 600, 580);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Post-2-Problem-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Post-2-Problem-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

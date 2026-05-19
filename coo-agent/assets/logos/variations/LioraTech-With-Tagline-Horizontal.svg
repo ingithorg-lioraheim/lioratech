@@ -1,0 +1,13 @@
+<svg width="2500" height="400" viewBox="0 0 1500 250" xmlns="http://www.w3.org/2000/svg">
+  <text x="50" y="150"
+        style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 130px; letter-spacing: -0.05em;">
+    <tspan fill="#1e3a8a">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+
+  <line x1="720" y1="60" x2="720" y2="170" stroke="#64748b" stroke-width="3" />
+
+  <text x="760" y="145"
+        style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 45px;" fill="#64748b">
+    AI Ráðgjöf &amp; Innleiðing
+  </text>
+</svg>

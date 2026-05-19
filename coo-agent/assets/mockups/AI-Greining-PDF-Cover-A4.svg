@@ -1,0 +1,23 @@
+<svg width="1240" height="1754" viewBox="0 0 1240 1754" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1240" height="1754" fill="#ffffff" />
+
+  <rect width="1240" height="20" fill="#1e3a8a" />
+
+  <text x="620" y="400" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 120px;">
+    <tspan fill="#1e3a8a">Liora</tspan><tspan fill="#3b82f6">Tech</tspan>
+  </text>
+
+  <text x="620" y="800" text-anchor="middle" style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 64px;" fill="#0f172a">
+    AI rekstrargreining
+  </text>
+
+  <text x="620" y="900" text-anchor="middle" style="font-family: 'Inter', sans-serif; font-weight: 500; font-size: 48px;" fill="#3b82f6">
+    — [Fyrirtæki] —
+  </text>
+
+  <text x="620" y="1500" text-anchor="middle" style="font-family: 'Inter', sans-serif; font-size: 24px;" fill="#64748b">
+    Útgáfudagur: December 2025
+  </text>
+
+  <rect x="520" y="950" width="200" height="2" fill="#e2e8f0" />
+</svg>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa.is - AI Tækifæri Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* AI Badge */
+        .ai-badge {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-left: 0.5rem;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Demo Note */
+        .demo-note {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #fbbf24;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(251, 191, 36, 0.2);
+        }
+
+        .demo-note h2 {
+            font-size: 1.5rem;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-note p {
+            color: #78350f;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Section */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            font-size: 1.75rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Demo Tabs */
+        .demo-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .demo-tab {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .demo-tab.active {
+            color: #6366f1;
+            border-bottom-color: #6366f1;
+        }
+
+        .demo-tab:hover {
+            color: #6366f1;
+        }
+
+        /* Demo Content */
+        .demo-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .demo-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chatbot Demo */
+        .chatbot-demo {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        .chatbot-messages {
+            background: #f9fafb;
+            padding: 1.5rem;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            max-width: 70%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .message.user .message-bubble {
+            background: #6366f1;
+            color: white;
+        }
+
+        .chatbot-input {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: white;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .chatbot-input button {
+            padding: 0.75rem 1.5rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chatbot-input button:hover {
+            background: #4f46e5;
+        }
+
+        /* Product Description Demo */
+        .product-demo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .product-image {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-image-placeholder {
+            background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+            height: 300px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .product-description {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #6366f1;
+        }
+
+        .product-description h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .product-description p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .ai-generated-badge {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        /* Social Media Demo */
+        .social-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .social-post {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .social-post:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .social-post-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .social-post-content {
+            padding: 1rem;
+        }
+
+        .social-post-image {
+            background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #bae6fd;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #075985;
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-section h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #e0e7ff;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button.primary {
+            background: white;
+            color: #6366f1;
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,255,255,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button.secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-demo {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-tabs {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">
+                CASA.IS <span class="ai-badge">AI POWERED</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Demo Note -->
+        <div class="demo-note">
+            <h2>🎯 Interactive AI Demo fyrir Casa.is</h2>
+            <p>Þetta er <strong>live demonstration</strong> sem sýnir hvernig gervigreind getur umbreytt þínum rekstri. Prófaðu takkana hér að neðan til að sjá AI í vinnu!</p>
+        </div>
+
+        <!-- Main Section -->
+        <div class="section">
+            <h2>🚀 3 AI Tækifæri sem spara 30+ klst á viku</h2>
+            <p>Casa.is gæti sparað verulegan tíma og aukið sölu með þessum 3 AI lausnum. Prófaðu þær hér að neðan:</p>
+
+            <!-- Demo Tabs -->
+            <div class="demo-tabs">
+                <button class="demo-tab active" onclick="showDemo('chatbot')">
+                    💬 AI Chatbot
+                </button>
+                <button class="demo-tab" onclick="showDemo('descriptions')">
+                    ✍️ Vörulýsingar
+                </button>
+                <button class="demo-tab" onclick="showDemo('social')">
+                    📱 Félagsmiðlar
+                </button>
+            </div>
+
+            <!-- Chatbot Demo -->
+            <div id="chatbot-demo" class="demo-content active">
+                <h3 style="margin-bottom: 1rem;">🤖 AI Chatbot fyrir Þjónustuver</h3>
+                <p><strong>Sparar:</strong> 15-20 klst/viku | <strong>Kostnaður:</strong> 100.000-150.000 ISK/mánuði sparnaður</p>
+
+                <div class="chatbot-demo">
+                    <div class="chatbot-header">
+                        Casa.is - Spyrðu mig hvað sem er
+                    </div>
+                    <div class="chatbot-messages" id="chatMessages">
+                        <div class="message">
+                            <div class="message-bubble">
+                                👋 Hæ! Ég er AI aðstoðarmaður Casa. Hvernig get ég hjálpað þér í dag?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbot-input">
+                        <input type="text" id="chatInput" placeholder="Spurðu um sendingu, vörur, eða eitthvað annað..." onkeypress="if(event.key==='Enter') sendMessage()">
+                        <button onclick="sendMessage()">Senda</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Spurninga svaraðar sjálfkrafa</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Þjónusta alla daga</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">15-20</div>
+                        <div class="stat-label">Klst sparaðar á viku</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Description Demo -->
+            <div id="descriptions-demo" class="demo-content">
+                <h3 style="margin-bottom: 1rem;">✍️ AI Vörulýsingar</h3>
+                <p><strong>Sparar:</strong> 10-15 klst/viku | <strong>Kostnaður:</strong> 75.000-100.000 ISK/mánuði sparnaður</p>
+
+                <div class="product-demo">
+                    <div class="product-image">
+                        <div class="product-image-placeholder">🛋️</div>
+                        <p style="margin-top: 1rem; color: #666;">Núverandi: Handvirk vörulýsing tekur 10-20 mín</p>
+                    </div>
+
+                    <div class="product-description">
+                        <span class="ai-generated-badge">✨ AI Generated í 10 sekúndum</span>
+                        <h3>Scandinavian Comfort Sófi - Grár</h3>
+                        <p>
+                            Þessi glæsilegi sófi sameinir skandinavískt hönnun og nútímalega þægindi.
+                            Mjúka gráa áklæðið er ekki aðeins fallegt heldur einnig endingargott og auðvelt í þrifum.
+                        </p>
+                        <p>
+                            <strong>Helstu eiginleikar:</strong><br>
+                            • Klassískt skandinavískt hönnun<br>
+                            • Mjúk og þægileg seta<br>
+                            • Auðvelt í þrifum<br>
+                            • Passar fullkomlega í íslenska stofu
+                        </p>
+                        <p style="font-size: 0.9rem; color: #888; margin-top: 1rem;">
+                            <em>SEO optimized, engaging, og ready to publish!</em>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number">10 sek</div>
+                        <div class="stat-label">Per vörulýsing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Lýsingar á dag</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Minni tími</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Demo -->
+            <div id="social-demo" class="demo-content">
+                <h3 style="margin-bottom: 1rem;">📱 AI Félagsmiðla Efni</h3>
+                <p><strong>Sparar:</strong> 5-10 klst/viku | <strong>Kostnaður:</strong> 40.000-75.000 ISK/mánuði sparnaður</p>
+
+                <div class="social-demo">
+                    <!-- Instagram Post -->
+                    <div class="social-post">
+                        <div class="social-post-header">
+                            <div class="social-icon">📷</div>
+                            <div>
+                                <strong>Instagram</strong><br>
+                                <small style="color: #999;">AI Generated</small>
+                            </div>
+                        </div>
+                        <div class="social-post-image">🛋️</div>
+                        <div class="social-post-content">
+                            <p>✨ Nýkominn skandinavískur sófi! 🇮🇸</p>
+                            <p>Mjúkur, stylish og fullkominn fyrir íslenska heimilið. Komdu í heimsókn og prófaðu! 💙</p>
+                            <p style="color: #6366f1; font-size: 0.9rem;">#casa #húsgögn #ísland #scandinaviandesign</p>
+                        </div>
+                    </div>
+
+                    <!-- Facebook Post -->
+                    <div class="social-post">
+                        <div class="social-post-header">
+                            <div class="social-icon">👍</div>
+                            <div>
+                                <strong>Facebook</strong><br>
+                                <small style="color: #999;">AI Generated</small>
+                            </div>
+                        </div>
+                        <div class="social-post-image">🛋️</div>
+                        <div class="social-post-content">
+                            <p><strong>Nýtt í Casa! 🎉</strong></p>
+                            <p>Okkar nýjasti skandinavíski sófi er loksins kominn! Fullkominn fyrir íslenska stofu - mjúkur, endingargóður og ótrúlega stylish.</p>
+                            <p><small>👉 Sjá meira á casa.is</small></p>
+                        </div>
+                    </div>
+
+                    <!-- Email Campaign -->
+                    <div class="social-post">
+                        <div class="social-post-header">
+                            <div class="social-icon">✉️</div>
+                            <div>
+                                <strong>Email Campaign</strong><br>
+                                <small style="color: #999;">AI Generated</small>
+                            </div>
+                        </div>
+                        <div class="social-post-content">
+                            <h4 style="margin-bottom: 0.5rem;">Nýtt vikunnar hjá Casa!</h4>
+                            <p>Hæ [Nafn],</p>
+                            <p>Við erum spennt að kynna nýjasta scandinavian sófann okkar! Þetta er draumurinn fyrir alla sem elska íslenskt/skandinavískt hönnun.</p>
+                            <p><strong>Sérstaklega fyrir þig:</strong> 15% afsláttur þessa viku! 🎁</p>
+                            <button style="background: #6366f1; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; margin-top: 0.5rem;">Skoða núna</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="margin-top: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number">30 sek</div>
+                        <div class="stat-label">Per innlegg</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">3 kerfi</div>
+                        <div class="stat-label">Samstillt (IG, FB, Email)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10x</div>
+                        <div class="stat-label">Meiri framleiðni</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="section">
+            <h2>💰 Heildarsparnaður með AI</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">30-45</div>
+                    <div class="stat-label">Klst sparaðar á viku</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">215k-325k</div>
+                    <div class="stat-label">ISK sparnaður/mánuði</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2.5M-4M</div>
+                    <div class="stat-label">ISK sparnaður/ári</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4-8 vikur</div>
+                    <div class="stat-label">Til fullrar innleiðingar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>Tilbúinn að byrja? 🚀</h2>
+            <p>Þú hefur séð hvað er hægt. Leyfðu okkur að hjálpa þér að innleiða þetta!</p>
+            <div class="cta-buttons">
+                <a href="https://lioratech.is/greining" class="cta-button primary">
+                    Fá fría AI-greiningu
+                </a>
+                <a href="https://calendly.com/ingi-lioratech/30min" class="cta-button secondary">
+                    Bóka fund með sérfræðing
+                </a>
+            </div>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.9;">
+                📧 ingi@lioratech.is | 🌐 lioratech.is
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Chatbot functionality
+        const responses = {
+            'sending': 'Við sendum um allt land! Sendingarkostnaður er 990 kr innan höfuðborgarsvæðisins og 1.490 kr utan þess. Pantanir yfir 15.000 kr fá fría sendingu! 📦',
+            'opnunartími': 'Verslunin okkar er opin mán-fös 10:00-18:00 og lau 11:00-16:00. Netverslunin er alltaf opin! 🏪',
+            'skil': 'Þú hefur 14 daga skilafrest á öllum vörum. Varan þarf að vera ónotuð og í upprunalegri umbúðum. Við greiðum fyrir skilin! ✅',
+            'greiðsla': 'Við tökum við kortum (Visa, Mastercard), millifærslu og greiðslumiðlum. Einnig bjóðum við upp á raðgreiðslur með Kass! 💳',
+            'default': 'Gott spurningu! Vinsamlegast hafðu samband við okkur á casa@casa.is eða í síma 555-1234 fyrir frekari upplýsingar. Við erum alltaf til taks! 😊'
+        };
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const messagesDiv = document.getElementById('chatMessages');
+            const userMessage = input.value.trim();
+
+            if (!userMessage) return;
+
+            // Add user message
+            const userBubble = document.createElement('div');
+            userBubble.className = 'message user';
+            userBubble.innerHTML = `<div class="message-bubble">${userMessage}</div>`;
+            messagesDiv.appendChild(userBubble);
+
+            // Clear input
+            input.value = '';
+
+            // Simulate AI thinking
+            setTimeout(() => {
+                const botResponse = getResponse(userMessage);
+                const botBubble = document.createElement('div');
+                botBubble.className = 'message';
+                botBubble.innerHTML = `<div class="message-bubble">${botResponse}</div>`;
+                messagesDiv.appendChild(botBubble);
+
+                // Scroll to bottom
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 800);
+        }
+
+        function getResponse(message) {
+            const lower = message.toLowerCase();
+
+            if (lower.includes('send') || lower.includes('afhending') || lower.includes('delivery')) {
+                return responses.sending;
+            }
+            if (lower.includes('opið') || lower.includes('opnunartími') || lower.includes('open')) {
+                return responses.opnunartími;
+            }
+            if (lower.includes('skil') || lower.includes('return')) {
+                return responses.skil;
+            }
+            if (lower.includes('greiðsla') || lower.includes('borga') || lower.includes('payment')) {
+                return responses.greiðsla;
+            }
+
+            return responses.default;
+        }
+
+        // Tab switching
+        function showDemo(demoId) {
+            // Hide all demos
+            document.querySelectorAll('.demo-content').forEach(demo => {
+                demo.classList.remove('active');
+            });
+
+            // Remove active from all tabs
+            document.querySelectorAll('.demo-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected demo
+            document.getElementById(demoId + '-demo').classList.add('active');
+
+            // Activate clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

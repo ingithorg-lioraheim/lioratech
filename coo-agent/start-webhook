@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Start COO-Agent Webhook Receiver
+
+COO_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+echo "🚀 Starting COO-Agent Webhook Receiver..."
+echo ""
+
+cd "$COO_DIR"
+node server/webhook-receiver.js

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech - Post #2 - Zapier Style</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            text-align: center;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover { background: #0f172a; }
+        h1 { color: #0f172a; font-weight: 700; }
+        #status { margin: 20px; color: #15803d; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <h1>Post #2 - Zapier Style</h1>
+    <div id="status">Smelltu til að vista</div>
+    <button onclick="downloadPNG()">Vista PNG</button>
+    <button onclick="downloadJPG()">Vista JPG</button>
+
+    <div style="margin: 20px auto;">
+        <canvas id="canvas" width="1200" height="630"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const playfair = new FontFace('Playfair Display', 'url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtM.woff2)');
+        const inter = new FontFace('Inter', 'url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2)');
+
+        Promise.all([playfair.load(), inter.load()]).then(function(fonts) {
+            fonts.forEach(font => document.fonts.add(font));
+            drawPost();
+        }).catch(() => {
+            drawPost();
+        });
+
+        function drawPost() {
+            // LioraTech brand gradient background
+            const bg = ctx.createLinearGradient(0, 0, 1200, 630);
+            bg.addColorStop(0, '#0a1628');
+            bg.addColorStop(0.3, '#1e3a8a');
+            bg.addColorStop(0.7, '#2563eb');
+            bg.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle overlay
+            const overlay = ctx.createRadialGradient(600, 315, 0, 600, 315, 600);
+            overlay.addColorStop(0, 'rgba(59, 130, 246, 0.1)');
+            overlay.addColorStop(1, 'rgba(15, 23, 42, 0.15)');
+            ctx.fillStyle = overlay;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // LEFT SIDE: Text (40%)
+            const splitX = 480;
+
+            // Main headline - white, bold on brand gradient
+            ctx.font = 'bold 72px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'left';
+
+            const line1 = '50%';
+            const line2 = 'af tímanum';
+            const line3 = 'fer í';
+            const line4 = 'handavinnu';
+
+            let yPos = 140;
+            ctx.fillText(line1, 60, yPos);
+
+            ctx.font = 'bold 52px "Inter", sans-serif';
+            yPos += 80;
+            ctx.fillText(line2, 60, yPos);
+
+            yPos += 70;
+            ctx.fillText(line3, 60, yPos);
+
+            yPos += 70;
+            ctx.fillStyle = '#fca5a5'; // Light red for problem - visible on dark bg
+            ctx.fillText(line4, 60, yPos);
+
+            // RIGHT SIDE: Visual (60%)
+            const rightStartX = splitX + 60;
+            const iconSize = 85;
+            const iconSpacing = 40;
+            const iconRadius = 16;
+
+            // Draw 3 system boxes on left - brand blues
+            const systemColors = [
+                { bg: 'rgba(59, 130, 246, 0.2)', border: '#60a5fa' },
+                { bg: 'rgba(96, 165, 250, 0.25)', border: '#93c5fd' },
+                { bg: 'rgba(147, 197, 253, 0.2)', border: '#bfdbfe' }
+            ];
+
+            for (let i = 0; i < 3; i++) {
+                const x = rightStartX;
+                const y = 100 + i * (iconSize + iconSpacing);
+
+                // Icon shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                ctx.beginPath();
+                ctx.roundRect(x + 4, y + 4, iconSize, iconSize, iconRadius);
+                ctx.fill();
+
+                // Icon background
+                ctx.fillStyle = systemColors[i].bg;
+                ctx.beginPath();
+                ctx.roundRect(x, y, iconSize, iconSize, iconRadius);
+                ctx.fill();
+
+                // Icon border
+                ctx.strokeStyle = systemColors[i].border;
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(x, y, iconSize, iconSize, iconRadius);
+                ctx.stroke();
+
+                // Simple icon inside
+                ctx.fillStyle = systemColors[i].border;
+                ctx.fillRect(x + 20, y + 30, 45, 8);
+                ctx.fillRect(x + 20, y + 45, 32, 8);
+            }
+
+            // Draw 3 system boxes on right
+            for (let i = 0; i < 3; i++) {
+                const x = rightStartX + 300;
+                const y = 100 + i * (iconSize + iconSpacing);
+
+                // Icon shadow
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                ctx.beginPath();
+                ctx.roundRect(x + 4, y + 4, iconSize, iconSize, iconRadius);
+                ctx.fill();
+
+                // Icon background
+                ctx.fillStyle = systemColors[i].bg;
+                ctx.beginPath();
+                ctx.roundRect(x, y, iconSize, iconSize, iconRadius);
+                ctx.fill();
+
+                // Icon border
+                ctx.strokeStyle = systemColors[i].border;
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(x, y, iconSize, iconSize, iconRadius);
+                ctx.stroke();
+
+                // Simple icon inside
+                ctx.fillStyle = systemColors[i].border;
+                ctx.fillRect(x + 20, y + 30, 45, 8);
+                ctx.fillRect(x + 20, y + 45, 32, 8);
+            }
+
+            // Manual work arrows between (in red)
+            ctx.strokeStyle = '#ef4444';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+
+            for (let i = 0; i < 3; i++) {
+                const y = 100 + i * (iconSize + iconSpacing) + iconSize / 2;
+                const startX = rightStartX + iconSize + 20;
+                const endX = rightStartX + 300 - 20;
+
+                // Wavy line to show manual/inefficient
+                ctx.beginPath();
+                ctx.moveTo(startX, y);
+
+                const midX = (startX + endX) / 2;
+                const waveHeight = 15;
+
+                for (let x = startX; x <= endX; x += 5) {
+                    const progress = (x - startX) / (endX - startX);
+                    const wave = Math.sin(progress * Math.PI * 4) * waveHeight;
+                    ctx.lineTo(x, y + wave);
+                }
+
+                ctx.stroke();
+
+                // Arrowhead
+                ctx.beginPath();
+                ctx.moveTo(endX - 15, y - 8);
+                ctx.lineTo(endX, y);
+                ctx.lineTo(endX - 15, y + 8);
+                ctx.stroke();
+
+                // "Manual" label on arrow
+                if (i === 1) {
+                    ctx.font = 'bold 16px "Inter", sans-serif';
+                    ctx.fillStyle = '#ef4444';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('handavinna', midX, y - 25);
+                }
+            }
+
+            // Brand accent bar at bottom
+            ctx.fillStyle = '#1e3a8a'; // Brand primary
+            ctx.fillRect(0, 550, 1200, 80);
+
+            // LioraTech branding on bar
+            ctx.font = 'bold 32px "Playfair Display", serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('Liora', 1100, 590);
+
+            const lioraWidth = ctx.measureText('Liora').width;
+            ctx.fillStyle = '#3b82f6'; // Brand accent
+            ctx.fillText('Tech', 1100 + lioraWidth / 2, 590);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-ZapierStyle-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✅ PNG vistuð!';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Post-2-ZapierStyle-1200x630.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✅ JPG vistuð!';
+        }
+    </script>
+</body>
+</html>

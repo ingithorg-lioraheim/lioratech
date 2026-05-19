@@ -1,0 +1,54 @@
+{
+  "shipper": {
+    "name": "TechGear Solutions Ltd.",
+    "address": "123 Industrial Park, Unit 5B, Manchester M15 4FN",
+    "country": "United Kingdom",
+    "contact": "John Smith/+44 161 234 5678"
+  },
+  "consignee": {
+    "name": "Icetransport / FedEx ehf.",
+    "address": "Selhella 7, 221 Hafnarfjörður",
+    "country": "Iceland",
+    "contact": "Silfá Guðmundsdóttir/+354 412 0120"
+  },
+  "shipment": {
+    "invoice_number": "INV-2024-001234",
+    "invoice_date": "January 26, 2024",
+    "incoterms": "CIF",
+    "currency": "USD",
+    "total_value": "19,000.00",
+    "weight": "45.5 kg (Gross)",
+    "packages": "3 cartons"
+  },
+  "items": [
+    {
+      "description": "Laptop Computers - Dell XPS 15",
+      "hs_code": "8471.30.00",
+      "quantity": "10",
+      "unit_price": "USD 1,250.00",
+      "total_price": "USD 12,500.00",
+      "origin": "China"
+    },
+    {
+      "description": "Wireless Mouse - Logitech MX Master 3",
+      "hs_code": "8471.60.70",
+      "quantity": "50",
+      "unit_price": "USD 85.00",
+      "total_price": "USD 4,250.00",
+      "origin": "China"
+    },
+    {
+      "description": "USB-C Charging Cables - 2m length",
+      "hs_code": "8544.42.90",
+      "quantity": "100",
+      "unit_price": "USD 12.50",
+      "total_price": "USD 1,250.00",
+      "origin": "Vietnam"
+    }
+  ],
+  "transport": {
+    "mode": "Air Freight",
+    "carrier": "FedEx Express",
+    "tracking": "123-45678900"
+  }
+}

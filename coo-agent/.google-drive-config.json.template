@@ -1,0 +1,14 @@
+{
+  "folders": {
+    "umsóknir": "1Jv430KMXHrBy-H1VN6_gKIZiltra1zAx",
+    "pending": "1LAL8vJz3PCiTDCL1igTqNtqsO0pI4ap-",
+    "processing": "1STPVRw0fEvi5Vlyl2tVKNWjkv_j4B-jb",
+    "md-files": "1a_YhCd91zskn4iiS9IORBLt_h-f9-eBq",
+    "pdf-files": "11lkeid_hiMYzXFc9NjtgUz7parsrx2E_",
+    "approved": "1T4MymIQTEuk9iaD7wVxHgm5905kWrRS6"
+  },
+  "client_id": "YOUR_CLIENT_ID_HERE",
+  "client_secret": "YOUR_CLIENT_SECRET_HERE",
+  "redirect_uris": ["http://localhost:3000/oauth2callback"],
+  "refresh_token": "YOUR_REFRESH_TOKEN_HERE"
+}

@@ -1,0 +1,15 @@
+{
+  "brand": {
+    "dark": "#0f172a",
+    "primary": "#1e3a8a",
+    "accent": "#3b82f6",
+    "light": "#f8fafc",
+    "gray": "#64748b"
+  },
+  "supporting": {
+    "white": "#ffffff",
+    "success": "#22c55e",
+    "blue_400": "#60a5fa",
+    "blue_50": "#eff6ff"
+  }
+}

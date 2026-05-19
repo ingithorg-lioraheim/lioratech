@@ -1,0 +1,78 @@
+# ORDER TRACKING
+
+## ACTIVE ORDERS
+
+| Order ID | Customer | Product | Status | Started | ETA | Notes |
+|----------|----------|---------|--------|---------|-----|-------|
+| - 
+
+## AWAITING CEO REVIEW
+
+| Order ID | Customer | Product | Completed | Delivery Time | Notes |
+|----------|----------|---------|-----------|---------------|-------|
+| KIWI-2026-01-20-LIFLAND | Lífland | AI-Greining (Free - KIWI) | 2026-01-20 18:30 | 0.12h | Industry: Landbúnaðarverslun/Agricultural Retail, Contact: Unnar Freyr, Email: ufj@lifland.is, Path: products/completed/KIWI-2026-01-20-LIFLAND-Lifland-ai-greining.md |
+| KIWI-2026-01-20-ICETRANSPORT | Icetransport / Fed Ex | AI-Greining (Free - KIWI) | 2026-01-20 18:15 | 0.10h | Industry: Flutningaþjónusta/Logistics, Contact: Silfá, Email: silfa@icetransport.is, Path: products/completed/KIWI-2026-01-20-ICETRANSPORT-Icetransport-ai-greining.md |
+| KIWI-2026-01-19-ORIGO | Origo | AI-Greining (Free) | 2026-01-19 07:54 | 0.09h | Industry: Tækni / Tech, Pain: Stórt tæknifyrirtæki sem gæti nýtt AI til að bæta ... Path: products/completed/KIWI-2026-01-19-ORIGO-Origo-ai-greining.md |
+| AI-2026-01-18-ZN1DF1 | Jb múr og eftirlit ehf  | AI-Greining (Free) | 2026-01-18 22:31 | 0.00h | Industry: Byggingastjórn , Pain: Mjög mikil skriffinska í kringum úttektarskyrslur.... Path: products/completed/AI-2026-01-18-ZN1DF1-Jb-mr-og-eftirlit-ehf--ai-greining.md |
+| KIWI-2026-01-18-HEIMT | Heimilistæki / Tölvulistinn | AI-Greining (Free - KIWI) | 2026-01-18 14:00 | 0.08h | Industry: Smásala - Heimilistæki og raftæki, Contact: Ragna, Email: ragna@ht.is, Google Drive: https://drive.google.com/file/d/1U3m_oWFWjztqCLL76egfO9vEzkM-o11Z/view?usp=drivesdk |
+| KIWI-2026-01-18-APOTE | Apótekarinn (Lyf og Heilsa) | AI-Greining (Free - KIWI) | 2026-01-18 13:45 | 0.08h | Industry: Heilbrigðisþjónusta/Apótek, Contact: Bogga, Email: bogga.eggertsdottir@lyfogheilsa.is, Google Drive: https://drive.google.com/file/d/1cVf7ZsLOFxAK-2p3ZLiiRgkUa3kYzIb-/view?usp=drivesdk |
+| KIWI-2026-01-18-HOLDUR | Bílaleiga Akureyrar - Höldur | AI-Greining (Free - KIWI) | 2026-01-18 13:30 | 0.08h | Industry: Bílaleiga/Car Rental, Contact: Arna, Email: arna@holdur.is, Google Drive: https://drive.google.com/file/d/1jmrxAUzzWVkU8AUz2jGNflXubQsOjOgM/view?usp=drivesdk |
+| KIWI-2026-01-18-BIOEF | BIOEFFECT ehf | AI-Greining (Free - KIWI) | 2026-01-18 13:15 | 0.08h | Industry: Líftækni/Skincare, Contact: Sigríður, Email: sigridur.erlendsdottir@bioeffect.com, Google Drive: https://drive.google.com/file/d/1qF3zqWq3msjr3l-wTUMVzLjXzhieqe5e/view?usp=drivesdk |
+| KIWI-2026-01-18-LIMTRE | LímtréVírnet ehf | AI-Greining (Free - KIWI) | 2026-01-18 12:30 | 0.08h | Industry: Framleiðsla/Byggingarvörur, Contact: Andri, Email: andri@limtrevirnet.is, Equity: 1126M ISK, Priority: A (85/100), Google Drive: https://drive.google.com/file/d/10w9pFe8rTX7ycj5DQR9zCJZWEVnDfGcJ/view?usp=drivesdk |
+| AI-2026-01-15-9ESHBF | Míró ráðgjöf ehf | AI-Greining (Free) | 2026-01-15 18:41 | 0.09h | Industry: Ráðgjöf,markþjálfun, námskeið, fræðsla, Pain: Of mikill tími í hanvirka vinnu og erfiðleikar við... Path: products/completed/AI-2026-01-15-9ESHBF-Mr-rgjf-ehf-ai-greining.md |
+| AI-2026-01-07-BIVUVZ | test | AI-Greining (Free) | 2026-01-07 15:03 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2026-01-07-BIVUVZ-test-ai-greining.md |
+| AI-2026-01-07-85P8W1 | Test ehf | AI-Greining (Free) | 2026-01-07 15:02 | 0.00h | Industry: ráðgjöf, Pain: handvirkt... Path: products/completed/AI-2026-01-07-85P8W1-Test-ehf-ai-greining.md |
+| AI-2026-01-04-KDXPC6 | test | AI-Greining (Free) | 2026-01-07 15:02 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2026-01-04-KDXPC6-test-ai-greining.md |
+| AI-2026-01-03-QR37LD | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-QR37LD-test3-ai-greining.md |
+| AI-2026-01-03-GFKGNN | test3 | AI-Greining (Free) | 2026-01-03 09:31 | 0.00h | Industry: ráðgjöf, Pain: uppfærslur... Path: products/completed/AI-2026-01-03-GFKGNN-test3-ai-greining.md |
+| AI-2026-01-03-ZU0R24 | test ehf | AI-Greining (Free) | 2026-01-03 09:16 | 0.00h | Industry: smásala, Pain: of mikill tími í handavinnu... Path: products/completed/AI-2026-01-03-ZU0R24-test-ehf-ai-greining.md |
+| AI-2025-12-30-AZ4X31 | test | AI-Greining (Free) | 2026-01-03 09:16 | 0.00h | Industry: test, Pain: test... Path: products/completed/AI-2025-12-30-AZ4X31-test-ai-greining.md |
+| AI-2025-12-17-2SZ6UP | Reiðhjólaverzlunin Berlin | AI-Greining (Free) | 2025-12-17 00:33 | 0.00h | Industry: Smásala / verslun, Pain: 1. Þrýstingur á framlegð
+2. Lager og bundið fjárma... Path: products/completed/AI-2025-12-17-2SZ6UP-Reihjlaverzlunin-Berlin-ai-greining.md |
+| AI-2025-12-16-HNQHCM | Hans & Gréta | AI-Greining (Free) | 2025-12-16 23:27 | 0.00h | Industry: Smásala (retail), Pain: 1. Lágir framlegðarþrýstingur + hár fastur kostnað... Path: products/completed/AI-2025-12-16-HNQHCM-Hans-Grta-ai-greining.md |
+| AI-2025-12-16-E2NKYR | Mímos nuddstofa | AI-Greining (Free) | 2025-12-16 17:19 | 0.00h | Industry: Nudd og snyrtistofa, Pain: Erum ekki viss... Path: products/completed/AI-2025-12-16-E2NKYR-Mmos-nuddstofa-ai-greining.md |
+| AI-2025-12-16-XEMJG2 | Mosfellsbakarí | AI-Greining (Free) | 2025-12-16 16:28 | 0.00h | Industry: Bakarí, Pain: birgðir og hagnaður... Path: products/completed/AI-2025-12-16-XEMJG2-Mosfellsbakar-ai-greining.md |
+| AI-2025-12-16-BJ2GBT | KIWI ehf | AI-Greining (Free) | 2025-12-16 15:51 | 0.00h | Industry: stafræn auglýsingastofa, Pain: of mikil handavinna og of dýr rekstur... Path: products/completed/AI-2025-12-16-BJ2GBT-KIWI-ehf-ai-greining.md |
+| AI-2025-12-16-BTT4HV | KIWI | AI-Greining (Free) | 2025-12-16 10:56 | 0.00h | Industry: Stafræn Auglýsingastofa, Pain: of mikil handavinna og of dýr rekstrarkostnaður... Path: products/completed/AI-2025-12-16-BTT4HV-KIWI-ai-greining.md |
+| AI-2025-12-16-G6AOE4 | Vilma Home | AI-Greining (Free) | 2025-12-16 00:25 | 0.00h | Industry: Lífstíls netverslun, Pain: Mjög veik framlegð, Engin sýnileg skólun, Mikil ha... Path: products/completed/AI-2025-12-16-G6AOE4-Vilma-Home-ai-greining.md |
+| AI-2025-12-15-QBEX39 | Hans & Gréta | AI-Greining (Free) | 2025-12-15 12:26 | 0.00h | Industry: verslun og vefsala, Pain: Of lítil sala, þurfum alltaf að vera með lagersölu... Path: products/completed/AI-2025-12-15-QBEX39-Hans-Grta-ai-greining.md |
+| AI-2025-12-15-QBEX39 | Hans & Gréta | AI-Greining (Free) | 2025-12-15 12:24 | 0.00h | Industry: verslun og vefsala, Pain: Of lítil sala, þurfum alltaf að vera með lagersölu... Path: products/completed/AI-2025-12-15-QBEX39-Hans-Grta-ai-greining.md |
+| AI-2025-12-15-RQ8G1Z | Bæjarbakarí | AI-Greining (Free) | 2025-12-15 11:49 | 0.00h | Industry: Bakarí, Pain: Of mikil handvirk vinna í birgðastjórnun... Path: products/completed/AI-2025-12-15-RQ8G1Z-Bjarbakar-ai-greining.md |
+| AI-2025-12-14-IOQ11M | Hans & Gréta | AI-Greining (Free) | 2025-12-14 22:26 | 0.00h | Industry: Smásala, Pain: Óf miklar birgðir og ekki nógu mikið af viðskiptum... Path: products/completed/AI-2025-12-14-IOQ11M-Hans-Grta-ai-greining.md |
+| TEST-1765715938719 | Test Company | AI-Greining (Free) | 2025-12-14 12:39 | 0.00h | Industry: Technology, Pain: Manual processes, Slow operations... Path: products/completed/TEST-1765715938719-Test-Company-ai-greining.md |
+| AI-2026-12-14-TEST01 | Test Fyrirtæki ehf | AI-Greining (Free) | 2025-12-14 11:03 | 0.00h | Industry: Retail, Pain: Too much manual data entry, Slow inventory managem... Path: products/completed/AI-2026-12-14-TEST01-Test-Fyrirtki-ehf-ai-greining.md |
+| #2026-001 | KIWI | AI-Greining (Free) | 2026-01-15 10:15 | 0.25h (15min) | Industry: Ad Agency, Pain: Manual work. Path: products/completed/2026-001-KIWI-ai-greining.md |
+
+## COMPLETED THIS WEEK
+
+| Order ID | Customer | Product | Delivery Time | CEO Approved | Delivered | Customer Rating |
+|----------|----------|---------|---------------|--------------|-----------|-----------------|
+| - | - | - | - | - | - | No completed orders this week |
+
+## COMPLETED THIS MONTH
+
+| Order ID | Customer | Product | Delivery Time | CEO Approved | Delivered | Customer Rating |
+|----------|----------|---------|---------------|--------------|-----------|-----------------|
+| - | - | - | - | - | - | No completed orders this month |
+
+---
+
+## ORDER TEMPLATE
+
+When a new webhook order comes in, add to ACTIVE ORDERS:
+
+```
+| #2026-001 | Company Name | 30-day Roadmap | IN_PROGRESS | 2026-01-15 10:00 | 2026-01-16 10:00 | Industry: Tech, Team: 15 |
+```
+
+When completed, move to AWAITING CEO REVIEW:
+
+```
+| #2026-001 | Company Name | 30-day Roadmap | 2026-01-15 12:00 | 2.0h | Path: /products/2026-001-roadmap.pdf |
+```
+
+When CEO approves, move to COMPLETED:
+
+```
+| #2026-001 | Company Name | 30-day Roadmap | 2.0h | 2026-01-15 12:30 | 2026-01-15 14:00 | 9/10 (if received) |
+```

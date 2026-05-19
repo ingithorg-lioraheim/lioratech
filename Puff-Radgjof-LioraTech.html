@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markaðsráðgjöf: Puff - LioraTech</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+        @page {
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #1f2937;
+            background: white;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            color: white;
+            text-align: center;
+            page-break-after: always;
+            padding: 60px;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+        }
+
+        .logo-accent {
+            color: #fbbf24;
+        }
+
+        .cover-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            font-weight: 600;
+            opacity: 0.95;
+            margin-bottom: 80px;
+        }
+
+        .cover-meta {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px 60px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cover-meta p {
+            font-size: 18px;
+            margin: 12px 0;
+            font-weight: 500;
+        }
+
+        .cover-meta strong {
+            color: #fbbf24;
+        }
+
+        /* Content Pages */
+        .content-page {
+            padding: 60px 80px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            z-index: 1000;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1e40af;
+            margin: 40px 0 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid #3b82f6;
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e40af;
+            margin: 50px 0 25px 0;
+            padding-left: 20px;
+            border-left: 6px solid #3b82f6;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin: 30px 0 15px 0;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin: 15px 0;
+            color: #374151;
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 3px solid #3b82f6;
+            border-radius: 16px;
+            padding: 35px 40px;
+            margin: 35px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .highlight-box h3 {
+            color: #1e40af;
+            font-size: 28px;
+            margin: 0 0 15px 0;
+        }
+
+        .highlight-box p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e3a8a;
+            margin: 10px 0;
+        }
+
+        /* Warning/Important Box */
+        blockquote {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 6px solid #f59e0b;
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 17px;
+            color: #92400e;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        ul li, ol li {
+            padding: 12px 0 12px 45px;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        ol {
+            counter-reset: item;
+        }
+
+        ol li {
+            counter-increment: item;
+        }
+
+        ol li:before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* Nested lists */
+        ul ul, ol ul {
+            margin-left: 30px;
+            margin-top: 10px;
+        }
+
+        ul ul li:before {
+            content: "→";
+            background: #60a5fa;
+            font-size: 14px;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin: 25px 0;
+        }
+
+        .info-box p {
+            margin: 8px 0;
+        }
+
+        .info-box strong {
+            color: #1e40af;
+        }
+
+        /* Dividers */
+        hr {
+            border: none;
+            border-top: 2px solid #e5e7eb;
+            margin: 50px 0;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding: 40px 0 60px 0;
+            border-top: 3px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .footer h3 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .footer p {
+            color: #6b7280;
+            margin: 10px 0;
+        }
+
+        .footer strong {
+            color: #1e40af;
+        }
+
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* Page breaks for print */
+        .page-break {
+            page-break-after: always;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .header-bar {
+                position: relative;
+            }
+
+            .content-page {
+                padding: 40px 60px;
+            }
+
+            .page-break {
+                page-break-after: always;
+            }
+
+            .cover-page {
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+    <div class="logo">
+        LIORA<span class="logo-accent">TECH</span>
+    </div>
+
+    <div class="cover-title">
+        MARKAÐSRÁÐGJÖF<br>PUFF
+    </div>
+
+    <div class="cover-subtitle">
+        Stefnumótandi ráðgjöf fyrir vöxt og sýnileika
+    </div>
+
+    <div class="cover-meta">
+        <p><strong>Útbúið fyrir:</strong> Puff teymið</p>
+        <p><strong>Útbúið af:</strong> LioraTech</p>
+        <p><strong>Dagsetning:</strong> 28. janúar 2026</p>
+    </div>
+</div>
+
+<!-- CONTENT PAGES -->
+<div class="header-bar"></div>
+
+<div class="content-page">
+
+<h2>AÐAL NIÐURSTAÐA</h2>
+
+<p>Ég held að mikilvægasta sem ég geti sagt ykkur sé þetta:</p>
+
+<p><strong>Puff þarf ekki „markaðssetningu". Puff þarf meiri sýnileika, skýrari stöðu og stöðuga endurtekningu.</strong></p>
+
+<p>Þið eruð nú þegar komnir með vöru í Hagkaup og Bónus og með raunverulega sölu. Það er stærra skref en flest startup ná. Nú snýst leikurinn um að ýta undir það sem er þegar að virka.</p>
+
+<hr>
+
+<h2>POSITIONING</h2>
+
+<p>Í mínum huga ætti Puff að vera positionað svona:</p>
+
+<div class="highlight-box">
+    <h3>Puff – Snakk alla daga.</h3>
+</div>
+
+<p>Ekki bara „hollt popp". Ekki bara „gott popp".</p>
+
+<p><strong>Heldur:</strong></p>
+
+<ul>
+    <li>Létt</li>
+    <li>Loftpoppað</li>
+    <li>Minni fita</li>
+    <li>Enginn sykur</li>
+    <li>Betra val en flögur</li>
+</ul>
+
+<blockquote>
+    Ef fólk skilur þetta á 2 sekúndum → þá eruð þið á réttri leið.
+</blockquote>
+
+</div>
+
+<div class="page-break"></div>
+
+<div class="header-bar"></div>
+
+<div class="content-page">
+
+<h2>MARKHÓPUR</h2>
+
+<h3>Varðandi hverjir kaupa:</h3>
+
+<p>Það er fínt að konur sem fara út í búð fyrir fjölskylduna kaupi Puff. <strong>Haldið í það.</strong></p>
+
+<p>En markaðssetningin sjálf ætti fyrst og fremst að tala til:</p>
+
+<p><strong>18–35 ára fólks sem kaupir Collab, Nocco, próteinbar og pælir í heilsu en vill samt snakk.</strong></p>
+
+<p><strong>Þetta fólk býr til trend. Foreldrar fylgja seinna.</strong></p>
+
+<hr>
+
+<h2>STAÐSETNING Í BÚÐUM</h2>
+
+<p>Ef Puff fer í augnhæð, nær kassasvæði eða stand/palletu → þá hoppar salan miklu meira en nokkur auglýsing.</p>
+
+<p><strong>Ég myndi leggja áherslu á:</strong></p>
+
+<ul>
+    <li>Fara reglulega í búðir</li>
+    <li>Skoða hvar Puff stendur</li>
+    <li>Taka myndir</li>
+    <li>Taka samtal við innkaupastjóra um:
+        <ul>
+            <li>Betri staðsetningu</li>
+            <li>Tímabundnar sýningar</li>
+            <li>"Verðtilboð" - 2x fyrir x krónur, 20% afsláttur í viku, intro verð á nýju bragði</li>
+            <li>"Nýtt bragð – takmarkað magn"</li>
+        </ul>
+    </li>
+</ul>
+
+<blockquote>
+    Ein góð staðsetning í stórri búð getur jafngilt mánuði af ads.
+</blockquote>
+
+</div>
+
+<div class="page-break"></div>
+
+<div class="header-bar"></div>
+
+<div class="content-page">
+
+<h2>SOCIAL MEDIA</h2>
+
+<p><strong>Social media ætti að vera notað svona:</strong></p>
+
+<p>Ekki til að „selja". Heldur til að gera Puff kunnuglegt.</p>
+
+<h3>Einfalt content:</h3>
+
+<ul>
+    <li>Puff á skrifborði</li>
+    <li>Puff í bíl</li>
+    <li>Puff í ræktartösku</li>
+    <li>Bragðpróf</li>
+    <li>Meme um að klára heilan poka (nota "Puff" mascot til að reyna gera meme trend)</li>
+</ul>
+
+<p><strong>iPhone. Engin production. 15–30 sek video. 3–5x í viku.</strong></p>
+
+<blockquote>
+    Markmiðið er bara: „Ég sé Puff alls staðar."
+</blockquote>
+
+<hr>
+
+<h2>INFLUENCER STEFNA</h2>
+
+<p><strong>Mjög sterkt næsta skref væri líka:</strong></p>
+
+<h3>Micro-influencer gifting</h3>
+
+<ul>
+    <li>Finna 20–50 manns á Íslandi sem:
+        <ul>
+            <li>Eru með 2.000–20.000 fylgjendur</li>
+            <li>Posta um heilsu, mat, líkamsrækt</li>
+            <li>Eru ekki of „polished"</li>
+        </ul>
+    </li>
+    <li>Senda þeim 3–5 poka af Puff</li>
+    <li>Biðja þá bara að prófa og post-a ef þeim finnst gott</li>
+</ul>
+
+<blockquote>
+    Þetta kostar lítið. En ef 10-15 pósta þá er sýnileikinn gull.
+</blockquote>
+
+</div>
+
+<div class="page-break"></div>
+
+<div class="header-bar"></div>
+
+<div class="content-page">
+
+<h2>BRAGÐSTEFNA</h2>
+
+<p><strong>A-strategía skiptir líka máli:</strong></p>
+
+<p><strong>Alltaf hafa:</strong></p>
+
+<ul>
+    <li>1 basic hero bragð</li>
+    <li>1 klassískt</li>
+    <li>1 skemmtilegt / öðruvísi</li>
+</ul>
+
+<p>Þannig byggir maður <strong>vana + forvitni.</strong></p>
+
+<hr>
+
+<h2>MARKMIÐ</h2>
+
+<p><strong>Ef ég væri í ykkar sporum myndi ég setja markmið:</strong></p>
+
+<div class="highlight-box">
+    <h3>Tvöfalda sölu á 6 mánuðum.</h3>
+</div>
+
+<p>Ekki með einu stóru "trikki". Heldur með:</p>
+
+<ul>
+    <li>Betri staðsetningu í búðum</li>
+    <li>Fleiri bragðtegundum</li>
+    <li>Stöðugu social contenti</li>
+    <li>Micro influencer gifting</li>
+</ul>
+
+<hr>
+
+<h2>Í STUTTU MÁLI</h2>
+
+<div class="highlight-box">
+    <h3>Puff á að verða:</h3>
+    <p style="font-size: 22px; font-weight: 700;">Daglegt snakk-val.</p>
+    <p style="font-size: 18px;">Ekki „eitt af mörgum poppum". Heldur „popp sem ég fæ mér alltaf".</p>
+</div>
+
+</div>
+
+<div class="page-break"></div>
+
+<div class="header-bar"></div>
+
+<div class="content-page">
+
+<div class="footer">
+    <h3>UM LIORATECH</h3>
+
+    <p style="font-size: 17px; max-width: 700px; margin: 20px auto;">
+        <strong>LioraTech</strong> er íslenskt tæknifyrirtæki sem sérhæfir sig í stafrænum lausnum, AI-innleiðingu og viðskiptaráðgjöf fyrir íslensk fyrirtæki.
+    </p>
+
+    <div style="margin-top: 40px;">
+        <p><strong>Tengiliður:</strong></p>
+        <p><strong>Nafn:</strong> Ingi Þór Gunnarsson</p>
+        <p><strong>Netfang:</strong> <a href="mailto:ingi@lioratech.is">ingi@lioratech.is</a></p>
+        <p><strong>Sími:</strong> 696-0156</p>
+        <p><strong>Vefsíða:</strong> <a href="https://lioratech.is">lioratech.is</a></p>
+    </div>
+
+    <div class="copyright">
+        © 2026 LioraTech ehf. Öll réttindi áskilin.
+    </div>
+</div>
+
+</div>
+
+</body>
+</html>

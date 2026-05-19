@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech Facebook Cover - Ný Professional Útgáfa</h1>
+    <div class="subtitle">1640×624px - Optimal fyrir Facebook</div>
+    <div id="status">Smelltu á takkann til að vista myndina</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Wait for fonts to load
+        document.fonts.ready.then(() => {
+            drawCover();
+        });
+
+        function drawCover() {
+            // Create gradient background
+            const bgGradient = ctx.createLinearGradient(0, 0, 1640, 624);
+            bgGradient.addColorStop(0, '#0f172a');
+            bgGradient.addColorStop(1, '#1e3a8a');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Decorative elements - subtle and professional
+            const accentGradient = ctx.createRadialGradient(1400, 300, 0, 1400, 300, 300);
+            accentGradient.addColorStop(0, 'rgba(59, 130, 246, 0.15)');
+            accentGradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+            ctx.fillStyle = accentGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Subtle geometric accent
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.2)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(1450, 150, 120, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(1350, 450, 80, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Content starts here
+            const leftMargin = 120;
+            let yPos = 180;
+
+            // Brand name "LioraTech"
+            ctx.font = '700 90px "Playfair Display", serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+
+            // Measure "Liora" to position "Tech" correctly
+            const lioraText = 'Liora';
+            const techText = 'Tech';
+
+            ctx.fillStyle = '#1e3a8a'; // Primary brand color
+            // Draw on white background for better contrast
+            const nameWidth = ctx.measureText(lioraText + techText).width;
+
+            // Draw subtle white glow for better readability
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.3)';
+            ctx.shadowBlur = 20;
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(lioraText, leftMargin, yPos);
+
+            const lioraWidth = ctx.measureText(lioraText).width;
+            ctx.fillStyle = '#3b82f6'; // Accent brand color
+            ctx.fillText(techText, leftMargin + lioraWidth, yPos);
+
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+
+            yPos += 110;
+
+            // Tagline
+            ctx.font = '600 32px "Inter", sans-serif';
+            ctx.fillStyle = '#60a5fa';
+            ctx.fillText('AI Ráðgjöf & Innleiðing', leftMargin, yPos);
+
+            yPos += 90;
+
+            // Main headline
+            ctx.font = '700 68px "Inter", sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('Sparaðu 20+ klst. á viku með AI', leftMargin, yPos);
+
+            yPos += 90;
+
+            // Subheadline with benefits
+            ctx.font = '400 36px "Inter", sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('Sjálfvirkni · Gagngagreiningu · Hagkvæmum lausnum', leftMargin, yPos);
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Professional-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Professional-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>

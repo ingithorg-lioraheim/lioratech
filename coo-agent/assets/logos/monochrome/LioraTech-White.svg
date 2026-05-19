@@ -1,0 +1,7 @@
+<svg width="1200" height="400" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="400" fill="#0f172a" />
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 220px; letter-spacing: -0.05em;">
+    <tspan fill="#ffffff">LioraTech</tspan>
+  </text>
+</svg>

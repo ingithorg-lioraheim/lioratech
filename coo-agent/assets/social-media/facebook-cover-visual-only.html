@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LioraTech Facebook Cover - Visual Only</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin: 20px auto;
+        }
+        button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #0f172a;
+        }
+        #status {
+            margin: 20px;
+            color: #64748b;
+        }
+        h1 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>LioraTech Facebook Cover - Visual Only</h1>
+    <div class="subtitle">1640×624px - Mynd sem segir meira en þúsund orð</div>
+    <div id="status">Smelltu á takkann til að vista myndina</div>
+    <button onclick="downloadPNG()">Vista sem PNG</button>
+    <button onclick="downloadJPG()">Vista sem JPG</button>
+
+    <div id="container">
+        <canvas id="canvas" width="1640" height="624"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        drawCover();
+
+        function drawCover() {
+            // Base gradient - brand blues
+            const bgGradient = ctx.createLinearGradient(0, 0, 1640, 624);
+            bgGradient.addColorStop(0, '#1e3a8a');
+            bgGradient.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = bgGradient;
+            ctx.fillRect(0, 0, 1640, 624);
+
+            // Create abstract AI/automation visualization
+            // Representing data flow, automation, efficiency
+
+            // Large flowing circles - representing smooth automation
+            const circles = [
+                { x: 200, y: 150, r: 120, opacity: 0.15 },
+                { x: 450, y: 280, r: 90, opacity: 0.2 },
+                { x: 700, y: 200, r: 110, opacity: 0.12 },
+                { x: 950, y: 350, r: 100, opacity: 0.18 },
+                { x: 1200, y: 180, r: 130, opacity: 0.15 },
+                { x: 1450, y: 400, r: 95, opacity: 0.2 },
+            ];
+
+            circles.forEach(circle => {
+                const gradient = ctx.createRadialGradient(
+                    circle.x, circle.y, 0,
+                    circle.x, circle.y, circle.r
+                );
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${circle.opacity})`);
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Connection lines - representing data flow and connectivity
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 2;
+
+            const connections = [
+                [200, 150, 450, 280],
+                [450, 280, 700, 200],
+                [700, 200, 950, 350],
+                [950, 350, 1200, 180],
+                [1200, 180, 1450, 400],
+            ];
+
+            connections.forEach(([x1, y1, x2, y2]) => {
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            });
+
+            // Node points - representing automation nodes
+            circles.forEach(circle => {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Inner glow
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(circle.x, circle.y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // Abstract geometric shapes - representing data/analytics
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+
+            // Triangle
+            ctx.beginPath();
+            ctx.moveTo(150, 500);
+            ctx.lineTo(250, 500);
+            ctx.lineTo(200, 420);
+            ctx.closePath();
+            ctx.fill();
+
+            // Rectangle
+            ctx.fillRect(550, 450, 80, 80);
+
+            // Circle
+            ctx.beginPath();
+            ctx.arc(900, 500, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Large subtle brand mark - abstract representation
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(820, 312, 200, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(820, 312, 140, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+
+        function downloadPNG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Visual-1640x624.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            document.getElementById('status').textContent = '✓ PNG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+
+        function downloadJPG() {
+            const link = document.createElement('a');
+            link.download = 'LioraTech-Facebook-Cover-Visual-1640x624.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+            document.getElementById('status').textContent = '✓ JPG skrá vistuð í Downloads!';
+            document.getElementById('status').style.color = '#15803d';
+        }
+    </script>
+</body>
+</html>
