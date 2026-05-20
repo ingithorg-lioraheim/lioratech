@@ -128,11 +128,13 @@ const RoadmapPurchasePage: React.FC = () => {
     try {
       trackFormSubmit('AI Greining', 'ai_audit');
 
-      const response = await fetch('/.netlify/functions/ai-audit', {
+      const response = await fetch('https://lioratech.app.n8n.cloud/webhook/roadmap-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          // Original form fields
           name: formData.name,
+          email: formData.email,
           company: formData.company,
           size: formData.size,
           industry: formData.industry,
@@ -142,7 +144,14 @@ const RoadmapPurchasePage: React.FC = () => {
           manualWork: formData.manualWork,
           biggestProblem: formData.biggestProblem,
           sixMonthGoal: formData.sixMonthGoal,
-          email: formData.email,
+          // n8n field names
+          companyName: formData.company,
+          employees: formData.size,
+          currentChallenges: [formData.timeWasters, formData.manualWork, formData.biggestProblem].join('\n\n'),
+          currentTools: formData.tools,
+          goals: formData.sixMonthGoal,
+          website: '',
+          timeline: '',
         }),
       });
 
